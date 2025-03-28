@@ -59,7 +59,7 @@
 
                     <div class="text-center mt-3">
                         <p class="small">
-                            New User? <a href="register_user.php" class="text-primary">Register Here</a>
+                            New User? <a href="user/register_user.php" class="text-primary">Register Here</a>
                         </p>
                     </div>
                 </div>
