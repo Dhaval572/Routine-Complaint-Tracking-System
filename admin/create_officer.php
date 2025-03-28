@@ -1,5 +1,6 @@
 <?php
-include('../config.php');
+include '../config.php';
+
 if (!isset($_SESSION['admin_id'])) {
   header("Location: admin_login.php");
   exit;
@@ -9,6 +10,7 @@ if (!isset($_SESSION['admin_id'])) {
 $departments = $conn->query("SELECT * FROM departments");
 
 if (isset($_POST['create_officer'])) {
+
   $name = $_POST['name'];
   $email = $_POST['email'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -17,14 +19,17 @@ if (isset($_POST['create_officer'])) {
 
   $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, department_id) VALUES (?, ?, ?, ?, ?)");
   $stmt->bind_param("ssssi", $name, $email, $password, $role, $department_id);
+
   if ($stmt->execute()) {
     $success = "Officer created successfully";
   } else {
     $error = "Error creating officer";
   }
   $stmt->close();
+
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,31 +38,7 @@ if (isset($_POST['create_officer'])) {
   <title>Create Officer</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      background: linear-gradient(135deg, #2C3E50 0%, #3498db 100%);
-      min-height: 100vh;
-    }
-    .card {
-      border-radius: 1rem;
-      border: none;
-    }
-    .card-header {
-      border-radius: 1rem 1rem 0 0 !important;
-      border: none;
-    }
-    .form-control {
-      border-radius: 0.5rem;
-    }
-    .btn-primary {
-      background-color: #2C3E50;
-      border-color: #2C3E50;
-    }
-    .btn-primary:hover {
-      background-color: #1a252f;
-      border-color: #1a252f;
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/css/create_officer.css">
 </head>
 
 <body>
@@ -72,6 +53,7 @@ if (isset($_POST['create_officer'])) {
             <p class="text-muted small mb-0">Add a new department officer to the system</p>
           </div>
           <div class="card-body p-4">
+
             <?php if (isset($success)): ?>
               <div class='alert alert-success py-2 d-flex align-items-center rounded'>
                 <i class='fas fa-check-circle mr-2'></i><?php echo $success; ?>
@@ -82,7 +64,7 @@ if (isset($_POST['create_officer'])) {
                 <i class='fas fa-exclamation-circle mr-2'></i><?php echo $error; ?>
               </div>
             <?php endif; ?>
-            
+
             <form method="POST" action="">
               <div class="form-group">
                 <label><i class="fas fa-user text-primary mr-2"></i>Officer Name</label>
@@ -90,11 +72,13 @@ if (isset($_POST['create_officer'])) {
               </div>
               <div class="form-group">
                 <label><i class="fas fa-envelope text-primary mr-2"></i>Email Address</label>
-                <input type="email" name="email" required class="form-control shadow-sm" placeholder="Enter official email">
+                <input type="email" name="email" required class="form-control shadow-sm"
+                  placeholder="Enter official email">
               </div>
               <div class="form-group">
                 <label><i class="fas fa-lock text-primary mr-2"></i>Password</label>
-                <input type="password" name="password" required class="form-control shadow-sm" placeholder="Create a strong password">
+                <input type="password" name="password" required class="form-control shadow-sm"
+                  placeholder="Create a strong password">
               </div>
               <div class="form-group">
                 <label><i class="fas fa-building text-primary mr-2"></i>Department</label>
