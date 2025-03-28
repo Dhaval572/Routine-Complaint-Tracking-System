@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('../config.php');
 if (!isset($_SESSION['user_id'])) {
   header("Location: user_login.php");
   exit;
@@ -33,7 +33,7 @@ $result = $conn->query($sql);
         data: {
           complaint_id: complaint_id
         },
-        success: function(data) {
+        success: function (data) {
           $("#activityContent").html(data);
           $("#activityModal").modal('show');
         }
@@ -70,7 +70,7 @@ $result = $conn->query($sql);
         <?php while ($row = $result->fetch_assoc()) {
           // Determine referred to (display target if exists, else dept head)
           $referred_to = ($row['target_id'] && $row['target_role'] != 'none') ? $row['target_role'] : 'Dept Head';
-        ?>
+          ?>
           <tr>
             <td><?php echo $row['id']; ?></td>
             <td><?php echo htmlspecialchars($row['title']); ?></td>
@@ -111,7 +111,8 @@ $result = $conn->query($sql);
   </div>
 
   <!-- Activity Modal -->
-  <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
+  <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">

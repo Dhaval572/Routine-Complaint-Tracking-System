@@ -65,7 +65,7 @@ if(isset($_POST['register'])){
         </div>
         <button type="submit" name="register" class="btn btn-primary btn-block">Register</button>
       </form>
-      <p class="text-center mt-3"><a href="admin_login.php">Already have an account? Login here</a></p>
+      <p class="text-center mt-3"><a href="admin/admin_login.php">Already have an account? Login here</a></p>
     </div>
   </div>
 </div>
