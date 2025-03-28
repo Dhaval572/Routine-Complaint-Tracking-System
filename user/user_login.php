@@ -45,7 +45,7 @@ if (isset($_POST['login'])) {
 			<div class="text-center mb-3">
 				<i class="fas fa-user-circle text-white" style="font-size: 3.5rem;"></i>
 			</div>
-			
+
 			<div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
 				<div class="card-header border-0 bg-white text-center py-3" style="border-radius: 1.5rem 1.5rem 0 0;">
 					<h3 class="font-weight-bold text-primary mb-2">Welcome Back!</h3>
@@ -65,8 +65,8 @@ if (isset($_POST['login'])) {
 										<i class="fas fa-envelope text-primary"></i>
 									</span>
 								</div>
-								<input type="email" name="email" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
+								<input type="email" name="email" required
+									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
 									placeholder="Email address" autocomplete="off">
 							</div>
 						</div>
@@ -77,12 +77,12 @@ if (isset($_POST['login'])) {
 										<i class="fas fa-lock text-primary"></i>
 									</span>
 								</div>
-								<input type="password" name="password" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
+								<input type="password" name="password" required
+									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
 									placeholder="Password" autocomplete="off">
 							</div>
 						</div>
-						<button type="submit" name="login" 
+						<button type="submit" name="login"
 							class="btn btn-primary btn-block mb-3 shadow rounded-pill py-2 font-weight-bold">
 							Sign In
 						</button>
@@ -96,8 +96,9 @@ if (isset($_POST['login'])) {
 			</div>
 		</div>
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
