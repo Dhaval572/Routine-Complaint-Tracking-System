@@ -27,16 +27,6 @@
             margin-bottom: 15px;
             width: 100%;
         }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-container img {
-            max-width: 150px;
-            margin-bottom: 15px;
-        }
     </style>
 </head>
 
