@@ -1,5 +1,5 @@
 <?php
-include('../config.php');
+include '../config.php';
 
 if (isset($_POST['login'])) {
   $email = $conn->real_escape_string($_POST['email']);
@@ -8,8 +8,11 @@ if (isset($_POST['login'])) {
   // Only allow officer login
   $sql = "SELECT * FROM users WHERE email = '$email' AND role = 'officer'";
   $result = $conn->query($sql);
+
   if ($result && $result->num_rows > 0) {
+
     $user = $result->fetch_assoc();
+
     if (password_verify($password, $user['password'])) {
       $_SESSION['officer_id'] = $user['id'];
       $_SESSION['officer_name'] = $user['name'];
@@ -19,11 +22,13 @@ if (isset($_POST['login'])) {
     } else {
       $error = "Invalid credentials.";
     }
+
   } else {
     $error = "Invalid credentials.";
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +39,7 @@ if (isset($_POST['login'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<body style="background: linear-gradient(135deg, #2C3E50 0%, #3498db 100%);">
+<body style="background: linear-gradient(135deg,rgb(44, 62, 80) 0%,rgb(52, 152, 219) 100%);">
   <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
     <div class="col-md-4">
       <div class="text-center mb-4">
@@ -47,6 +52,7 @@ if (isset($_POST['login'])) {
           <p class="text-muted small mb-0">Welcome back to your workspace</p>
         </div>
         <div class="card-body px-5 py-4">
+
           <?php if (isset($error)): ?>
             <div class='alert alert-danger py-2 d-flex align-items-center rounded-pill small'>
               <i class='fas fa-exclamation-circle mr-2'></i><?php echo $error; ?>

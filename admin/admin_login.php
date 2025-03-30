@@ -1,15 +1,19 @@
 <?php
-include('../config.php');
+include '../config.php';
 
 if (isset($_POST['login'])) {
+
   $email = $_POST['email'];
   $password = $_POST['password'];
 
   // Only allow admin type login (admin, cmo, dev)
   $sql = "SELECT * FROM users WHERE email = '$email' AND role IN ('admin', 'cmo', 'dev')";
   $result = $conn->query($sql);
+
   if ($result && $result->num_rows > 0) {
+
     $user = $result->fetch_assoc();
+
     if (password_verify($password, $user['password'])) {
       $_SESSION['admin_id'] = $user['id'];
       $_SESSION['admin_role'] = $user['role'];
@@ -18,11 +22,13 @@ if (isset($_POST['login'])) {
     } else {
       $error = "Invalid credentials";
     }
+
   } else {
     $error = "Invalid credentials";
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,6 +53,7 @@ if (isset($_POST['login'])) {
           <p class="text-muted small mb-0">Welcome to the control panel</p>
         </div>
         <div class="card-body px-5 py-4">
+
           <?php if (isset($error)): ?>
             <div class='alert alert-danger py-2 d-flex align-items-center rounded-pill small'>
               <i class='fas fa-exclamation-circle mr-2'></i><?php echo $error; ?>

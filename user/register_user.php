@@ -46,7 +46,7 @@ if (isset($_POST['register'])) {
 			<div class="text-center mb-3">
 				<i class="fas fa-user-plus text-white" style="font-size: 3.5rem;"></i>
 			</div>
-			
+
 			<div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
 				<div class="card-header border-0 bg-white text-center py-3" style="border-radius: 1.5rem 1.5rem 0 0;">
 					<h3 class="font-weight-bold text-primary mb-2">Create Account</h3>
@@ -71,8 +71,8 @@ if (isset($_POST['register'])) {
 										<i class="fas fa-user text-primary"></i>
 									</span>
 								</div>
-								<input type="text" name="name" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
+								<input type="text" name="name" required
+									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
 									placeholder="Full name" autocomplete="off">
 							</div>
 						</div>
@@ -83,8 +83,8 @@ if (isset($_POST['register'])) {
 										<i class="fas fa-envelope text-primary"></i>
 									</span>
 								</div>
-								<input type="email" name="email" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
+								<input type="email" name="email" required
+									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
 									placeholder="Email address" autocomplete="off">
 							</div>
 						</div>
@@ -95,8 +95,8 @@ if (isset($_POST['register'])) {
 										<i class="fas fa-lock text-primary"></i>
 									</span>
 								</div>
-								<input type="password" name="password" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
+								<input type="password" name="password" required
+									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
 									placeholder="Password" autocomplete="off">
 							</div>
 						</div>
@@ -106,7 +106,7 @@ if (isset($_POST['register'])) {
 								I agree to the terms and conditions
 							</label>
 						</div>
-						<button type="submit" name="register" 
+						<button type="submit" name="register"
 							class="btn btn-primary btn-block mb-3 shadow rounded-pill py-2 font-weight-bold">
 							Register
 						</button>
