@@ -50,8 +50,14 @@ if (isset($_POST['login'])) {
 
 			<div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
 				<div class="card-header border-0 bg-white text-center py-4" style="border-radius: 1.5rem 1.5rem 0 0;">
-					<h3 class="font-weight-bold text-dark mb-2">Department Head Portal</h3>
-					<p class="text-muted small mb-0">Access your administrative dashboard</p>
+					<div class="d-flex align-items-center justify-content-between px-3">
+						<a href="../index.php" class="text-dark" style="font-size: 1.2rem;">
+							<i class="fas fa-arrow-left"></i>
+						</a>
+						<h3 class="font-weight-bold mb-2">Department Head</h3>
+						<div style="width: 20px;"></div>
+					</div>
+					<p class="text-muted small mb-0">Welcome back to your workspace</p>
 				</div>
 				<div class="card-body px-4 py-4">
 					<?php if (isset($error)): ?>

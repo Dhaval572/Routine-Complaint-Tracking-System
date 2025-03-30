@@ -49,7 +49,13 @@ if (isset($_POST['login'])) {
 
       <div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
         <div class="card-header border-0 bg-white text-center py-4" style="border-radius: 1.5rem 1.5rem 0 0;">
-          <h3 class="font-weight-bold text-dark mb-2">Administration Portal</h3>
+          <div class="d-flex align-items-center justify-content-between px-3" style="margin-bottom: -10px;">
+              <a href="../index.php" class="text-dark" style="font-size: 1.2rem; position: relative; top: -5px;">
+                  <i class="fas fa-arrow-left"></i>
+              </a>
+              <h3 class="font-weight-bold text-dark mb-2">Administration Portal</h3>
+              <div style="width: 20px;"></div>
+          </div>
           <p class="text-muted small mb-0">Welcome to the control panel</p>
         </div>
         <div class="card-body px-5 py-4">

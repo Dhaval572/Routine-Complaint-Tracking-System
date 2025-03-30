@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
+
 <body class="bg-light">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
@@ -49,12 +51,14 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
                     <h1 class="display-3 font-weight-bold mb-3">Complaint Management System</h1>
-                    <p class="lead mb-4">A comprehensive platform connecting citizens, officers, department heads, and administrators</p>
+                    <p class="lead mb-4">A comprehensive platform connecting citizens, officers, department heads, and
+                        administrators</p>
                     <div class="row justify-content-center mt-4">
                         <div class="col-md-4 mb-3">
                             <div class="border border-white rounded p-3">
                                 <h2 class="h1 mb-0">4</h2>
                                 <p class="mb-0">User Roles</p>
+
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
@@ -80,9 +84,12 @@
                         <div class="card-body">
                             <h4><i class="fas fa-users text-primary mr-2"></i>User Management</h4>
                             <ul class="list-unstyled">
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Citizen Registration & Login</li>
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Officer Access Portal</li>
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Department Head Dashboard</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Citizen
+                                    Registration & Login</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Officer Access
+                                    Portal</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Department Head
+                                    Dashboard</li>
                                 <li><i class="fas fa-check-circle text-success mr-2"></i>Admin Control Panel</li>
                             </ul>
                         </div>
@@ -93,9 +100,12 @@
                         <div class="card-body">
                             <h4><i class="fas fa-tasks text-primary mr-2"></i>Complaint Management</h4>
                             <ul class="list-unstyled">
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Submit New Complaints</li>
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Track Complaint Status</li>
-                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Department Assignment</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Submit New
+                                    Complaints</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Track Complaint
+                                    Status</li>
+                                <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i>Department
+                                    Assignment</li>
                                 <li><i class="fas fa-check-circle text-success mr-2"></i>Resolution Updates</li>
                             </ul>
                         </div>
@@ -156,7 +166,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>Complaint Tracking System</h5>
-                    <p class="small mb-0">© 2024 All rights reserved.</p>
+                    <p class="small mb-0">©2025 All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-right">
                     <div class="mb-2">
@@ -174,4 +184,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
