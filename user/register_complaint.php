@@ -67,20 +67,40 @@ if (isset($_POST['register_complaint'])) {
 	<meta charset="UTF-8">
 	<title>Register Complaint</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<!-- jQuery is needed for show/hide behavior -->
+	<!-- jQuery is needed for show/hide behavior and AJAX -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script>
 		$(document).ready(function () {
 			$("#target_section").hide();
+			
 			$("input[name='target_option']").change(function () {
 				if ($(this).val() == 'none') {
 					$("#target_section").slideUp();
 				} else {
 					$("#target_section").slideDown();
+					loadTargets();
 				}
 			});
-
-			// In a complete implementation, you might load the target officer or dept head based on the selected department via AJAX.
+			
+			$("select[name='target_dept']").change(function(){
+				loadTargets();
+			});
+			
+			function loadTargets(){
+				var dept_id = $("select[name='target_dept']").val();
+				var target_option = $("input[name='target_option']:checked").val();
+				if(dept_id != '' && target_option != 'none'){
+					$.ajax({
+						url: 'fetch_targets.php',
+						data: { dept_id: dept_id, target: target_option },
+						success: function(data){
+							$("select[name='target_id']").html(data);
+						}
+					});
+				} else {
+					$("select[name='target_id']").html("<option value=''>Select</option>");
+				}
+			}
 		});
 	</script>
 </head>
@@ -109,8 +129,7 @@ if (isset($_POST['register_complaint'])) {
 			</div>
 			<div class="form-group">
 				<label>Description</label>
-				<textarea name="description" required class="form-control"
-					placeholder="Enter detailed description"></textarea>
+				<textarea name="description" required class="form-control" placeholder="Enter detailed description"></textarea>
 			</div>
 			<div class="form-group">
 				<label>Date of Incident</label>
@@ -132,10 +151,8 @@ if (isset($_POST['register_complaint'])) {
 			<div class="form-group">
 				<label>Is this complaint against a specific officer/dept head?</label><br>
 				<label class="radio-inline"><input type="radio" name="target_option" value="none" checked> No</label>
-				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="officer">
-					Officer</label>
-				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="dept_head"> Dept
-					Head</label>
+				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="officer"> Officer</label>
+				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="dept_head"> Dept Head</label>
 			</div>
 			<div id="target_section">
 				<div class="form-group">
@@ -151,11 +168,10 @@ if (isset($_POST['register_complaint'])) {
 					</select>
 				</div>
 				<div class="form-group">
-					<label>Select
-						<?php echo isset($_POST['target_option']) ? ucfirst($_POST['target_option']) : 'Target'; ?></label>
+					<label>Select <?php echo isset($_POST['target_option']) ? ucfirst($_POST['target_option']) : 'Target'; ?></label>
 					<select name="target_id" class="form-control">
 						<option value="">Select</option>
-						<!-- In a real implementation, use AJAX to populate based on target department and type -->
+						<!-- Options will be loaded here via AJAX -->
 					</select>
 				</div>
 			</div>
@@ -171,5 +187,4 @@ if (isset($_POST['register_complaint'])) {
 		</form>
 	</div>
 </body>
-
 </html>
