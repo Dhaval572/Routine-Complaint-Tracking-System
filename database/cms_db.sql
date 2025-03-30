@@ -172,6 +172,24 @@ ALTER TABLE `complaint_activity`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `rating` int NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
