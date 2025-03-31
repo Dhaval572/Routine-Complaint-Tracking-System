@@ -32,8 +32,14 @@ if (!isset($_SESSION['user_id'])) {
                     <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg" style="min-width: 14rem;">
                         <span class="dropdown-item-text text-muted small px-4 py-2">Logged in as <strong><?php echo $_SESSION['user_name']; ?></strong></span>
                         <div class="dropdown-divider"></div>
+                        <a class="dropdown-item px-4 py-2" href="profile.php">
+                            <i class="fas fa-user-circle mr-2 text-primary"></i> My Profile
+                        </a>
                         <a class="dropdown-item px-4 py-2" href="change_password.php">
                             <i class="fas fa-key mr-2 text-primary"></i> Change Password
+                        </a>
+                        <a class="dropdown-item px-4 py-2 text-danger" href="delete_account.php">
+                            <i class="fas fa-user-times mr-2"></i> Delete Account
                         </a>
                     </div>
                 </div>

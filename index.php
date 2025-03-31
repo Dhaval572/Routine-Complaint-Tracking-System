@@ -1,5 +1,24 @@
+<?php
+include 'config.php';
+
+// Check if user is logged in
+$user_logged_in = isset($_SESSION['user_id']);
+$user_data = null;
+
+// Fetch user data if logged in
+if ($user_logged_in) {
+  $user_id = $_SESSION['user_id'];
+  $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
+  $stmt->bind_param("i", $user_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $user_data = $result->fetch_assoc();
+  $stmt->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,7 +26,73 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body class="bg-light">
+
+<body>
+  <!-- Add account deleted notification here -->
+  <?php if (isset($_GET['account_deleted'])): ?>
+    <div class="container mt-3">
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle mr-2"></i> Your account has been successfully deleted.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  <?php endif; ?>
+
+  <!-- Profile Modal with Bootstrap-only styling -->
+  <?php if ($user_logged_in): ?>
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="profileModalLabel">
+              <i class="fas fa-user-circle mr-2"></i>My Profile
+            </h5>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body bg-light">
+            <div class="text-center mb-4">
+              <div class="bg-primary text-white rounded-circle p-3 d-inline-block mb-3">
+                <i class="fas fa-user-circle" style="font-size: 3rem;"></i>
+              </div>
+              <h5 class="font-weight-bold"><?= htmlspecialchars($user_data['name']) ?></h5>
+              <p class="text-muted"><i class="fas fa-envelope mr-2"></i><?= htmlspecialchars($user_data['email']) ?></p>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <a href="user/profile.php" class="btn btn-primary btn-block rounded-pill">
+                  <i class="fas fa-user-edit mr-2"></i>Edit Profile
+                </a>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <a href="user/change_password.php" class="btn btn-outline-primary btn-block rounded-pill">
+                  <i class="fas fa-key mr-2"></i>Change Password
+                </a>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <a href="user/delete_account.php" class="btn btn-outline-danger btn-block rounded-pill">
+                <i class="fas fa-user-times mr-2"></i>Delete Account
+              </a>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Close</button>
+            <a href="logout.php" class="btn btn-danger rounded-pill">
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="#">
@@ -40,7 +125,7 @@
       </div>
     </div>
   </nav>
-  
+
   <div class="bg-primary text-white py-5">
     <div class="container">
       <div class="row align-items-center">
@@ -149,25 +234,29 @@
         <h3 class="text-center mb-4">Login Access</h3>
         <div class="row">
           <div class="col-sm-6 mb-3">
-            <a href="user/user_login.php" class="btn btn-success btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+            <a href="user/user_login.php"
+              class="btn btn-success btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
               <i class="fas fa-user-circle fa-lg mr-2"></i>
               <span>User Login</span>
             </a>
           </div>
           <div class="col-sm-6 mb-3">
-            <a href="officer/officer_login.php" class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+            <a href="officer/officer_login.php"
+              class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
               <i class="fas fa-briefcase fa-lg mr-2"></i>
               <span>Officer Login</span>
             </a>
           </div>
           <div class="col-sm-6 mb-3">
-            <a href="depthead/dept_head_login.php" class="btn btn-warning btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+            <a href="depthead/dept_head_login.php"
+              class="btn btn-warning btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
               <i class="fas fa-building fa-lg mr-2"></i>
               <span>Department Head</span>
             </a>
           </div>
           <div class="col-sm-6 mb-3">
-            <a href="admin/admin_login.php" class="btn btn-danger btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+            <a href="admin/admin_login.php"
+              class="btn btn-danger btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
               <i class="fas fa-shield-alt fa-lg mr-2"></i>
               <span>Admin Login</span>
             </a>
@@ -272,9 +361,101 @@
       </div>
     </div>
   </footer>
-  
+
+  <!-- Profile Modal -->
+  <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="profileModalLabel">
+            <i class="fas fa-user-circle mr-2"></i>My Profile
+          </h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body bg-light">
+          <div class="text-center mb-4">
+            <div class="bg-primary text-white rounded-circle p-3 d-inline-block mb-3">
+              <i class="fas fa-user-circle" style="font-size: 3rem;"></i>
+            </div>
+            <h5 class="font-weight-bold"><?= htmlspecialchars($user_data['name']) ?></h5>
+            <p class="text-muted"><i class="fas fa-envelope mr-2"></i><?= htmlspecialchars($user_data['email']) ?></p>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 mb-3">
+              <a href="user/profile.php" class="btn btn-primary btn-block rounded-pill">
+                <i class="fas fa-user-edit mr-2"></i>Edit Profile
+              </a>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <a href="user/change_password.php" class="btn btn-outline-primary btn-block rounded-pill">
+                <i class="fas fa-key mr-2"></i>Change Password
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <a href="user/delete_account.php" class="btn btn-outline-danger btn-block rounded-pill">
+              <i class="fas fa-user-times mr-2"></i>Delete Account
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Close</button>
+          <a href="logout.php" class="btn btn-danger rounded-pill">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Account Deleted Modal -->
+  <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog"
+    aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="accountDeletedModalLabel">
+            <i class="fas fa-user-times mr-2"></i>Account Deleted
+          </h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="text-center mb-4">
+            <div class="bg-danger text-white rounded-circle p-3 d-inline-block mb-3">
+              <i class="fas fa-user-times" style="font-size: 3rem;"></i>
+            </div>
+            <h5 class="font-weight-bold">Your account has been successfully deleted</h5>
+            <p class="text-muted">All your data has been permanently removed from our system.</p>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show account deleted modal if needed
+    <?php if (isset($_GET['show_delete_popup'])): ?>
+      $(document).ready(function () {
+        $('#accountDeletedModal').modal('show');
+        // Remove the query parameter from URL without refreshing
+        history.replaceState({}, document.title, window.location.pathname);
+      });
+    <?php endif; ?>
+  </script>
 </body>
+
 </html>

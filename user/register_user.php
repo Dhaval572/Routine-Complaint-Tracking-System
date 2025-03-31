@@ -40,7 +40,9 @@ if (isset($_POST['register'])) {
 			$stmt->bind_param("ssss", $name, $email, $hashedPassword, $role);
 
 			if ($stmt->execute()) {
-				$success = "Registration successful. You can now <a href='user_login.php'>login</a>.";
+				// Redirect to login page instead of showing success message
+				header("Location: user_login.php?registered=1");
+				exit;
 			} else {
 				$error = "Error during registration. Please try again.";
 			}
@@ -83,11 +85,6 @@ if (isset($_POST['register'])) {
 					<?php if ($error): ?>
 						<div class='alert alert-danger py-2 d-flex align-items-center rounded-pill small'>
 							<i class='fas fa-exclamation-circle mr-2'></i><?= $error ?>
-						</div>
-					<?php endif; ?>
-					<?php if ($success): ?>
-						<div class='alert alert-success py-2 d-flex align-items-center rounded-pill small'>
-							<i class='fas fa-check-circle mr-2'></i><?= $success ?>
 						</div>
 					<?php endif; ?>
 					<form method="POST" action="">
