@@ -23,8 +23,20 @@ if (!isset($_SESSION['user_id'])) {
             <span class="navbar-brand">
                 <i class="fas fa-columns mr-2"></i>Citizen Dashboard
             </span>
-            <!-- Logout button -->
-            <div class="ml-auto">
+            <!-- User dropdown menu -->
+            <div class="ml-auto d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle rounded-pill px-4 mr-2" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: linear-gradient(45deg, #3498db, #2980b9); color: white; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);">
+                        <i class="fas fa-user-circle mr-2"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg" style="min-width: 14rem;">
+                        <span class="dropdown-item-text text-muted small px-4 py-2">Logged in as <strong><?php echo $_SESSION['user_name']; ?></strong></span>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item px-4 py-2" href="change_password.php">
+                            <i class="fas fa-key mr-2 text-primary"></i> Change Password
+                        </a>
+                    </div>
+                </div>
                 <a href="../logout.php" class="btn rounded-pill px-4" style="background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">
                     <i class="fas fa-sign-out-alt mr-2"></i>Logout
                 </a>
@@ -111,5 +123,22 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+
+    <!-- Remove the standalone dropdown menu that was at the bottom -->
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Add hover effect for cards
+        document.querySelectorAll('.hover-lift').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
 </body>
 </html>
