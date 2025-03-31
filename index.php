@@ -418,41 +418,40 @@ if ($user_logged_in) {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- Account Deleted Success Popup -->
-  <?php if(isset($_GET['msg']) && $_GET['msg'] == 'account_deleted'): ?>
-  <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog" aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-success text-white">
-          <h5 class="modal-title" id="accountDeletedModalLabel">
-            <i class="fas fa-check-circle mr-2"></i>Account Deleted
-          </h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body p-4">
-          <div class="text-center mb-4">
-            <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+  <?php if (isset($_GET['msg']) && $_GET['msg'] == 'account_deleted'): ?>
+    <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog"
+      aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
+          <div class="card-header bg-danger text-white text-center py-3">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle mr-2"></i>
+              <span>Account Deleted</span>
+              <button type="button" class="close text-white ml-auto" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+          <div class="modal-body text-center p-4">
+            <div class="rounded-circle bg-danger text-white mx-auto d-flex align-items-center justify-content-center mb-3"
+              style="width: 80px; height: 80px;">
               <i class="fas fa-user-times fa-3x"></i>
             </div>
-            <h4>Account Successfully Deleted</h4>
+            <h4 class="font-weight-bold mb-3">Account Successfully Deleted</h4>
             <p class="text-muted">Your account and all associated data have been permanently removed from our system.</p>
-          </div>
-          <div class="text-center">
-            <button type="button" class="btn btn-primary px-4 rounded-pill" data-dismiss="modal">
-              <i class="fas fa-check mr-2"></i>OK
+            <button type="button" class="btn btn-danger px-4 mt-3" data-dismiss="modal">
+              OK
             </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <script>
-    $(document).ready(function() {
-      $('#accountDeletedModal').modal('show');
-    });
-  </script>
+
+    <script>
+      $(document).ready(function () {
+        $('#accountDeletedModal').modal('show');
+      });
+    </script>
   <?php endif; ?>
 
   <script>

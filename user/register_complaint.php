@@ -189,12 +189,12 @@ if (isset($_POST['register_complaint'])) {
 			<div class="card-body p-md-5 p-4" style="background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);">
 				<?php
 				if (isset($success)) {
-					echo "<div class='alert shadow-sm border-0 rounded-lg' style='background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50;'>
-						<div class='d-flex align-items-center'>
-							<i class='fas fa-check-circle text-success mr-3' style='font-size: 1.5rem;'></i>
-							<div>$success</div>
-						</div>
-					</div>";
+					// Replace the regular success message with JavaScript to show the modal, and ensure the modal has the right options for the user
+					echo "<script>
+						$(document).ready(function() {
+							$('#successModal').modal('show');
+						});
+					</script>";
 				}
 				if (isset($error)) {
 					echo "<div class='alert shadow-sm border-0 rounded-lg' style='background: rgba(244, 67, 54, 0.1); border-left: 4px solid #F44336;'>
@@ -228,7 +228,8 @@ if (isset($_POST['register_complaint'])) {
 									<option value="">Select Department</option>
 									<?php while ($dept = $dept_result->fetch_assoc()) { ?>
 										<option value="<?php echo $dept['id']; ?>">
-											<?php echo htmlspecialchars($dept['name']); ?></option>
+											<?php echo htmlspecialchars($dept['name']); ?>
+										</option>
 									<?php } ?>
 								</select>
 							</div>
@@ -315,7 +316,8 @@ if (isset($_POST['register_complaint'])) {
 											$dept_result2 = $conn->query("SELECT * FROM departments");
 											while ($d = $dept_result2->fetch_assoc()) { ?>
 												<option value="<?php echo $d['id']; ?>">
-													<?php echo htmlspecialchars($d['name']); ?></option>
+													<?php echo htmlspecialchars($d['name']); ?>
+												</option>
 											<?php } ?>
 										</select>
 										<small class="form-text text-muted">First select a department to see available
@@ -413,6 +415,61 @@ if (isset($_POST['register_complaint'])) {
 			$(this).siblings(".custom-file-label").addClass("selected").html(fileName || "Choose file");
 		});
 	</script>
+</body>
+
+</html>
+
+</script>
+
+<!-- Success Modal -->
+<?php if (isset($success)): ?>
+	<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+				<div class="modal-header border-0 text-center py-4"
+					style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">
+					<h5 class="modal-title w-100 text-white font-weight-bold" id="successModalLabel">
+						<i class="fas fa-check-circle mr-2"></i>Complaint Registered
+					</h5>
+					<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center p-5">
+					<div class="mb-4">
+						<div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3"
+							style="width: 100px; height: 100px; background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%); box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);">
+							<i class="fas fa-clipboard-check text-white" style="font-size: 3rem;"></i>
+						</div>
+						<h4 class="font-weight-bold">Thank You!</h4>
+						<p class="text-muted mb-0">Your complaint has been successfully registered.</p>
+					</div>
+
+					<div class="alert alert-light border-left-0 border-right-0 rounded-0 py-3 mb-4"
+						style="background-color: rgba(76, 175, 80, 0.1);">
+						<div class="d-flex align-items-center">
+							<i class="fas fa-info-circle text-success mr-3" style="font-size: 1.5rem;"></i>
+							<div class="text-left">
+								<p class="mb-0">Your complaint has been assigned to the department head and will be
+									processed shortly.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-center">
+						<a href="user_dashboard.php" class="btn btn-success rounded-pill px-4 mr-2">
+							<i class="fas fa-home mr-2"></i>Go to Dashboard
+						</a>
+						<button type="button" class="btn btn-outline-success rounded-pill px-4" data-dismiss="modal">
+							<i class="fas fa-plus mr-2"></i>Register Another
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
 </body>
 
 </html>
