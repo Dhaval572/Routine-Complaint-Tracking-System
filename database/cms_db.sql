@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `complaints` (
   `ai_summary_response` text COLLATE utf8mb4_general_ci,
   `target_id` int DEFAULT NULL,
   `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `target_id` int DEFAULT NULL,
+  `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -156,7 +158,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `department_id`,
 ALTER TABLE `complaints`
   ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`citizen_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`),
-  ADD CONSTRAINT `complaints_ibfk_3` FOREIGN KEY (`officer_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `complaints_ibfk_3` FOREIGN KEY (`officer_id`) ,
+  ADD CONSTRAINT `complaints_ibfk_5` FOREIGN KEY (`referred_by`) REFERENCES `users` (`id`)REFER--
+-- Constraints for table `complaint_activity`
+--
+ALTER TABLE `complaint_activity`
+  ADD CONSTRAINT `complaint_activity_ibfk_1` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
+  ADD CONSTRAINT `complaint_activity_ibfk_2` FOREIGN KEY (`activity_by`) REFERENCES `users` (`id`);ENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_4` FOREIGN KEY (`dept_head_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_5` FOREIGN KEY (`referred_by`) REFERENCES `users` (`id`);
 
