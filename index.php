@@ -417,14 +417,14 @@ if ($user_logged_in) {
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <!-- Account Deleted Modal -->
-  <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog"
-    aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
+  <!-- Account Deleted Success Popup -->
+  <?php if(isset($_GET['msg']) && $_GET['msg'] == 'account_deleted'): ?>
+  <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog" aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-danger text-white">
+        <div class="modal-header bg-success text-white">
           <h5 class="modal-title" id="accountDeletedModalLabel">
-            <i class="fas fa-user-times mr-2"></i>Account Deleted
+            <i class="fas fa-check-circle mr-2"></i>Account Deleted
           </h5>
           <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -432,19 +432,28 @@ if ($user_logged_in) {
         </div>
         <div class="modal-body p-4">
           <div class="text-center mb-4">
-            <div class="bg-danger text-white rounded-circle p-3 d-inline-block mb-3">
-              <i class="fas fa-user-times" style="font-size: 3rem;"></i>
+            <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+              <i class="fas fa-user-times fa-3x"></i>
             </div>
-            <h5 class="font-weight-bold">Your account has been successfully deleted</h5>
-            <p class="text-muted">All your data has been permanently removed from our system.</p>
+            <h4>Account Successfully Deleted</h4>
+            <p class="text-muted">Your account and all associated data have been permanently removed from our system.</p>
           </div>
-        </div>
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-danger rounded-pill" data-dismiss="modal">Close</button>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary px-4 rounded-pill" data-dismiss="modal">
+              <i class="fas fa-check mr-2"></i>OK
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
+  <script>
+    $(document).ready(function() {
+      $('#accountDeletedModal').modal('show');
+    });
+  </script>
+  <?php endif; ?>
 
   <script>
     // Show account deleted modal if needed

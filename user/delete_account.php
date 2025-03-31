@@ -21,25 +21,57 @@ if (isset($_POST['confirm_delete'])) {
   if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user['password'])) {
-      // Delete user's complaints first (to maintain referential integrity)
-      $delete_complaints = $conn->prepare("DELETE FROM complaints WHERE citizen_id = ?");
-      $delete_complaints->bind_param("i", $user_id);
-      $delete_complaints->execute();
-      $delete_complaints->close();
+      // Start transaction to ensure data integrity
+      $conn->begin_transaction();
       
-      // Delete user account
-      $delete_user = $conn->prepare("DELETE FROM users WHERE id = ?");
-      $delete_user->bind_param("i", $user_id);
-      
-      if ($delete_user->execute()) {
-        // Clear session and redirect to home page
+      try {
+        // First get all complaints by this user
+        $get_complaints = $conn->prepare("SELECT id FROM complaints WHERE citizen_id = ?");
+        $get_complaints->bind_param("i", $user_id);
+        $get_complaints->execute();
+        $complaints_result = $get_complaints->get_result();
+        
+        // Delete activity records for each complaint
+        while ($complaint = $complaints_result->fetch_assoc()) {
+          $complaint_id = $complaint['id'];
+          
+          // Delete complaint activity records
+          $delete_activity = $conn->prepare("DELETE FROM complaint_activity WHERE complaint_id = ?");
+          $delete_activity->bind_param("i", $complaint_id);
+          $delete_activity->execute();
+          
+          // Check if feedback table has a complaint_id column before attempting to delete
+          $check_feedback_column = $conn->query("SHOW COLUMNS FROM feedback LIKE 'complaint_id'");
+          if ($check_feedback_column->num_rows > 0) {
+            // Delete any feedback for this complaint if the column exists
+            $delete_feedback = $conn->prepare("DELETE FROM feedback WHERE complaint_id = ?");
+            $delete_feedback->bind_param("i", $complaint_id);
+            $delete_feedback->execute();
+          }
+        }
+        
+        // Now delete all complaints by this user
+        $delete_complaints = $conn->prepare("DELETE FROM complaints WHERE citizen_id = ?");
+        $delete_complaints->bind_param("i", $user_id);
+        $delete_complaints->execute();
+        
+        // Finally delete the user account
+        $delete_user = $conn->prepare("DELETE FROM users WHERE id = ?");
+        $delete_user->bind_param("i", $user_id);
+        $delete_user->execute();
+        
+        // If we got here, commit the transaction
+        $conn->commit();
+        
+        // Clear session and redirect to index.php with success message
         session_destroy();
-        header("Location: ../index.php?show_delete_popup=1");
+        header("Location: ../index.php?msg=account_deleted");
         exit;
-      } else {
-        $error = "Error deleting account. Please try again.";
+      } catch (Exception $e) {
+        // An error occurred, rollback the transaction
+        $conn->rollback();
+        $error = "Error deleting account: " . $e->getMessage();
       }
-      $delete_user->close();
     } else {
       $error = "Incorrect password. Account deletion canceled.";
     }
