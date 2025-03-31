@@ -125,7 +125,7 @@ if (isset($_GET['complaint_id'])) {
 					<div class="card-body p-md-5 p-4"
 						style="background: linear-gradient(135deg, #f5f9ff 0%, #e6f0ff 100%);">
 						<form method="GET" action="" class="mb-4">
-							<div class="form-group">
+							<div class="form-group p-4 rounded-lg" style="background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(41, 98, 255, 0.1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);">
 								<label class="font-weight-bold text-primary">
 									<i class="fas fa-hashtag mr-2"></i>Enter Complaint ID
 								</label>
@@ -151,6 +151,32 @@ if (isset($_GET['complaint_id'])) {
 								<i class="fas fa-search mr-2"></i>Track Complaint
 							</button>
 						</form>
+
+						<?php if (!isset($_GET['complaint_id'])) { ?>
+							<div class="text-center py-5 my-3 rounded-lg" style="
+								background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 247, 255, 0.9) 100%);
+								border-radius: 20px; 
+								box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(41, 98, 255, 0.1);
+								border: 1px solid rgba(255, 255, 255, 0.6);
+								backdrop-filter: blur(10px);">
+								<div class="mb-4 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="
+									width: 100px; 
+									height: 100px; 
+									background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%); 
+									color: white;
+									box-shadow: 0 8px 20px rgba(41, 98, 255, 0.3);">
+									<i class="fas fa-search fa-3x"></i>
+								</div>
+								<h4 class="text-primary mb-3 font-weight-bold">Enter Complaint ID to Track</h4>
+								<p class="text-muted mb-4 px-4 mx-auto" style="max-width: 600px;">Please enter your complaint ID in the form above to track its current status and progress.</p>
+								<div class="alert alert-info mx-auto mb-0" style="max-width: 500px; background: rgba(41, 98, 255, 0.05); border: 1px solid rgba(41, 98, 255, 0.1);">
+									<div class="d-flex align-items-center">
+										<i class="fas fa-info-circle text-primary mr-3" style="font-size: 1.5rem;"></i>
+										<p class="mb-0">You can find your complaint ID in the confirmation email or SMS you received when registering the complaint.</p>
+									</div>
+								</div>
+							</div>
+						<?php } ?>
 
 						<?php if (isset($error)) { ?>
 							<div class="text-center py-5 my-3"
