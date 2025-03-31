@@ -1,12 +1,28 @@
-# Problem ID	PS000091
+# Routine Complaint Tracking System
 
-## Name of GoG Department/Muncipal Corporation/Collector/DDO	District Development Office -Dangs-Ahwa
+## Overview
 
-## Name of PSU (if Any)	
-Problem Statement	Routine Complaint Tracking and Disposal System
-Description of the Problem:	Considering the increasing burden of day to day complaints. It is most important to track and dispose of complaints to serve the society effectively and satisfactorily.
-Current Challenges:	Considering the increasing burden of day to day complaints. It is most important to track and dispose of complaints to serve the society effectively and satisfactorily. No standard mechanism is available at the collectorate, SDM and Mamlatdar level so inter-dept co-ordination is missing. complainers face difficulties and some time it become more time consuming. A smart application for day to day complaints, record and track can be established through proper method.
+The Routine Complaint Tracking System is a web-based application designed to streamline the process of registering and tracking complaints within an organization. It provides users with an intuitive interface to submit complaints, view complaint status, and receive updates.
 
-## Users	Complainers as well as Officers
-Expected Outcomes	Computer/Mobile application for Repository of tracking complain and disposal.
-Potential Impact	Speedy disposal, public satisfaction, accountability, time bounded solution
+## Features
+
+- **User Registration:** Allows users to create accounts and log in securely.
+- **Complaint Submission:** Users can submit complaints with detailed information.
+- **Dashboard:** Provides a comprehensive view of all submitted complaints and their statuses.
+- **Admin Panel:** Admins can manage complaints, assign them to departments, and update statuses.
+- **Notifications:** Users receive notifications about complaint status changes.
+
+## Technologies Used
+
+- **Backend:** PHP, MySQL
+- **Frontend:** HTML, CSS, JavaScript, Bootstrap
+- **Server:** Apache (WAMP)
+
+## Installation
+
+To set up the Routine Complaint Tracking System locally, follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/Routine-Complaint-Tracking-System.git
+   ```
