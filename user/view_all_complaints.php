@@ -7,26 +7,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Pagination setup
-$records_per_page = 5;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $records_per_page;
-
-// Get total number of complaints for pagination
-$total_query = "SELECT COUNT(*) as total FROM complaints WHERE citizen_id = '$user_id'";
-$total_result = $conn->query($total_query);
-$total_row = $total_result->fetch_assoc();
-$total_records = $total_row['total'];
-$total_pages = ceil($total_records / $records_per_page);
-
-// Get complaints with pagination
+// Get all complaints without pagination
 $sql = "SELECT c.*, d.name as dept_name 
         FROM complaints c 
         LEFT JOIN departments d ON c.department_id = d.id 
         WHERE c.citizen_id = '$user_id' 
-        ORDER BY c.created_at DESC
-        LIMIT $offset, $records_per_page";
+        ORDER BY c.created_at DESC";
 $result = $conn->query($sql);
+$total_records = $result->num_rows;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +22,7 @@ $result = $conn->query($sql);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Complaints</title>
+  <title>All Complaints</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -76,9 +64,18 @@ $result = $conn->query($sql);
           <div class="d-flex align-items-center justify-content-center rounded-circle bg-white text-primary mr-2" style="width: 38px; height: 38px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
             <i class="fas fa-clipboard-list"></i>
           </div>
-          <span class="font-weight-bold ml-1" style="letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">My Complaints</span>
+          <span class="font-weight-bold ml-1" style="letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">All Complaints</span>
         </span>
-        <div class="ml-auto">
+        <div class="ml-auto d-flex">
+          <a href="view_complaints.php" class="btn rounded-pill px-4 shadow-sm mr-2" style="
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+          " onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'">
+            <i class="fas fa-th-list mr-2"></i>Paginated View
+          </a>
           <a href="user_dashboard.php" class="btn rounded-pill px-4 shadow-sm" style="
             background: rgba(255, 255, 255, 0.15); 
             color: white; 
@@ -104,17 +101,24 @@ $result = $conn->query($sql);
           background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%);
           border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         ">
-        <div class="d-flex align-items-center">
-          <div class="d-flex align-items-center justify-content-center rounded-lg text-white mr-3" style="
-              width: 50px; 
-              height: 50px; 
-              background: rgba(255, 255, 255, 0.2); 
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.2);
-              border-radius: 15px;
-            ">
-            <i class="fas fa-list-alt"></i>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center rounded-lg text-white mr-3" style="
+                width: 50px; 
+                height: 50px; 
+                background: rgba(255, 255, 255, 0.2); 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+                border-radius: 15px;
+              ">
+              <i class="fas fa-list-alt"></i>
+            </div>
+            <h4 class="mb-0 text-white font-weight-bold" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">All Your Complaints</h4>
           </div>
-          <h4 class="mb-0 text-white font-weight-bold" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">Your Registered Complaints</h4>
+          <div class="text-white">
+            <span class="badge badge-pill px-3 py-2" style="background: rgba(255, 255, 255, 0.2); font-size: 0.9rem;">
+              <i class="fas fa-clipboard-list mr-1"></i> Total: <?= $total_records ?>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -204,101 +208,28 @@ $result = $conn->query($sql);
             </table>
           </div>
           
-          <!-- Pagination Controls -->
-          <?php if ($total_pages > 1): ?>
-            <div class="d-flex justify-content-between align-items-center mt-4">
-              <span class="text-muted">
-                Showing <?= min($offset + 1, $total_records) ?> to <?= min($offset + $records_per_page, $total_records) ?> of <?= $total_records ?> complaints
-              </span>
-              <nav aria-label="Complaints pagination">
-                <ul class="pagination pagination-sm mb-0">
-                  <!-- Previous button -->
-                  <?php if ($page > 1): ?>
-                    <li class="page-item">
-                      <a class="page-link rounded-pill mr-2 shadow-sm" href="?page=<?= $page - 1 ?>" 
-                         style="background: linear-gradient(135deg, rgba(41, 98, 255, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%);
-                                color: #1565c0; border: 1px solid rgba(41, 98, 255, 0.1); transition: all 0.3s ease;"
-                         onmouseover="this.style.background='rgba(41, 98, 255, 0.2)'" 
-                         onmouseout="this.style.background='linear-gradient(135deg, rgba(41, 98, 255, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)'">
-                        <i class="fas fa-chevron-left"></i>
-                      </a>
-                    </li>
-                  <?php endif; ?>
-                  
-                  <?php
-                  // Optimized page number display
-                  $pageStyle = function($pageNum) use ($page) {
-                    $isActive = $page == $pageNum;
-                    $bg = $isActive ? 'linear-gradient(135deg, #2962ff 0%, #1565c0 100%)' : 'linear-gradient(135deg, rgba(41, 98, 255, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)';
-                    $color = $isActive ? 'white' : '#1565c0';
-                    return "background: $bg; color: $color; border: 1px solid rgba(41, 98, 255, 0.1); transition: all 0.3s ease;";
-                  };
-                  
-                  // Calculate visible page range
-                  $start_page = max(1, $page - 1);
-                  $end_page = min($total_pages, $page + 1);
-                  
-                  // First page
-                  if ($start_page > 1): ?>
-                    <li class="page-item">
-                      <a class="page-link rounded-pill mr-2 shadow-sm" href="?page=1" style="<?= $pageStyle(1) ?>">1</a>
-                    </li>
-                    <?php if ($start_page > 2): ?>
-                      <li class="page-item disabled"><span class="page-link border-0 bg-transparent">...</span></li>
-                    <?php endif; ?>
-                  <?php endif; ?>
-                  
-                  <!-- Page numbers -->
-                  <?php for ($i = $start_page; $i <= $end_page; $i++): 
-                    if ($i == 1 || $i == $total_pages) continue; // Skip first and last page as they're handled separately
-                  ?>
-                    <li class="page-item">
-                      <a class="page-link rounded-pill mr-2 shadow-sm" href="?page=<?= $i ?>" style="<?= $pageStyle($i) ?>"><?= $i ?></a>
-                    </li>
-                  <?php endfor; ?>
-                  
-                  <!-- Last page -->
-                  <?php if ($end_page < $total_pages): 
-                    if ($end_page < $total_pages - 1): ?>
-                      <li class="page-item disabled"><span class="page-link border-0 bg-transparent">...</span></li>
-                    <?php endif; ?>
-                    <li class="page-item">
-                      <a class="page-link rounded-pill mr-2 shadow-sm" href="?page=<?= $total_pages ?>" style="<?= $pageStyle($total_pages) ?>"><?= $total_pages ?></a>
-                    </li>
-                  <?php endif; ?>
-                  
-                  <!-- Next button -->
-                  <?php if ($page < $total_pages): ?>
-                    <li class="page-item">
-                      <a class="page-link rounded-pill shadow-sm" href="?page=<?= $page + 1 ?>" 
-                         style="background: linear-gradient(135deg, rgba(41, 98, 255, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%);
-                                color: #1565c0; border: 1px solid rgba(41, 98, 255, 0.1); transition: all 0.3s ease;"
-                         onmouseover="this.style.background='rgba(41, 98, 255, 0.2)'" 
-                         onmouseout="this.style.background='linear-gradient(135deg, rgba(41, 98, 255, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%)'">
-                        <i class="fas fa-chevron-right"></i>
-                      </a>
-                    </li>
-                  <?php endif; ?>
-                </ul>
-              </nav>
-            </div>
-          <?php endif; ?>
-          
-          <!-- View All Option -->
-          <div class="text-center mt-3">
-            <a href="view_all_complaints.php" class="btn btn-sm rounded-pill shadow-sm px-4" style="
+          <!-- Back to paginated view button -->
+          <div class="text-center mt-4">
+            <a href="view_complaints.php" class="btn btn-sm rounded-pill shadow-sm px-4" style="
                 background: linear-gradient(135deg, rgba(41, 98, 255, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
                 color: #1565c0;
                 border: 1px solid rgba(41, 98, 255, 0.1);
                 transition: all 0.3s ease;
               " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(41, 98, 255, 0.2)'" 
               onmouseout="this.style.transform=''; this.style.boxShadow=''">
-              <i class="fas fa-list-alt mr-2"></i>View All Complaints
+              <i class="fas fa-th-list mr-2"></i>Back to Paginated View
             </a>
           </div>
         <?php } else { ?>
           <div class="text-center py-5">
-            <!-- No complaints found message -->
+            <div class="mb-4 text-primary mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 130px; height: 130px; background: rgba(41, 98, 255, 0.15); font-size: 4rem;">
+              <i class="fas fa-folder-open"></i>
+            </div>
+            <h4 class="text-primary mb-3">No complaints found</h4>
+            <p class="text-muted mb-4">You haven't registered any complaints yet.</p>
+            <a href="register_complaint.php" class="btn btn-lg rounded-pill px-5 shadow" style="background: #2962ff; color: white;">
+              <i class="fas fa-plus mr-2"></i>Register New Complaint
+            </a>
           </div>
         <?php } ?>
       </div>
