@@ -34,20 +34,20 @@ if (isset($_POST['register_complaint'])) {
 	}
 
 	// By default, assign complaint to the dept head of the selected department (if exists)
-	$dept_head_id = 'NULL';
 	$dept_head_id = null;
+	$dh_sql = "SELECT id FROM users WHERE role = 'dept_head' AND department_id = '$dept_id' LIMIT 1";
 	$dh_result = $conn->query($dh_sql);
 	if ($dh_result && $dh_result->num_rows > 0) {
 		$dh_row = $dh_result->fetch_assoc();
-		$dept_head_id = "'" . $dh_row['id'] . "'";
 		$dept_head_id = $dh_row['id'];
+	}
 
 	// Insert complaint – ensure your complaints table has an 'attachment' column if you wish to store files.
 	$citizen_id = $_SESSION['user_id'];
 	$insert_sql = "INSERT INTO complaints 
         (citizen_id, department_id, title, description, officer_id, dept_head_id, target_id, target_role, created_at)
-        VALUES ('$citizen_id', '$dept_id', '$title', '$description', NULL, $dept_head_id, '$target_id', '$target_option', NOW())";
         VALUES ('$citizen_id', '$dept_id', '$title', '$description', NULL, '$dept_head_id', '$target_id', '$target_option', NOW())";
+	if ($conn->query($insert_sql)) {
 		// Get the inserted complaint id
 		$complaint_id = $conn->insert_id;
 		// Log activity: Complaint Registered
@@ -72,8 +72,8 @@ if (isset($_POST['register_complaint'])) {
 	<script>
 		$(document).ready(function () {
 			$("#target_section").hide();
-
 			
+			$("input[name='target_option']").change(function () {
 				if ($(this).val() == 'none') {
 					$("#target_section").slideUp();
 				} else {
@@ -81,20 +81,20 @@ if (isset($_POST['register_complaint'])) {
 					loadTargets();
 				}
 			});
-
 			
 			$("select[name='target_dept']").change(function(){
+				loadTargets();
 			});
-
 			
 			function loadTargets(){
+				var dept_id = $("select[name='target_dept']").val();
 				var target_option = $("input[name='target_option']:checked").val();
-				if (dept_id != '' && target_option != 'none') {
 				if(dept_id != '' && target_option != 'none'){
+					$.ajax({
 						url: 'fetch_targets.php',
 						data: { dept_id: dept_id, target: target_option },
-						success: function (data) {
 						success: function(data){
+							$("select[name='target_id']").html(data);
 						}
 					});
 				} else {
@@ -129,8 +129,8 @@ if (isset($_POST['register_complaint'])) {
 			</div>
 			<div class="form-group">
 				<label>Description</label>
-				<textarea name="description" required class="form-control"
 				<textarea name="description" required class="form-control" placeholder="Enter detailed description"></textarea>
+			</div>
 			<div class="form-group">
 				<label>Date of Incident</label>
 				<input type="date" name="incident_date" required class="form-control">
@@ -151,9 +151,9 @@ if (isset($_POST['register_complaint'])) {
 			<div class="form-group">
 				<label>Is this complaint against a specific officer/dept head?</label><br>
 				<label class="radio-inline"><input type="radio" name="target_option" value="none" checked> No</label>
-				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="officer">
 				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="officer"> Officer</label>
 				<label class="radio-inline ml-3"><input type="radio" name="target_option" value="dept_head"> Dept Head</label>
+			</div>
 			<div id="target_section">
 				<div class="form-group">
 					<label>Select Target Department</label>
@@ -168,8 +168,8 @@ if (isset($_POST['register_complaint'])) {
 					</select>
 				</div>
 				<div class="form-group">
-					<label>Select
 					<label>Select <?php echo isset($_POST['target_option']) ? ucfirst($_POST['target_option']) : 'Target'; ?></label>
+					<select name="target_id" class="form-control">
 						<option value="">Select</option>
 						<!-- Options will be loaded here via AJAX -->
 					</select>
@@ -187,4 +187,4 @@ if (isset($_POST['register_complaint'])) {
 		</form>
 	</div>
 </body>
-
+</html>
