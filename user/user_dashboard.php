@@ -29,18 +29,42 @@ if (!isset($_SESSION['user_id'])) {
                     <button class="btn dropdown-toggle rounded-pill px-4 mr-2" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: linear-gradient(45deg, #3498db, #2980b9); color: white; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);">
                         <i class="fas fa-user-circle mr-2"></i><?php echo htmlspecialchars($_SESSION['user_name']); ?>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg" style="min-width: 14rem;">
-                        <span class="dropdown-item-text text-muted small px-4 py-2">Logged in as <strong><?php echo $_SESSION['user_name']; ?></strong></span>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item px-4 py-2" href="profile.php">
-                            <i class="fas fa-user-circle mr-2 text-primary"></i> My Profile
-                        </a>
-                        <a class="dropdown-item px-4 py-2" href="change_password.php">
-                            <i class="fas fa-key mr-2 text-primary"></i> Change Password
-                        </a>
-                        <a class="dropdown-item px-4 py-2 text-danger" href="delete_account.php">
-                            <i class="fas fa-user-times mr-2"></i> Delete Account
-                        </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg" style="min-width: 16rem; transform: translateY(10px); background: linear-gradient(to bottom, #003975, #0a4d8c);">
+                        <div class="p-3 border-bottom text-center" style="border-color: rgba(255,255,255,0.1) !important;">
+                            <div class="d-inline-block mb-2">
+                                <div class="bg-info text-white rounded-circle p-2 d-inline-block" style="width: 60px; height: 60px; text-align: center; box-shadow: 0 0 10px rgba(23, 162, 184, 0.4);">
+                                    <i class="fas fa-user-circle" style="font-size: 2.2rem; line-height: 1.4;"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-0 font-weight-bold text-white"><?php echo $_SESSION['user_name']; ?></h6>
+                            <small class="text-light">Citizen Account</small>
+                        </div>
+                        <div class="p-2">
+                            <a class="dropdown-item px-4 py-3 rounded-lg mb-1 hover-bg text-white" href="profile.php" style="transition: all 0.2s ease;">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(45deg, #00b09b, #96c93d); box-shadow: 0 0 8px rgba(0, 176, 155, 0.3); display: flex; align-items: center; justify-content: center;" class="mr-3">
+                                        <i class="fas fa-user-circle text-white" style="font-size: 1.1rem;"></i>
+                                    </div>
+                                    <span>My Profile</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item px-4 py-3 rounded-lg mb-1 hover-bg text-white" href="change_password.php" style="transition: all 0.2s ease;">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-warning text-white rounded-circle p-2 mr-3" style="width: 36px; height: 36px; text-align: center;">
+                                        <i class="fas fa-key" style="font-size: 1.1rem;"></i>
+                                    </div>
+                                    <span>Change Password</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item px-4 py-3 rounded-lg mb-1 hover-bg text-white" href="delete_account.php" style="transition: all 0.2s ease;">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-danger text-white rounded-circle p-2 mr-3" style="width: 36px; height: 36px; text-align: center;">
+                                        <i class="fas fa-user-times" style="font-size: 1.1rem;"></i>
+                                    </div>
+                                    <span>Delete Account</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <a href="../logout.php" class="btn rounded-pill px-4" style="background: linear-gradient(45deg, #e74c3c, #c0392b); color: white; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">
@@ -143,6 +167,16 @@ if (!isset($_SESSION['user_id'])) {
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add hover effect for dropdown items
+        document.querySelectorAll('.hover-bg').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.backgroundColor = 'transparent';
             });
         });
     </script>

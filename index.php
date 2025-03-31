@@ -454,7 +454,7 @@ if ($user_logged_in) {
         // Remove the query parameter from URL without refreshing
         history.replaceState({}, document.title, window.location.pathname);
       });
-    <?php endif; ?>
+    <?php endif; ?> 
   </script>
 </body>
 

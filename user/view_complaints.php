@@ -297,8 +297,36 @@ $result = $conn->query($sql);
             </a>
           </div>
         <?php } else { ?>
-          <div class="text-center py-5">
-            <!-- No complaints found message -->
+          <div class="text-center py-5 my-3" style="
+              background: linear-gradient(135deg, rgba(230, 240, 255, 0.95), rgba(210, 230, 255, 0.95));
+              border-radius: 20px;
+              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(41, 98, 255, 0.1);
+              border: 1px solid rgba(41, 98, 255, 0.2);
+              backdrop-filter: blur(10px);">
+            <div class="mb-4 mx-auto rounded-circle d-flex align-items-center justify-content-center" style="
+                width: 100px;
+                height: 100px;
+                background: linear-gradient(135deg, rgba(41, 98, 255, 0.2), rgba(21, 101, 192, 0.2));
+                font-size: 3rem;
+                color: #1565c0;
+                box-shadow: 0 10px 25px rgba(41, 98, 255, 0.15), inset 0 5px 10px rgba(255, 255, 255, 0.5);
+                border: 1px solid rgba(41, 98, 255, 0.2);">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h4 class="text-primary mb-3 font-weight-bold">No Complaints Found</h4>
+            <p class="text-muted mb-4 px-4" style="max-width: 500px; margin: 0 auto;">You haven't registered any complaints yet. If you're experiencing any issues that need attention, please register a new complaint using the button below.</p>
+            <div class="border-top border-bottom py-3 my-3" style="border-color: rgba(41, 98, 255, 0.15) !important;">
+              <p class="text-primary mb-0"><i class="fas fa-info-circle mr-2"></i>Your registered complaints will appear here for easy tracking and management</p>
+            </div>
+            <a href="register_complaint.php" class="btn btn-primary rounded-pill px-5 py-2 shadow" style="
+                background: linear-gradient(135deg, #2962ff, #1565c0);
+                border: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 20px rgba(41, 98, 255, 0.3)'"
+                onmouseout="this.style.transform=''; this.style.boxShadow=''">
+              <i class="fas fa-plus-circle mr-2"></i>Register New Complaint
+            </a>
           </div>
         <?php } ?>
       </div>

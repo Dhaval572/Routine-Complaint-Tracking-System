@@ -154,15 +154,19 @@ if (isset($_GET['complaint_id'])) {
 
 						<?php if (isset($error)) { ?>
 							<div class="text-center py-5 my-3"
-								style="background: rgba(255, 255, 255, 0.7); border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-								<div class="mb-4 text-danger mx-auto rounded-circle d-flex align-items-center justify-content-center"
-									style="width: 100px; height: 100px; background: rgba(220, 53, 69, 0.1); font-size: 3rem;">
+								style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(240, 62, 78, 0.25)); 
+								border-radius: 20px; 
+								box-shadow: 0 10px 30px rgba(220, 53, 69, 0.2);
+								border: 1px solid rgba(220, 53, 69, 0.2);">
+								<div class="mb-4 text-white mx-auto rounded-circle d-flex align-items-center justify-content-center"
+									style="width: 100px; height: 100px; background: rgba(220, 53, 69, 0.8); font-size: 3rem;
+									box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);">
 									<i class="fas fa-exclamation-circle"></i>
 								</div>
-								<h4 class="text-danger mb-3">Complaint Not Found</h4>
-								<p class="text-muted mb-4">We couldn't find any complaint with the ID you provided. Please
+								<h4 class="text-danger mb-3 font-weight-bold">Complaint Not Found</h4>
+								<p class="text-dark mb-4">We couldn't find any complaint with the ID you provided. Please
 									check the ID and try again.</p>
-								<button onclick="window.history.back()" class="btn btn-outline-primary rounded-pill px-4">
+								<button onclick="window.history.back()" class="btn btn-danger rounded-pill px-4 shadow-sm">
 									<i class="fas fa-arrow-left mr-2"></i>Go Back
 								</button>
 							</div>

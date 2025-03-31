@@ -2,7 +2,6 @@
 include '../config.php';
 
 $error = null;
-$success = null;
 
 if (isset($_POST['register'])) {
 	// Validate and sanitize inputs
@@ -16,10 +15,8 @@ if (isset($_POST['register'])) {
 		$error = "All fields are required.";
 	} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$error = "Please enter a valid email address.";
-	} elseif ($passwordLength < 6) {
-		$error = "Password must be at least 6 characters long.";
-	} elseif ($passwordLength > 12) {
-		$error = "Password cannot exceed 12 characters.";
+	} elseif ($passwordLength !== 6 && $passwordLength !== 10) {
+		$error = "Password must be exactly 6 or 10 characters long.";
 	} elseif (!isset($_POST['terms'])) {
 		$error = "You must agree to the terms and conditions.";
 	} else {
@@ -40,7 +37,6 @@ if (isset($_POST['register'])) {
 			$stmt->bind_param("ssss", $name, $email, $hashedPassword, $role);
 
 			if ($stmt->execute()) {
-				// Redirect to login page instead of showing success message
 				header("Location: user_login.php?registered=1");
 				exit;
 			} else {
@@ -65,7 +61,6 @@ if (isset($_POST['register'])) {
 <body style="background: linear-gradient(135deg, #0396FF 0%, #0D47A1 100%);">
 	<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
 		<div class="col-md-4">
-			<!-- Logo or Brand Image -->
 			<div class="text-center mb-3">
 				<i class="fas fa-user-plus text-white" style="font-size: 3.5rem;"></i>
 			</div>
@@ -119,11 +114,11 @@ if (isset($_POST['register'])) {
 										<i class="fas fa-lock text-primary"></i>
 									</span>
 								</div>
-								<input type="password" name="password" required minlength="6" maxlength="12"
+								<input type="password" name="password" required pattern=".{6}|.{10}"
 									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small"
-									placeholder="Password (6-12 characters)" autocomplete="off">
+									placeholder="Password (6 or 10 characters)" autocomplete="off">
 							</div>
-							<small class="form-text text-muted pl-2">Password must be 6-12 characters long</small>
+							<small class="form-text text-muted pl-2">Password must be exactly 6 or 10 characters long.</small>
 						</div>
 						<div class="form-group form-check mb-3 pl-4">
 							<input type="checkbox" name="terms" class="form-check-input" id="termsCheck" required <?= isset($_POST['terms']) ? 'checked' : '' ?>>
