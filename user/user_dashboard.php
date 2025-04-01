@@ -1,15 +1,48 @@
 <?php
 include '../config.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-	header("Location: user_login.php");
-	exit;
+    header("Location: user_login.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Query metrics for the logged-in citizen
+$sqlTotal = "SELECT COUNT(*) AS total FROM complaints WHERE citizen_id = '$user_id'";
+$resultTotal = $conn->query($sqlTotal);
+$total = ($resultTotal && $row = $resultTotal->fetch_assoc()) ? $row['total'] : 0;
+
+$sqlSolved = "SELECT COUNT(*) AS solved FROM complaints WHERE citizen_id = '$user_id' AND LOWER(status) = 'solved'";
+$resultSolved = $conn->query($sqlSolved);
+$solved = ($resultSolved && $row = $resultSolved->fetch_assoc()) ? $row['solved'] : 0;
+
+$sqlPending = "SELECT COUNT(*) AS pending FROM complaints WHERE citizen_id = '$user_id' AND LOWER(status) IN ('registered','in_progress')";
+$resultPending = $conn->query($sqlPending);
+$pending = ($resultPending && $row = $resultPending->fetch_assoc()) ? $row['pending'] : 0;
+
+$sqlReferred = "SELECT COUNT(*) AS referred FROM complaints WHERE citizen_id = '$user_id' AND LOWER(status) = 'referred'";
+$resultReferred = $conn->query($sqlReferred);
+$referred = ($resultReferred && $row = $resultReferred->fetch_assoc()) ? $row['referred'] : 0;
+
+// Query for complaints registered by date for the chart
+$sqlDates = "SELECT DATE(created_at) AS reg_date, COUNT(*) AS count 
+             FROM complaints 
+             WHERE citizen_id = '$user_id' 
+             GROUP BY DATE(created_at)
+             ORDER BY reg_date ASC";
+$resultDates = $conn->query($sqlDates);
+$chartLabels = [];
+$chartData = [];
+if ($resultDates) {
+    while ($row = $resultDates->fetch_assoc()) {
+        $chartLabels[] = $row['reg_date'];
+        $chartData[] = $row['count'];
+    }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<title>User Dashboard</title>

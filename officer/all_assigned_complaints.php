@@ -1,16 +1,23 @@
 <?php
 include('../config.php');
-if (!isset($_SESSION['dept_head_id'])) {
-  header("Location: dept_head_login.php");
+if (!isset($_SESSION['officer_id'])) {
+  header("Location: officer_login.php");
   exit;
 }
 
-$dept_head_id = $_SESSION['dept_head_id'];
-$sql = "SELECT c.*, d.name as dept_name, u.name as officer_name 
+$officer_id = $_SESSION['officer_id'];
+// For complaints assigned directly to you we also show who assigned it:
+// If not referred, then assigned_by is the dept head (from dept_head_id).
+// If referred to you, then assigned_by is the referrer.
+$sql = "SELECT c.*, d.name as dept_name,
+         CASE 
+           WHEN c.referred_by IS NULL THEN (SELECT name FROM users u WHERE u.id = c.dept_head_id)
+           ELSE (SELECT name FROM users u WHERE u.id = c.referred_by)
+         END as assigned_by,
+         (SELECT name FROM users u WHERE u.id = c.officer_id) as officer_name
         FROM complaints c 
-        LEFT JOIN departments d ON c.department_id = d.id 
-        LEFT JOIN users u ON c.officer_id = u.id 
-        WHERE c.dept_head_id = '$dept_head_id'
+        JOIN departments d ON c.department_id = d.id
+        WHERE c.officer_id = '$officer_id'
         ORDER BY c.created_at DESC";
 $result = $conn->query($sql);
 ?>
@@ -18,12 +25,14 @@ $result = $conn->query($sql);
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>View Assigned Complaints</title>
+  <title>Assigned Complaints - Full Details</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .table td, .table th {
+      font-size: 0.8rem;
       vertical-align: middle;
     }
+    /* You may add custom styles for better readability */
   </style>
   <!-- jQuery and Bootstrap JS for modal functionality -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -44,50 +53,50 @@ $result = $conn->query($sql);
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <span class="navbar-brand">Assigned Complaints</span>
+    <span class="navbar-brand">Assigned Complaints - Full Details</span>
     <div class="ml-auto">
-      <a href="dept_head_dashboard.php" class="btn btn-outline-light">Dashboard</a>
+      <a href="officer_dashboard.php" class="btn btn-outline-light">Dashboard</a>
     </div>
   </nav>
-  <div class="container mt-5">
-    <h3>Complaints in Your Department</h3>
+  <div class="container mt-4">
+    <h4>All Complaints Assigned to You</h4>
     <?php if ($result && $result->num_rows > 0) { ?>
+      <div class="table-responsive">
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Complaint ID</th>
+            <th>ID</th>
             <th>Title</th>
-            <th>Department</th>
+            <th>Description</th>
             <th>Status</th>
+            <th>Priority</th>
+            <th>Department</th>
             <th>Assigned Officer</th>
-            <th>Registered At</th>
-            <th>Action</th>
+            <th>Assigned By</th>
+            <th>Referred At</th>
+            <th>Remarks</th>
+            <th>Response</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Activity</th>
           </tr>
         </thead>
         <tbody>
-          <?php while ($row = $result->fetch_assoc()) {
-            $status = strtolower(trim($row['status']));
-            $target = isset($row['target_role']) ? strtolower(trim($row['target_role'])) : '';
-
-            // Row background: Only if complaint is against an officer.
-            $rowBg = ($target == 'officer') ? "bg-danger text-white" : "";
-
-            // Status badge: solved green, referred blue, pending yellow.
-            if ($status == 'solved') {
-              $badge = "badge-success";
-            } elseif ($status == 'referred') {
-              $badge = "badge-info";
-            } else {
-              $badge = "badge-warning";
-            }
-          ?>
-            <tr class="<?php echo $rowBg; ?>">
+          <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr>
               <td><?php echo $row['id']; ?></td>
               <td><?php echo htmlspecialchars($row['title']); ?></td>
+              <td><?php echo htmlspecialchars($row['description']); ?></td>
+              <td><?php echo ucfirst($row['status']); ?></td>
+              <td><?php echo ucfirst($row['priority']); ?></td>
               <td><?php echo htmlspecialchars($row['dept_name']); ?></td>
-              <td><span class="badge <?php echo $badge; ?>"><?php echo ucfirst($row['status']); ?></span></td>
               <td><?php echo ($row['officer_name']) ? htmlspecialchars($row['officer_name']) : 'Not Assigned'; ?></td>
+              <td><?php echo htmlspecialchars($row['assigned_by']); ?></td>
+              <td><?php echo ($row['referred_at']) ? $row['referred_at'] : 'N/A'; ?></td>
+              <td><?php echo ($row['remarks']) ? htmlspecialchars($row['remarks']) : 'N/A'; ?></td>
+              <td><?php echo ($row['response']) ? htmlspecialchars($row['response']) : 'N/A'; ?></td>
               <td><?php echo $row['created_at']; ?></td>
+              <td><?php echo $row['updated_at']; ?></td>
               <td>
                 <button class="btn btn-info btn-sm" onclick="viewActivity(<?php echo $row['id']; ?>)">View Activity</button>
               </td>
@@ -95,11 +104,12 @@ $result = $conn->query($sql);
           <?php } ?>
         </tbody>
       </table>
+      </div>
     <?php } else {
-      echo "<div class='alert alert-info'>No complaints found.</div>";
+      echo "<div class='alert alert-info'>No complaints assigned to you.</div>";
     } ?>
   </div>
-
+  
   <!-- Activity Modal -->
   <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

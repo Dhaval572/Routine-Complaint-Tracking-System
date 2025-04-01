@@ -27,15 +27,15 @@ if (isset($_POST['delete_head']) && isset($_POST['head_id'])) {
   exit;
 }
 
-$sql = "SELECT u.*, d.name AS department_name 
+$sql = "SELECT u.*, d.name AS department_name, s.signature_filename 
         FROM users u 
         LEFT JOIN departments d ON u.department_id = d.id 
+        LEFT JOIN signatures s ON s.user_id = u.id 
         WHERE u.role = 'dept_head'";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -203,10 +203,13 @@ $result = $conn->query($sql);
       font-size: 5rem;
       margin-bottom: 20px;
       color: #4e73df;
+  <style>
+    .signature-img {
+      width: 100px;
+      height: auto;
     }
   </style>
 </head>
-
 <body>
   <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="admin_dashboard.php">
@@ -368,6 +371,39 @@ $result = $conn->query($sql);
         <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
       </a>
     </div>
+  <div class="container mt-5">
+    <h2>Department Heads</h2>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Signature</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+          <tr>
+            <td><?php echo $row['id']; ?></td>
+            <td><?php echo htmlspecialchars($row['name']); ?></td>
+            <td><?php echo htmlspecialchars($row['email']); ?></td>
+            <td><?php echo htmlspecialchars($row['department_name']); ?></td>
+            <td>
+              <?php if (!empty($row['signature_filename'])) { ?>
+                <img src="../signatures/<?php echo htmlspecialchars($row['signature_filename']); ?>" alt="Signature" class="signature-img">
+              <?php } else { ?>
+                <span class="text-danger">Not available</span>
+              <?php } ?>
+            </td>
+            <td><?php echo $row['created_at']; ?></td>
+          </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+    <a href="admin_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -398,5 +434,4 @@ $result = $conn->query($sql);
     });
   </script>
 </body>
-
 </html>

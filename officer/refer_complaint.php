@@ -17,36 +17,61 @@ if (isset($_GET['complaint_id'])) {
   } else {
     $error = "Complaint not found or not authorized.";
   }
+}
 
-  // Fetch list of officers in the same department excluding current officer
-  $officer_sql = "SELECT id, name FROM users WHERE role = 'officer' AND department_id = '$department_id' AND id != '$officer_id'";
-  $officer_list = $conn->query($officer_sql);
-
-  if (isset($_POST['refer'])) {
-    $new_officer_id = $_POST['new_officer_id'];
-    $referral_remark = $conn->real_escape_string($_POST['referral_remark']);
-    // Update complaint: change officer_id, set status to referred and log referral details
-    $update_sql = "UPDATE complaints SET officer_id = '$new_officer_id', status = 'referred', referred_by = '$officer_id', referred_at = NOW(), remarks = '$referral_remark' WHERE id = '$complaint_id'";
-    if ($conn->query($update_sql)) {
-      // Log activity: Complaint Referred
-      $activity_sql = "INSERT INTO complaint_activity (complaint_id, activity, activity_by) VALUES ('$complaint_id', 'Complaint Referred to Officer', '$officer_id')";
-      $conn->query($activity_sql);
-      $success = "Complaint referred successfully.";
-    } else {
-      $error = "Error referring complaint: " . $conn->error;
-    }
+if (isset($_POST['refer'])) {
+  $complaint_id = $_POST['complaint_id'];
+  $target_dept = $_POST['target_dept'];
+  $new_officer_id = $_POST['new_officer_id'];
+  $referral_remark = $conn->real_escape_string($_POST['referral_remark']);
+  
+  // Update complaint: change officer_id, set status to 'referred', record referral details.
+  $update_sql = "UPDATE complaints 
+                 SET officer_id = '$new_officer_id', status = 'referred', referred_by = '$officer_id', referred_at = NOW(), remarks = '$referral_remark' 
+                 WHERE id = '$complaint_id'";
+  if ($conn->query($update_sql)) {
+    // Log activity: Complaint Referred
+    $activity_sql = "INSERT INTO complaint_activity (complaint_id, activity, activity_by) 
+                     VALUES ('$complaint_id', 'Complaint Referred to Officer', '$officer_id')";
+    $conn->query($activity_sql);
+    $success = "Complaint referred successfully.";
+  } else {
+    $error = "Error referring complaint: " . $conn->error;
   }
 }
+
+// Fetch list of departments for the first dropdown.
+$dept_sql = "SELECT id, name FROM departments";
+$dept_result = $conn->query($dept_sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Refer Complaint</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- jQuery for AJAX -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $("#target_dept").change(function(){
+        var dept_id = $(this).val();
+        if(dept_id != ''){
+          $.ajax({
+            url: 'fetch_officers.php',
+            type: 'GET',
+            data: { dept_id: dept_id },
+            success: function(data){
+              $("#new_officer_id").html(data);
+            }
+          });
+        } else {
+          $("#new_officer_id").html("<option value=''>Select Officer</option>");
+        }
+      });
+    });
+  </script>
 </head>
-
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <span class="navbar-brand">Refer Complaint</span>
@@ -55,13 +80,10 @@ if (isset($_GET['complaint_id'])) {
     </div>
   </nav>
   <div class="container mt-5">
-    <?php if (isset($error)) {
-      echo "<div class='alert alert-danger'>$error</div>";
-    } ?>
-    <?php if (isset($success)) {
-      echo "<div class='alert alert-success'>$success</div>";
-    } ?>
-
+    <?php 
+      if (isset($error)) { echo "<div class='alert alert-danger'>$error</div>"; }
+      if (isset($success)) { echo "<div class='alert alert-success'>$success</div>"; }
+    ?>
     <?php if (isset($complaint)): ?>
       <h4>Complaint Details (ID: <?php echo $complaint['id']; ?>)</h4>
       <p><strong>Title:</strong> <?php echo htmlspecialchars($complaint['title']); ?></p>
@@ -69,19 +91,26 @@ if (isset($_GET['complaint_id'])) {
       <hr>
       <h5>Refer Complaint to Another Officer</h5>
       <form method="POST" action="">
+        <input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
         <div class="form-group">
-          <label>Select New Officer</label>
-          <select name="new_officer_id" class="form-control" required>
-            <option value="">Select Officer</option>
-            <?php while ($officer = $officer_list->fetch_assoc()) { ?>
-              <option value="<?php echo $officer['id']; ?>"><?php echo htmlspecialchars($officer['name']); ?></option>
+          <label>Select Target Department</label>
+          <select id="target_dept" name="target_dept" class="form-control" required>
+            <option value="">Select Department</option>
+            <?php while ($dept = $dept_result->fetch_assoc()) { ?>
+              <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
             <?php } ?>
           </select>
         </div>
         <div class="form-group">
+          <label>Select New Officer</label>
+          <select id="new_officer_id" name="new_officer_id" class="form-control" required>
+            <option value="">Select Officer</option>
+            <!-- Options will be loaded via AJAX from fetch_officers.php -->
+          </select>
+        </div>
+        <div class="form-group">
           <label>Referral Remark</label>
-          <textarea name="referral_remark" required class="form-control"
-            placeholder="Reason for referring this complaint"></textarea>
+          <textarea name="referral_remark" required class="form-control" placeholder="Reason for referring this complaint"></textarea>
         </div>
         <button type="submit" name="refer" class="btn btn-warning">Refer Complaint</button>
       </form>
@@ -108,8 +137,7 @@ if (isset($_GET['complaint_id'])) {
                 <td><?php echo htmlspecialchars($row['title']); ?></td>
                 <td><?php echo $row['created_at']; ?></td>
                 <td>
-                  <a href="refer_complaint.php?complaint_id=<?php echo $row['id']; ?>"
-                    class="btn btn-warning btn-sm">Refer</a>
+                  <a href="refer_complaint.php?complaint_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Refer</a>
                 </td>
               </tr>
             <?php } ?>
@@ -121,5 +149,4 @@ if (isset($_GET['complaint_id'])) {
     <?php endif; ?>
   </div>
 </body>
-
 </html>

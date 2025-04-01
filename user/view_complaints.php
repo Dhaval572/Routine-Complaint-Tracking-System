@@ -1,8 +1,8 @@
 <?php
 include('../config.php');
 if (!isset($_SESSION['user_id'])) {
-  header("Location: user_login.php");
-  exit;
+	header("Location: user_login.php");
+	exit;
 }
 
 $user_id = $_SESSION['user_id'];
@@ -400,6 +400,3 @@ $result = $conn->query($sql);
       background-color: rgba(41, 98, 255, 0.1);
     }
   </style>
-</body>
-
-</html>

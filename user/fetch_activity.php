@@ -1,15 +1,28 @@
 <?php
-include('../config.php'); // Change the include path to point to the parent directory
+
+include '../config.php';
+
 if (!isset($_GET['complaint_id'])) {
     echo "Invalid request.";
     exit;
 }
+
 $complaint_id = intval($_GET['complaint_id']);
-$sql = "SELECT ca.*, u.name as actor_name FROM complaint_activity ca 
-        LEFT JOIN users u ON ca.activity_by = u.id 
+
+// Query: Join complaint_activity with complaints and fetch additional details.
+$sql = "SELECT ca.*, 
+         u.name as actor_name, 
+         c.officer_id, 
+         c.dept_head_id,
+         (SELECT name FROM users WHERE id = c.officer_id) as assigned_officer_name,
+         (SELECT name FROM users WHERE id = c.dept_head_id) as dept_head_name
+        FROM complaint_activity ca
+        LEFT JOIN users u ON ca.activity_by = u.id
+        LEFT JOIN complaints c ON ca.complaint_id = c.id
         WHERE ca.complaint_id = '$complaint_id'
         ORDER BY ca.activity_time ASC";
 $result = $conn->query($sql);
+
 if ($result && $result->num_rows > 0) {
     echo "<div class='timeline-container p-2'>";
     while ($row = $result->fetch_assoc()) {

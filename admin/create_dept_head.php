@@ -1,5 +1,6 @@
 <?php
 include('../config.php');
+
 if (!isset($_SESSION['admin_id'])) {
   header("Location: admin_login.php");
   exit;
@@ -59,22 +60,36 @@ if (isset($_POST['create_dept_head'])) {
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, department_id) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssi", $name, $email, $hashed_password, $role, $department_id);
     if ($stmt->execute()) {
+      $user_id = $conn->insert_id;
+
+      // Process signature file upload
+      if (isset($_FILES['signature']) && $_FILES['signature']['error'] == 0) {
+        $uploadDir = '../signatures/';
+        $filename = time() . "_" . basename($_FILES['signature']['name']);
+        $targetFile = $uploadDir . $filename;
+        if (move_uploaded_file($_FILES['signature']['tmp_name'], $targetFile)) {
+          $stmtSig = $conn->prepare("INSERT INTO signatures (user_id, signature_filename) VALUES (?, ?)");
+          $stmtSig->bind_param("is", $user_id, $filename);
+          $stmtSig->execute();
+          $stmtSig->close();
+        }
+      }
+
       $_SESSION['alert_type'] = 'success';
       $_SESSION['alert_title'] = 'Success!';
       $_SESSION['alert_message'] = "Department Head created successfully";
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit;
     } else {
       $_SESSION['alert_type'] = 'error';
       $_SESSION['alert_title'] = 'Error';
       $_SESSION['alert_message'] = "Error creating Department Head";
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit;
     }
     $stmt->close();
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -199,7 +214,17 @@ if (isset($_POST['create_dept_head'])) {
       font-size: 3rem;
       margin-bottom: 15px;
       color: white;
-    }
+      <style>
+
+      /* Optional custom styling */
+      body {
+        background-color: #f8f9fa;
+        color: #212529;
+      }
+
+      .card {
+        margin-top: 30px;
+      }
   </style>
 </head>
 
@@ -223,98 +248,115 @@ if (isset($_POST['create_dept_head'])) {
         <i class="fas fa-user-tie header-icon"></i>
         <h3>Create Department Head</h3>
         <p class="text-white-50 mb-0">Add a new department head to the system</p>
+        <div class="container mt-5">
+          <h2>Create Department Head</h2>
+          <?php if (isset($success)): ?>
+            <div class="alert alert-success py-2 d-flex align-items-center rounded">
+              <i class="fas fa-check-circle mr-2"></i><?php echo $success; ?>
+            </div>
+          <?php endif; ?>
+          <?php if (isset($error)): ?>
+            <div class="alert alert-danger py-2 d-flex align-items-center rounded">
+              <i class="fas fa-exclamation-circle mr-2"></i><?php echo $error; ?>
+            </div>
+          <?php endif; ?>
+
+          <form method="POST" action="" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" name="name" required class="form-control" placeholder="Enter name">
+            </div>
+
+            <div class="card-body">
+              <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="alert alert-success alert-dismissible fade show rounded-lg shadow-sm" role="alert">
+                  <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <?php unset($_SESSION['success_message']); ?>
+              <?php endif; ?>
+
+              <?php if (isset($_SESSION['error_message'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show rounded-lg shadow-sm" role="alert">
+                  <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <?php unset($_SESSION['error_message']); ?>
+              <?php endif; ?>
+              <?php
+              // Remove the line that's causing the undefined variable error
+              // displayToastAlert('success', 'Success', $success);
+              ?>
+
+              <form method="POST" action="" autocomplete="off">
+                <div class="form-group">
+                  <label><i class="fas fa-user mr-2"></i>Full Name</label>
+                  <div class="input-group">
+                    <input type="text" name="name" required class="form-control" placeholder="Enter full name">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label><i class="fas fa-envelope mr-2"></i>Email Address</label>
+                  <div class="input-group">
+                    <input type="email" name="email" required class="form-control" placeholder="Enter email address">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label><i class="fas fa-lock mr-2"></i>Password</label>
+                  <div class="input-group">
+                    <input type="password" name="password" required class="form-control"
+                      placeholder="6-10 characters password">
+                  </div>
+                  <small class="form-text text-muted">Password must be between 6 and 10 characters long.</small>
+                </div>
+
+                <div class="form-group">
+                  <label><i class="fas fa-building mr-2"></i>Department</label>
+                  <select name="department_id" class="form-control" required>
+                    <option value="">Select Department</option>
+                    <?php while ($dept = $departments->fetch_assoc()) { ?>
+                      <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button type="submit" name="create_dept_head" class="btn btn-primary btn-block">
+                    <i class="fas fa-user-plus mr-2"></i>Create Department Head
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="card-footer">
+              <a href="admin_dashboard.php" class="btn btn-secondary">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+              </a>
+            </div>
+        </div>
       </div>
 
-      <div class="card-body">
-        <?php if (isset($_SESSION['success_message'])): ?>
-          <div class="alert alert-success alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-            <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <?php unset($_SESSION['success_message']); ?>
-        <?php endif; ?>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        <?php if (isset($_SESSION['error_message'])): ?>
-          <div class="alert alert-danger alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-            <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <?php unset($_SESSION['error_message']); ?>
-        <?php endif; ?>
-        <?php
-        // Remove the line that's causing the undefined variable error
-        // displayToastAlert('success', 'Success', $success);
-        ?>
+      <script>
+        // Initialize toasts after jQuery is loaded
+        $(document).ready(function () {
+          $('.toast').toast('show');
 
-        <form method="POST" action="" autocomplete="off">
-          <div class="form-group">
-            <label><i class="fas fa-user mr-2"></i>Full Name</label>
-            <div class="input-group">
-              <input type="text" name="name" required class="form-control" placeholder="Enter full name">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-envelope mr-2"></i>Email Address</label>
-            <div class="input-group">
-              <input type="email" name="email" required class="form-control" placeholder="Enter email address">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-lock mr-2"></i>Password</label>
-            <div class="input-group">
-              <input type="password" name="password" required class="form-control"
-                placeholder="6-10 characters password">
-            </div>
-            <small class="form-text text-muted">Password must be between 6 and 10 characters long.</small>
-          </div>
-
-          <div class="form-group">
-            <label><i class="fas fa-building mr-2"></i>Department</label>
-            <select name="department_id" class="form-control" required>
-              <option value="">Select Department</option>
-              <?php while ($dept = $departments->fetch_assoc()) { ?>
-                <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
-              <?php } ?>
-            </select>
-          </div>
-
-          <div class="text-center mt-4">
-            <button type="submit" name="create_dept_head" class="btn btn-primary btn-block">
-              <i class="fas fa-user-plus mr-2"></i>Create Department Head
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="card-footer">
-        <a href="admin_dashboard.php" class="btn btn-secondary">
-          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <script>
-    // Initialize toasts after jQuery is loaded
-    $(document).ready(function () {
-      $('.toast').toast('show');
-
-      // Auto-hide after 5 seconds
-      setTimeout(function () {
-        $('.toast').toast('hide');
-      }, 5000);
-    });
-  </script>
+          // Auto-hide after 5 seconds
+          setTimeout(function () {
+            $('.toast').toast('hide');
+          }, 5000);
+        });
+      </script>
 </body>
 
 </html>
@@ -385,3 +427,26 @@ if (isset($_POST['create_dept_head'])) {
     }
   </style>
 </head>
+<div class="form-group">
+  <label>Select Department</label>
+  <select name="department_id" class="form-control" required>
+    <option value="">Select Department</option>
+    <?php while ($dept = $departments->fetch_assoc()) { ?>
+      <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
+    <?php } ?>
+  </select>
+</div>
+<div class="form-group">
+  <label>Department Head Signature</label>
+  <input type="file" name="signature" required class="form-control-file" accept="image/*">
+</div>
+<button type="submit" name="create_dept_head" class="btn btn-primary">Create Department Head</button>
+</form>
+<a href="admin_dashboard.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
