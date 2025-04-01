@@ -10,37 +10,52 @@ if (!isset($_SESSION['admin_id'])) {
 $departments = $conn->query("SELECT * FROM departments");
 
 if (isset($_POST['create_officer'])) {
-
   $name = $_POST['name'];
   $email = $_POST['email'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
   $department_id = $_POST['department_id'];
   $role = 'officer';
-
+  
+  // Insert officer details (without signature) into the users table
   $stmt = $conn->prepare("INSERT INTO users (name, email, password, role, department_id) VALUES (?, ?, ?, ?, ?)");
   $stmt->bind_param("ssssi", $name, $email, $password, $role, $department_id);
-
+  
   if ($stmt->execute()) {
+    $user_id = $conn->insert_id;
     $success = "Officer created successfully";
+    
+    // Process signature file upload and insert into signatures table
+    if (isset($_FILES['signature']) && $_FILES['signature']['error'] == 0) {
+      $uploadDir = '../signatures/'; // Store in ../signatures folder
+      $filename = time() . "_" . basename($_FILES['signature']['name']);
+      $targetFile = $uploadDir . $filename;
+      if (move_uploaded_file($_FILES['signature']['tmp_name'], $targetFile)) {
+          // Insert signature record into the signatures table
+          $stmtSig = $conn->prepare("INSERT INTO signatures (user_id, signature_filename) VALUES (?, ?)");
+          $stmtSig->bind_param("is", $user_id, $filename);
+          $stmtSig->execute();
+          $stmtSig->close();
+      }
+    }
   } else {
-    $error = "Error creating officer";
+    $error = "Error creating officer: " . $conn->error;
   }
   $stmt->close();
-
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Create Officer</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/create_officer.css">
+  <!-- Optionally include your custom CSS file here -->
+  <style>
+    /* You can add custom styles here */
+  </style>
 </head>
-
 <body>
   <div class="container py-5">
     <div class="row justify-content-center">
@@ -53,32 +68,29 @@ if (isset($_POST['create_officer'])) {
             <p class="text-muted small mb-0">Add a new department officer to the system</p>
           </div>
           <div class="card-body p-4">
-
             <?php if (isset($success)): ?>
-              <div class='alert alert-success py-2 d-flex align-items-center rounded'>
-                <i class='fas fa-check-circle mr-2'></i><?php echo $success; ?>
+              <div class="alert alert-success py-2 d-flex align-items-center rounded">
+                <i class="fas fa-check-circle mr-2"></i><?php echo $success; ?>
               </div>
             <?php endif; ?>
             <?php if (isset($error)): ?>
-              <div class='alert alert-danger py-2 d-flex align-items-center rounded'>
-                <i class='fas fa-exclamation-circle mr-2'></i><?php echo $error; ?>
+              <div class="alert alert-danger py-2 d-flex align-items-center rounded">
+                <i class="fas fa-exclamation-circle mr-2"></i><?php echo $error; ?>
               </div>
             <?php endif; ?>
 
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
               <div class="form-group">
                 <label><i class="fas fa-user text-primary mr-2"></i>Officer Name</label>
                 <input type="text" name="name" required class="form-control shadow-sm" placeholder="Enter full name">
               </div>
               <div class="form-group">
                 <label><i class="fas fa-envelope text-primary mr-2"></i>Email Address</label>
-                <input type="email" name="email" required class="form-control shadow-sm"
-                  placeholder="Enter official email">
+                <input type="email" name="email" required class="form-control shadow-sm" placeholder="Enter official email">
               </div>
               <div class="form-group">
                 <label><i class="fas fa-lock text-primary mr-2"></i>Password</label>
-                <input type="password" name="password" required class="form-control shadow-sm"
-                  placeholder="Create a strong password">
+                <input type="password" name="password" required class="form-control shadow-sm" placeholder="Create a strong password">
               </div>
               <div class="form-group">
                 <label><i class="fas fa-building text-primary mr-2"></i>Department</label>
@@ -88,6 +100,10 @@ if (isset($_POST['create_officer'])) {
                     <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
                   <?php } ?>
                 </select>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-signature text-primary mr-2"></i>Officer Signature</label>
+                <input type="file" name="signature" required class="form-control-file shadow-sm" accept="image/*">
               </div>
               <div class="form-group mt-4 mb-3">
                 <button type="submit" name="create_officer" class="btn btn-primary btn-block py-2 shadow">
@@ -109,5 +125,4 @@ if (isset($_POST['create_officer'])) {
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
