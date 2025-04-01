@@ -47,7 +47,6 @@ CREATE TABLE `complaints` (
   `ai_summary_response` text COLLATE utf8mb4_general_ci,
   `target_id` int DEFAULT NULL,
   `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `target_id` int DEFAULT NULL,
   `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
