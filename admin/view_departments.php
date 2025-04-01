@@ -197,27 +197,41 @@ $count = $result->num_rows; // Define count variable here
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+
   <script>
-    $(document).ready(function(){
-      // Enhanced hover effects for department records
+    $(document).ready(function () {
+      // Modified hover effects for department records - removed transformations that could affect modal positioning
       $('tbody tr').hover(
-        function() {
+        function () {
           $(this).addClass('bg-white shadow');
-          $(this).css('transform', 'translateY(-3px)');
+          // Removed transform that was causing positioning issues
           $(this).css('transition', 'all 0.3s ease');
-          $(this).find('.badge').css('transform', 'scale(1.1)');
+          $(this).find('.badge').css('transform', 'scale(1.05)');
           $(this).find('.badge').css('transition', 'transform 0.3s ease');
-          $(this).find('.btn').css('transform', 'scale(1.1)');
+          $(this).find('.btn').css('transform', 'scale(1.05)');
           $(this).find('.btn').css('transition', 'transform 0.3s ease');
         },
-        function() {
+        function () {
           $(this).removeClass('bg-white shadow');
-          $(this).css('transform', '');
           $(this).find('.badge').css('transform', '');
           $(this).find('.btn').css('transform', '');
         }
       );
+
+      // Simplified modal handling
+      $('.modal').on('shown.bs.modal', function () {
+        // Ensure modal is properly positioned
+        $(this).css('display', 'block');
+        $(this).find('.modal-dialog').css({
+          'margin': '1.75rem auto'
+        });
+      });
+      
+      // Ensure clean modal dismissal
+      $('.modal').on('hidden.bs.modal', function () {
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open').css('overflow', '');
+      });
     });
   </script>
 </body>
