@@ -126,11 +126,11 @@ if ($user_logged_in) {
             </a>
           </li>
 
-          <li class="nav-item mx-1">
+          <li class="nav-item mx-1 active">
             <a class="nav-link btn btn-warning btn-lg rounded-pill px-4"
               href="search_complaint.php">
               <i class="fas fa-eye mr-2"></i>
-              <span class="font-weight-bold">Search Complaint</span>
+              <span class="font-weight-bold ">Search Complaint</span>
             </a>
           </li>
 
