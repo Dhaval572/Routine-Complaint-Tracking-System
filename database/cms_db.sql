@@ -39,17 +39,25 @@ CREATE TABLE `complaints` (
   `dept_head_id` int(11) DEFAULT NULL,
   `referred_by` int(11) DEFAULT NULL,
   `referred_at` timestamp NULL DEFAULT NULL,
-  `remarks` text DEFAULT NULL,
-  `response` text DEFAULT NULL,
-  `review_rating` int(11) DEFAULT NULL,
-  `review_feedback` text DEFAULT NULL,
-  `ai_summary_complaint` text DEFAULT NULL,
-  `ai_summary_response` text DEFAULT NULL,
-  `target_id` int(11) DEFAULT NULL,
-  `target_role` enum('officer','dept_head') DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `remarks` text COLLATE utf8mb4_general_ci,
+  `response` text COLLATE utf8mb4_general_ci,
+  `review_rating` int DEFAULT NULL,
+  `review_feedback` text COLLATE utf8mb4_general_ci,
+  `ai_summary_complaint` text COLLATE utf8mb4_general_ci,
+  `ai_summary_response` text COLLATE utf8mb4_general_ci,
+  `target_id` int DEFAULT NULL,
+  `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `target_id` int DEFAULT NULL,
+  `target_role` enum('officer','dept_head') COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `citizen_id` (`citizen_id`),
+  KEY `department_id` (`department_id`),
+  KEY `officer_id` (`officer_id`),
+  KEY `dept_head_id` (`dept_head_id`),
+  KEY `referred_by` (`referred_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `complaints`
@@ -257,7 +265,13 @@ ALTER TABLE `users`
 ALTER TABLE `complaints`
   ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`citizen_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`),
-  ADD CONSTRAINT `complaints_ibfk_3` FOREIGN KEY (`officer_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `complaints_ibfk_3` FOREIGN KEY (`officer_id`) ,
+  ADD CONSTRAINT `complaints_ibfk_5` FOREIGN KEY (`referred_by`) REFERENCES `users` (`id`)REFER--
+-- Constraints for table `complaint_activity`
+--
+ALTER TABLE `complaint_activity`
+  ADD CONSTRAINT `complaint_activity_ibfk_1` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
+  ADD CONSTRAINT `complaint_activity_ibfk_2` FOREIGN KEY (`activity_by`) REFERENCES `users` (`id`);ENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_4` FOREIGN KEY (`dept_head_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `complaints_ibfk_5` FOREIGN KEY (`referred_by`) REFERENCES `users` (`id`);
 
@@ -279,8 +293,27 @@ ALTER TABLE `signatures`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `rating` int NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

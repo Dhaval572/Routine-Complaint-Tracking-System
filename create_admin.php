@@ -2,26 +2,31 @@
 include('config.php');
 
 if (isset($_POST['register'])) {
-  $name = $conn->real_escape_string($_POST['name']);
-  $email = $conn->real_escape_string($_POST['email']);
-  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  // If you need to store phone or any extra fields, ensure your users table is updated accordingly.
-  // For now, we only insert name, email, and password for a citizen.
-  $role = $conn->real_escape_string($_POST['role']);
+  // Check if form fields are set and not empty
+  $name = isset($_POST['name']) ? $conn->real_escape_string($_POST['name']) : '';
+  $email = isset($_POST['email']) ? $conn->real_escape_string($_POST['email']) : '';
+  $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : '';
+  
+  // Removed role selection
+  $role = 'admin'; // Set role to 'admin' by default
 
   // Check if the email already exists
-  $check = $conn->query("SELECT id FROM users WHERE email = '$email'");
-  if ($check->num_rows > 0) {
-    $error = "Email already registered.";
-  } else {
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $email, $password, $role);
-    if ($stmt->execute()) {
-      $success = "Registration successful. You can now <a href='user_login.php'>login</a>.";
+  if (!empty($email)) {
+    $check = $conn->query("SELECT id FROM users WHERE email = '$email'");
+    if ($check->num_rows > 0) {
+      $error = "Email already registered.";
     } else {
-      $error = "Error during registration. Please try again.";
+      $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+      $stmt->bind_param("ssss", $name, $email, $password, $role);
+      if ($stmt->execute()) {
+        $success = "Registration successful. You can now <a href='user_login.php'>login</a>.";
+      } else {
+        $error = "Error during registration. Please try again.";
+      }
+      $stmt->close();
     }
-    $stmt->close();
+  } else {
+    $error = "Email field cannot be empty.";
   }
 }
 ?>
@@ -67,7 +72,8 @@ if (isset($_POST['register'])) {
                   </span>
                 </div>
                 <input type="text" name="name" required
-                  class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Full name">
+                  class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Full name"
+                  autocomplete="name">
               </div>
             </div>
             <div class="form-group mb-4">
@@ -78,7 +84,8 @@ if (isset($_POST['register'])) {
                   </span>
                 </div>
                 <input type="email" name="email" required
-                  class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Email address">
+                  class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Email address"
+                  autocomplete="email">
               </div>
             </div>
             <div class="form-group mb-4">
@@ -90,25 +97,10 @@ if (isset($_POST['register'])) {
                 </div>
                 <input type="password" name="password" required
                   class="form-control bg-white border-left-0 rounded-pill py-2 pl-2"
-                  placeholder="Create strong password">
+                  placeholder="Create strong password" minlength="6" maxlength="10" autocomplete="new-password">
               </div>
             </div>
-            <div class="form-group mb-4">
-              <div class="input-group shadow-sm">
-                <div class="input-group-prepend">
-                  <span class="input-group-text bg-white border-right-0 rounded-pill px-3">
-                    <i class="fas fa-user-tag text-dark"></i>
-                  </span>
-                </div>
-                <select name="role" class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" required>
-                  <option value="">Select Role</option>
-                  <option value="citizen">Citizen</option>
-                  <option value="admin">Admin</option>
-                  <option value="officer">Officer</option>
-                  <option value="dept_head">Dept Head</option>
-                </select>
-              </div>
-            </div>
+            <!-- Removed role selection -->
             <button type="submit" name="register"
               class="btn btn-dark btn-block mb-3 shadow-lg rounded-pill py-2 font-weight-bold">
               <i class="fas fa-plus-circle mr-2"></i>Create Account

@@ -48,7 +48,13 @@ if (isset($_POST['login'])) {
 			
 			<div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
 				<div class="card-header border-0 bg-white text-center py-3" style="border-radius: 1.5rem 1.5rem 0 0;">
-					<h3 class="font-weight-bold text-primary mb-2">Welcome Back!</h3>
+					<div class="d-flex align-items-center justify-content-between px-3">
+						<a href="../index.php" class="text-primary" style="font-size: 1.2rem;">
+							<i class="fas fa-arrow-left"></i>
+						</a>
+						<h3 class="font-weight-bold text-primary mb-2">Welcome Back!</h3>
+						<div style="width: 20px;"></div> <!-- Spacer for alignment -->
+					</div>
 					<p class="text-muted small mb-0">Sign in to your account</p>
 				</div>
 				<div class="card-body px-4 py-4">
