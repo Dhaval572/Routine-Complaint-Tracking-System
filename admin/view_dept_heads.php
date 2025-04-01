@@ -1,5 +1,22 @@
 <?php
 include('../config.php');
+
+// Check if signatures table exists and create it if it doesn't
+$tableCheckQuery = "SHOW TABLES LIKE 'signatures'";
+$tableExists = $conn->query($tableCheckQuery)->num_rows > 0;
+
+if (!$tableExists) {
+  // Create signatures table if it doesn't exist
+  $createTableQuery = "CREATE TABLE signatures (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    signature_filename VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  )";
+  $conn->query($createTableQuery);
+}
+
 if (!isset($_SESSION['admin_id'])) {
   header("Location: admin_login.php");
   exit;
@@ -42,177 +59,10 @@ $result = $conn->query($sql);
   <title>View Department Heads</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      background: #f8f9fc;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .navbar {
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 15px 20px;
-    }
-    
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: white !important;
-    }
-    
-    .nav-link {
-      color: rgba(255, 255, 255, 0.85) !important;
-      margin: 0 5px;
-      border-radius: 5px;
-      padding: 8px 15px !important;
-      transition: all 0.3s;
-    }
-    
-    .nav-link:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      color: white !important;
-      transform: translateY(-2px);
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 15px;
-    }
-    
-    .page-header {
-      background: linear-gradient(to right, #4e73df, #224abe);
-      color: white;
-      padding: 30px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 20px rgba(78, 115, 223, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .page-header h2 {
-      margin: 0;
-      font-weight: 700;
-    }
-    
-    .table-container {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .table {
-      margin-bottom: 0;
-      border: none;
-    }
-    
-    .table th {
-      background-color: #4e73df;
-      color: white;
-      font-weight: 600;
-      border: none;
-      padding: 15px;
-    }
-    
-    .table td {
-      vertical-align: middle;
-      padding: 15px;
-      border-color: #f0f0f0;
-    }
-    
-    .table tr {
-      transition: all 0.3s;
-    }
-    
-    .table tr:hover {
-      background-color: #f8f9fc;
-      transform: scale(1.01);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .btn-back {
-      background: linear-gradient(to right, #6c757d, #495057);
-      border: none;
-      border-radius: 50px;
-      padding: 12px 25px;
-      color: white;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
-      transition: all 0.3s;
-    }
-    
-    .btn-back:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
-    }
-    
-    .btn-delete {
-      background: linear-gradient(to right, #e74a3b, #c0392b);
-      border: none;
-      border-radius: 50px;
-      padding: 8px 15px;
-      color: white;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(231, 74, 59, 0.3);
-      transition: all 0.3s;
-    }
-    
-    .btn-delete:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(231, 74, 59, 0.4);
-    }
-    
-    .badge-department {
-      background: linear-gradient(to right, #36b9cc, #2a96a5);
-      color: white;
-      font-weight: 600;
-      padding: 8px 15px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-    }
-    
-    .alert {
-      border-radius: 15px;
-      padding: 15px 20px;
-      margin-bottom: 25px;
-      border: none;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .alert-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    
-    .alert-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-    
-    .empty-state {
-      text-align: center;
-      padding: 50px 20px;
-      color: #6c757d;
-    }
-    
-    .empty-state i {
-      font-size: 5rem;
-      margin-bottom: 20px;
-      color: #4e73df;
-  <style>
-    .signature-img {
-      width: 100px;
-      height: auto;
-    }
-  </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="admin_dashboard.php">
+<body style="background:rgb(133, 158, 231); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <nav class="navbar navbar-expand-lg" style="background: linear-gradient(to right, #1e3c72, #2a5298); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 20px;">
+    <a class="navbar-brand font-weight-bold text-white" href="admin_dashboard.php" style="font-size: 1.5rem;">
       <i class="fas fa-user-shield mr-2"></i>Admin Dashboard
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -221,23 +71,8 @@ $result = $conn->query($sql);
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="create_department.php">
-            <i class="fas fa-building mr-1"></i> Create Department
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="create_dept_head.php">
-            <i class="fas fa-user-tie mr-1"></i> Create Dept Head
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="create_officer.php">
-            <i class="fas fa-user-plus mr-1"></i> Create Officer
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="logout.php">
-            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+          <a href="admin_dashboard.php" class="btn btn-danger" style="margin: 0 5px; border-radius: 5px; padding: 8px 15px !important;">
+            <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
           </a>
         </li>
       </ul>
@@ -252,17 +87,17 @@ $result = $conn->query($sql);
     $message = $_SESSION['alert_message'];
     
     echo '<div class="position-fixed" style="top: 20px; right: 20px; z-index: 9999;">
-            <div class="toast-alert ' . $type . '">
-              <div class="toast-header">
-                <div class="icon-circle">
-                  <i class="fas fa-' . ($type == 'success' ? 'check' : 'exclamation') . '"></i>
+            <div class="toast-alert ' . $type . '" style="background-color: white; border-radius: 10px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); overflow: hidden; max-width: 350px; width: 100%;">
+              <div class="toast-header" style="padding: 0.75rem 1rem; display: flex; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.05); background-color: ' . ($type == 'success' ? '#1cc88a' : '#e74a3b') . '; color: white;">
+                <div class="icon-circle" style="width: 30px; height: 30px; border-radius: 50%; background-color: white; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                  <i class="fas fa-' . ($type == 'success' ? 'check' : 'exclamation') . '" style="color: ' . ($type == 'success' ? '#1cc88a' : '#e74a3b') . ';"></i>
                 </div>
                 <strong class="mr-auto">' . $title . '</strong>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="toast-body">' . $message . '</div>
+              <div class="toast-body" style="padding: 1rem;">' . $message . '</div>
             </div>
           </div>';
     
@@ -273,58 +108,38 @@ $result = $conn->query($sql);
   }
   ?>
   
-  <div class="container">
-    <div class="page-header">
+  <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 30px 15px;">
+    <div class="page-header d-flex justify-content-between align-items-center" style="background: linear-gradient(to right, #4e73df, #224abe); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(78, 115, 223, 0.1);">
       <div>
-        <h2><i class="fas fa-users-cog mr-3"></i>Department Heads</h2>
+        <h2 class="font-weight-bold m-0"><i class="fas fa-users-cog mr-3"></i>Department Heads</h2>
         <p class="text-white-50 mb-0">Manage all department heads in the system</p>
       </div>
-      <a href="create_dept_head.php" class="btn btn-light">
-        <i class="fas fa-plus mr-2"></i>Add New Head
+      <a href="create_dept_head.php" class="btn btn-light" style="border-radius: 10px; padding: 10px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: all 0.3s;">
+        <i class="fas fa-plus mr-2"></i>Add New HOD
       </a>
     </div>
     
-    <!-- Remove or comment out these alert blocks since we're using toast alerts now -->
-    <?php /* if (isset($_SESSION['success_message'])): ?>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <?php unset($_SESSION['success_message']); ?>
-    <?php endif; ?>
-    
-    <?php if (isset($_SESSION['error_message'])): ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <?php unset($_SESSION['error_message']); ?>
-    <?php endif; */ ?>
-    
-    <div class="table-container">
-      <?php if ($result->num_rows > 0): ?>
-        <table class="table table-hover">
+    <div class="table-container bg-white rounded" style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); padding: 20px; margin-bottom: 30px;">
+      <?php if ($result && $result->num_rows > 0): ?>
+        <table class="table table-hover mb-0">
           <thead>
             <tr>
-              <th><i class="fas fa-id-badge mr-2"></i>ID</th>
-              <th><i class="fas fa-user mr-2"></i>Name</th>
-              <th><i class="fas fa-envelope mr-2"></i>Email</th>
-              <th><i class="fas fa-building mr-2"></i>Department</th>
-              <th><i class="fas fa-calendar-alt mr-2"></i>Created At</th>
-              <th><i class="fas fa-cogs mr-2"></i>Actions</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-id-badge mr-2"></i>ID</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-user mr-2"></i>Name</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-envelope mr-2"></i>Email</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-building mr-2"></i>Department</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-signature mr-2"></i>Signature</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-calendar-alt mr-2"></i>Created At</th>
+              <th style="background-color: #4e73df; color: white; font-weight: 600; border: none; padding: 15px;"><i class="fas fa-cogs mr-2"></i>Actions</th>
             </tr>
           </thead>
           <tbody>
             <?php while ($row = $result->fetch_assoc()): ?>
-              <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td>
+              <tr style="transition: all 0.3s;">
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;"><?php echo $row['id']; ?></td>
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;">
                   <div class="d-flex align-items-center">
-                    <div class="avatar-circle bg-primary text-white mr-3">
+                    <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-circle mr-3" style="width: 40px; height: 40px; font-weight: bold; font-size: 1.2rem;">
                       <?php echo strtoupper(substr($row['name'], 0, 1)); ?>
                     </div>
                     <div>
@@ -332,20 +147,27 @@ $result = $conn->query($sql);
                     </div>
                   </div>
                 </td>
-                <td><?php echo htmlspecialchars($row['email']); ?></td>
-                <td>
-                  <span class="badge badge-department">
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;"><?php echo htmlspecialchars($row['email']); ?></td>
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;">
+                  <span class="badge badge-pill text-white font-weight-bold" style="background: linear-gradient(to right, #36b9cc, #2a96a5); padding: 8px 15px; border-radius: 50px; font-size: 0.85rem;">
                     <?php echo htmlspecialchars($row['department_name']); ?>
                   </span>
                 </td>
-                <td>
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;">
+                  <?php if (!empty($row['signature_filename'])): ?>
+                    <img src="../signatures/<?php echo htmlspecialchars($row['signature_filename']); ?>" alt="Signature" style="max-width: 100px; height: auto; border: 1px solid #e3e6f0; border-radius: 5px; padding: 5px;">
+                  <?php else: ?>
+                    <span class="badge badge-warning">Not available</span>
+                  <?php endif; ?>
+                </td>
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;">
                   <i class="far fa-clock mr-1"></i>
                   <?php echo date('M d, Y', strtotime($row['created_at'])); ?>
                 </td>
-                <td>
+                <td style="vertical-align: middle; padding: 15px; border-color: #f0f0f0;">
                   <form method="POST" onsubmit="return confirm('Are you sure you want to delete this department head?');">
                     <input type="hidden" name="head_id" value="<?php echo $row['id']; ?>">
-                    <button type="submit" name="delete_head" class="btn btn-delete btn-sm">
+                    <button type="submit" name="delete_head" class="btn btn-sm text-white" style="background: linear-gradient(to right, #e74a3b, #c0392b); border: none; border-radius: 50px; padding: 8px 15px; font-weight: 600; box-shadow: 0 4px 10px rgba(231, 74, 59, 0.3); transition: all 0.3s;">
                       <i class="fas fa-trash-alt mr-1"></i> Delete
                     </button>
                   </form>
@@ -355,8 +177,8 @@ $result = $conn->query($sql);
           </tbody>
         </table>
       <?php else: ?>
-        <div class="empty-state">
-          <i class="fas fa-users-slash"></i>
+        <div class="text-center py-5 text-secondary" style="padding: 50px 20px;">
+          <i class="fas fa-users-slash mb-4" style="font-size: 5rem; margin-bottom: 20px; color: #4e73df;"></i>
           <h4>No Department Heads Found</h4>
           <p>There are no department heads in the system yet.</p>
           <a href="create_dept_head.php" class="btn btn-primary mt-3">
@@ -367,70 +189,95 @@ $result = $conn->query($sql);
     </div>
     
     <div class="text-center">
-      <a href="admin_dashboard.php" class="btn btn-back">
+      <a href="admin_dashboard.php" class="btn text-white" style="background: linear-gradient(to right, #6c757d, #495057); border: none; border-radius: 50px; padding: 12px 25px; font-weight: 600; box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3); transition: all 0.3s;">
         <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
       </a>
     </div>
-  <div class="container mt-5">
-    <h2>Department Heads</h2>
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Department</th>
-          <th>Signature</th>
-          <th>Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $result->fetch_assoc()) { ?>
-          <tr>
-            <td><?php echo $row['id']; ?></td>
-            <td><?php echo htmlspecialchars($row['name']); ?></td>
-            <td><?php echo htmlspecialchars($row['email']); ?></td>
-            <td><?php echo htmlspecialchars($row['department_name']); ?></td>
-            <td>
-              <?php if (!empty($row['signature_filename'])) { ?>
-                <img src="../signatures/<?php echo htmlspecialchars($row['signature_filename']); ?>" alt="Signature" class="signature-img">
-              <?php } else { ?>
-                <span class="text-danger">Not available</span>
-              <?php } ?>
-            </td>
-            <td><?php echo $row['created_at']; ?></td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-    <a href="admin_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <style>
-    .avatar-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-  </style>
   
   <script>
     // Initialize toasts
     $(document).ready(function() {
-      $('.toast').toast('show');
+      $('.toast-alert').addClass('show');
       
       // Auto-hide after 5 seconds
       setTimeout(function() {
-        $('.toast').toast('hide');
+        $('.toast-alert').removeClass('show');
+        setTimeout(function() {
+          $('.toast-alert').remove();
+        }, 500);
       }, 5000);
+      
+      // Add hover effect to table rows
+      $('tr').hover(
+        function() {
+          $(this).css({
+            'background-color': '#f8f9fc',
+            'transform': 'scale(1.01)',
+            'box-shadow': '0 5px 15px rgba(0, 0, 0, 0.05)'
+          });
+        },
+        function() {
+          $(this).css({
+            'background-color': '',
+            'transform': '',
+            'box-shadow': ''
+          });
+        }
+      );
+      
+      // Add hover effect to nav links
+      $('.nav-link').hover(
+        function() {
+          $(this).css({
+            'background-color': 'rgba(255, 255, 255, 0.15)',
+            'color': 'white',
+            'transform': 'translateY(-2px)'
+          });
+        },
+        function() {
+          $(this).css({
+            'background-color': '',
+            'transform': ''
+          });
+        }
+      );
+      
+      // Add hover effect to delete button
+      $('.btn-delete').hover(
+        function() {
+          $(this).css({
+            'transform': 'translateY(-2px)',
+            'box-shadow': '0 6px 15px rgba(231, 74, 59, 0.4)'
+          });
+        },
+        function() {
+          $(this).css({
+            'transform': '',
+            'box-shadow': '0 4px 10px rgba(231, 74, 59, 0.3)'
+          });
+        }
+      );
+      
+      // Add hover effect to back button
+      $('.btn-back').hover(
+        function() {
+          $(this).css({
+            'transform': 'translateY(-3px)',
+            'box-shadow': '0 6px 15px rgba(108, 117, 125, 0.4)'
+          });
+        },
+        function() {
+          $(this).css({
+            'transform': '',
+            'box-shadow': '0 4px 10px rgba(108, 117, 125, 0.3)'
+          });
+        }
+      );
     });
   </script>
 </body>

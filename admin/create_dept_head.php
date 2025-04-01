@@ -65,9 +65,32 @@ if (isset($_POST['create_dept_head'])) {
       // Process signature file upload
       if (isset($_FILES['signature']) && $_FILES['signature']['error'] == 0) {
         $uploadDir = '../signatures/';
+        
+        // Create directory if it doesn't exist
+        if (!file_exists($uploadDir)) {
+          mkdir($uploadDir, 0777, true);
+        }
+        
         $filename = time() . "_" . basename($_FILES['signature']['name']);
         $targetFile = $uploadDir . $filename;
         if (move_uploaded_file($_FILES['signature']['tmp_name'], $targetFile)) {
+          // Check if signatures table exists
+          $tableCheckQuery = "SHOW TABLES LIKE 'signatures'";
+          $tableExists = $conn->query($tableCheckQuery)->num_rows > 0;
+          
+          if (!$tableExists) {
+            // Create signatures table if it doesn't exist
+            $createTableQuery = "CREATE TABLE signatures (
+              id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+              user_id INT(11) NOT NULL,
+              signature_filename VARCHAR(255) NOT NULL,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )";
+            $conn->query($createTableQuery);
+          }
+          
+          // Now insert the signature
           $stmtSig = $conn->prepare("INSERT INTO signatures (user_id, signature_filename) VALUES (?, ?)");
           $stmtSig->bind_param("is", $user_id, $filename);
           $stmtSig->execute();
@@ -185,22 +208,16 @@ if (isset($_POST['create_dept_head'])) {
       background: #5a6268;
     }
 
-    .form-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #4e73df;
+    .header-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: white;
     }
 
-    .input-group {
-      position: relative;
-    }
-
-    .alert {
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
+    .toast {
+      opacity: 1 !important;
+      border: none;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
     .card-footer {
@@ -209,22 +226,6 @@ if (isset($_POST['create_dept_head'])) {
       padding: 20px 30px;
       text-align: center;
     }
-
-    .header-icon {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: white;
-      <style>
-
-      /* Optional custom styling */
-      body {
-        background-color: #f8f9fa;
-        color: #212529;
-      }
-
-      .card {
-        margin-top: 30px;
-      }
   </style>
 </head>
 
@@ -248,205 +249,80 @@ if (isset($_POST['create_dept_head'])) {
         <i class="fas fa-user-tie header-icon"></i>
         <h3>Create Department Head</h3>
         <p class="text-white-50 mb-0">Add a new department head to the system</p>
-        <div class="container mt-5">
-          <h2>Create Department Head</h2>
-          <?php if (isset($success)): ?>
-            <div class="alert alert-success py-2 d-flex align-items-center rounded">
-              <i class="fas fa-check-circle mr-2"></i><?php echo $success; ?>
-            </div>
-          <?php endif; ?>
-          <?php if (isset($error)): ?>
-            <div class="alert alert-danger py-2 d-flex align-items-center rounded">
-              <i class="fas fa-exclamation-circle mr-2"></i><?php echo $error; ?>
-            </div>
-          <?php endif; ?>
-
-          <form method="POST" action="" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Name</label>
-              <input type="text" name="name" required class="form-control" placeholder="Enter name">
-            </div>
-
-            <div class="card-body">
-              <?php if (isset($_SESSION['success_message'])): ?>
-                <div class="alert alert-success alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-                  <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <?php unset($_SESSION['success_message']); ?>
-              <?php endif; ?>
-
-              <?php if (isset($_SESSION['error_message'])): ?>
-                <div class="alert alert-danger alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-                  <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <?php unset($_SESSION['error_message']); ?>
-              <?php endif; ?>
-              <?php
-              // Remove the line that's causing the undefined variable error
-              // displayToastAlert('success', 'Success', $success);
-              ?>
-
-              <form method="POST" action="" autocomplete="off">
-                <div class="form-group">
-                  <label><i class="fas fa-user mr-2"></i>Full Name</label>
-                  <div class="input-group">
-                    <input type="text" name="name" required class="form-control" placeholder="Enter full name">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label><i class="fas fa-envelope mr-2"></i>Email Address</label>
-                  <div class="input-group">
-                    <input type="email" name="email" required class="form-control" placeholder="Enter email address">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label><i class="fas fa-lock mr-2"></i>Password</label>
-                  <div class="input-group">
-                    <input type="password" name="password" required class="form-control"
-                      placeholder="6-10 characters password">
-                  </div>
-                  <small class="form-text text-muted">Password must be between 6 and 10 characters long.</small>
-                </div>
-
-                <div class="form-group">
-                  <label><i class="fas fa-building mr-2"></i>Department</label>
-                  <select name="department_id" class="form-control" required>
-                    <option value="">Select Department</option>
-                    <?php while ($dept = $departments->fetch_assoc()) { ?>
-                      <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-
-                <div class="text-center mt-4">
-                  <button type="submit" name="create_dept_head" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus mr-2"></i>Create Department Head
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            <div class="card-footer">
-              <a href="admin_dashboard.php" class="btn btn-secondary">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-              </a>
-            </div>
-        </div>
       </div>
 
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <div class="card-body">
+        <form method="POST" action="" enctype="multipart/form-data" autocomplete="off">
+          <div class="form-group">
+            <label><i class="fas fa-user mr-2"></i>Full Name</label>
+            <div class="input-group">
+              <input type="text" name="name" required class="form-control" placeholder="Enter full name">
+            </div>
+          </div>
 
-      <script>
-        // Initialize toasts after jQuery is loaded
-        $(document).ready(function () {
-          $('.toast').toast('show');
+          <div class="form-group">
+            <label><i class="fas fa-envelope mr-2"></i>Email Address</label>
+            <div class="input-group">
+              <input type="email" name="email" required class="form-control" placeholder="Enter email address">
+            </div>
+          </div>
 
-          // Auto-hide after 5 seconds
-          setTimeout(function () {
-            $('.toast').toast('hide');
-          }, 5000);
-        });
-      </script>
-</body>
+          <div class="form-group">
+            <label><i class="fas fa-lock mr-2"></i>Password</label>
+            <div class="input-group">
+              <input type="password" name="password" required class="form-control"
+                placeholder="6-10 characters password">
+            </div>
+            <small class="form-text text-muted">Password must be between 6 and 10 characters long.</small>
+          </div>
 
-</html>
+          <div class="form-group">
+            <label><i class="fas fa-building mr-2"></i>Department</label>
+            <select name="department_id" class="form-control" required>
+              <option value="">Select Department</option>
+              <?php while ($dept = $departments->fetch_assoc()) { ?>
+                <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
+              <?php } ?>
+            </select>
+          </div>
 
-<head>
-  <style>
-    /* Existing styles */
+          <div class="form-group">
+            <label><i class="fas fa-signature mr-2"></i>Department Head Signature</label>
+            <input type="file" name="signature" required class="form-control-file" accept="image/*">
+            <small class="form-text text-muted">Upload a clear image of the signature.</small>
+          </div>
 
-    /* Custom toast-style alert */
-    .toast-alert {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      min-width: 300px;
-      max-width: 90%;
-      border: none;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+          <div class="text-center mt-4">
+            <button type="submit" name="create_dept_head" class="btn btn-primary btn-block">
+              <i class="fas fa-user-plus mr-2"></i>Create Department Head
+            </button>
+          </div>
+        </form>
+      </div>
 
-    .toast-alert.success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      <div class="card-footer">
+        <a href="admin_dashboard.php" class="btn btn-secondary">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
 
-    .toast-alert.error {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    .toast-alert .toast-header {
-      background-color: transparent;
-      border-bottom: none;
-      padding: 0.75rem 1rem 0 1rem;
-    }
+  <script>
+    // Initialize toasts after jQuery is loaded
+    $(document).ready(function () {
+      $('.toast').toast('show');
 
-    .toast-alert.success .toast-header {
-      color: #155724;
-    }
-
-    .toast-alert.error .toast-header {
-      color: #721c24;
-    }
-
-    .toast-alert .toast-body {
-      padding: 0.5rem 1rem 1rem 1rem;
-    }
-
-    .toast-alert .icon-circle {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 8px;
-    }
-
-    .toast-alert.success .icon-circle {
-      background-color: #28a745;
-      color: white;
-    }
-
-    .toast-alert.error .icon-circle {
-      background-color: #dc3545;
-      color: white;
-    }
-  </style>
-</head>
-<div class="form-group">
-  <label>Select Department</label>
-  <select name="department_id" class="form-control" required>
-    <option value="">Select Department</option>
-    <?php while ($dept = $departments->fetch_assoc()) { ?>
-      <option value="<?php echo $dept['id']; ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
-    <?php } ?>
-  </select>
-</div>
-<div class="form-group">
-  <label>Department Head Signature</label>
-  <input type="file" name="signature" required class="form-control-file" accept="image/*">
-</div>
-<button type="submit" name="create_dept_head" class="btn btn-primary">Create Department Head</button>
-</form>
-<a href="admin_dashboard.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+      // Auto-hide after 5 seconds
+      setTimeout(function () {
+        $('.toast').toast('hide');
+      }, 5000);
+    });
+  </script>
 </body>
 
 </html>
