@@ -1,5 +1,7 @@
 <?php
 include('../config.php');
+include('../assets/alert_functions.php'); // Updated path to include alert functions
+
 if (!isset($_SESSION['admin_id'])) {
   header("Location: admin_login.php");
   exit;
@@ -18,35 +20,7 @@ $count = $result->num_rows; // Define count variable here
   <title>View Departments</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    .notification-toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      min-width: 250px;
-      max-width: 350px;
-      border-radius: 8px;
-      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-      animation: slide-in 0.5s ease-out forwards;
-    }
-    
-    @keyframes slide-in {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    
-    .notification-icon {
-      font-size: 1.5rem;
-      margin-right: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/css/view_departments.css">
 </head>
 
 <body class="bg-light" style="background-color:rgb(132, 247, 142) !important;">
@@ -76,34 +50,12 @@ $count = $result->num_rows; // Define count variable here
     </div>
 
     <?php if (isset($_SESSION['success_message'])): ?>
-      <div class="notification-toast alert alert-success alert-dismissible fade show" role="alert">
-        <div class="d-flex align-items-center">
-          <i class="fas fa-check-circle notification-icon"></i>
-          <div>
-            <strong>Success!</strong>
-            <div><?php echo $_SESSION['success_message']; ?></div>
-          </div>
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <?php displayAlert('success', $_SESSION['success_message'], 'check-circle', true, 'Success!'); ?>
       <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
 
     <?php if (isset($_SESSION['error_message'])): ?>
-      <div class="notification-toast alert alert-danger alert-dismissible fade show" role="alert">
-        <div class="d-flex align-items-center">
-          <i class="fas fa-exclamation-circle notification-icon"></i>
-          <div>
-            <strong>Error!</strong>
-            <div><?php echo $_SESSION['error_message']; ?></div>
-          </div>
-        </div>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <?php displayAlert('error', $_SESSION['error_message'], 'exclamation-circle', true, 'Error!'); ?>
       <?php unset($_SESSION['error_message']); ?>
     <?php endif; ?>
 
@@ -136,11 +88,11 @@ $count = $result->num_rows; // Define count variable here
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   ?>
-                  <tr class="border-left border-success shadow-sm transition-all">
+                  <tr class="border-left border-success shadow-sm transition-all table-row-hover">
                     <td class="text-center align-middle">
-                      <span
-                        class="badge badge-success rounded-circle d-flex justify-content-center align-items-center shadow-sm"
-                        style="width: 35px; height: 35px;"><?php echo $row['id']; ?></span>
+                      <span class="badge badge-success rounded-circle d-flex justify-content-center align-items-center shadow-sm badge-circle badge-hover">
+                          <?php echo $row['id']; ?>
+                      </span>
                     </td>
                     <td class="font-weight-bold text-success align-middle">
                       <?php echo htmlspecialchars($row['name']); ?>

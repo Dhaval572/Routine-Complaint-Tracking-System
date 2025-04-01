@@ -1,5 +1,6 @@
 <?php
 include('../config.php');
+include('../assets/alert_functions.php'); // Add this line to include the alert functions
 
 // Check if signatures table exists and create it if it doesn't
 $tableCheckQuery = "SHOW TABLES LIKE 'signatures'";
@@ -59,6 +60,44 @@ $result = $conn->query($sql);
   <title>View Department Heads</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* Alert Styles */
+    .notification-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 350px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .notification-icon {
+      font-size: 1.25rem;
+      margin-right: 1rem;
+    }
+
+    .alert {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: none;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body style="background:rgb(133, 158, 231); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <nav class="navbar navbar-expand-lg" style="background: linear-gradient(to right, #1e3c72, #2a5298); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 20px;">
@@ -80,27 +119,11 @@ $result = $conn->query($sql);
   </nav>
   
   <?php
-  // Display toast alert if session variables are set
+  // Display alert if session variables are set
   if (isset($_SESSION['alert_type']) && isset($_SESSION['alert_message'])) {
     $title = isset($_SESSION['alert_title']) ? $_SESSION['alert_title'] : ($_SESSION['alert_type'] == 'success' ? 'Success!' : 'Error!');
-    $type = $_SESSION['alert_type'];
-    $message = $_SESSION['alert_message'];
-    
-    echo '<div class="position-fixed" style="top: 20px; right: 20px; z-index: 9999;">
-            <div class="toast-alert ' . $type . '" style="background-color: white; border-radius: 10px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); overflow: hidden; max-width: 350px; width: 100%;">
-              <div class="toast-header" style="padding: 0.75rem 1rem; display: flex; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.05); background-color: ' . ($type == 'success' ? '#1cc88a' : '#e74a3b') . '; color: white;">
-                <div class="icon-circle" style="width: 30px; height: 30px; border-radius: 50%; background-color: white; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
-                  <i class="fas fa-' . ($type == 'success' ? 'check' : 'exclamation') . '" style="color: ' . ($type == 'success' ? '#1cc88a' : '#e74a3b') . ';"></i>
-                </div>
-                <strong class="mr-auto">' . $title . '</strong>
-                <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="toast-body" style="padding: 1rem;">' . $message . '</div>
-            </div>
-          </div>';
-    
+    displayAlert($_SESSION['alert_type'], $_SESSION['alert_message'], null, true, $title);
+  
     // Clear the session variables
     unset($_SESSION['alert_type']);
     unset($_SESSION['alert_title']);
@@ -200,16 +223,10 @@ $result = $conn->query($sql);
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
   <script>
-    // Initialize toasts
     $(document).ready(function() {
-      $('.toast-alert').addClass('show');
-      
-      // Auto-hide after 5 seconds
+      // Auto-hide alerts after 5 seconds
       setTimeout(function() {
-        $('.toast-alert').removeClass('show');
-        setTimeout(function() {
-          $('.toast-alert').remove();
-        }, 500);
+        $('.alert').fadeOut('slow');
       }, 5000);
       
       // Add hover effect to table rows
