@@ -18,9 +18,38 @@ $count = $result->num_rows; // Define count variable here
   <title>View Departments</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .notification-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 250px;
+      max-width: 350px;
+      border-radius: 8px;
+      box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+      animation: slide-in 0.5s ease-out forwards;
+    }
+    
+    @keyframes slide-in {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .notification-icon {
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 
-<body class="bg-light">
+<body class="bg-light" style="background-color:rgb(132, 247, 142) !important;">
   <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4 shadow">
     <div class="container">
       <a class="navbar-brand font-weight-bold" href="admin_dashboard.php">
@@ -47,8 +76,14 @@ $count = $result->num_rows; // Define count variable here
     </div>
 
     <?php if (isset($_SESSION['success_message'])): ?>
-      <div class="alert alert-success alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-        <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
+      <div class="notification-toast alert alert-success alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-check-circle notification-icon"></i>
+          <div>
+            <strong>Success!</strong>
+            <div><?php echo $_SESSION['success_message']; ?></div>
+          </div>
+        </div>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -57,8 +92,14 @@ $count = $result->num_rows; // Define count variable here
     <?php endif; ?>
 
     <?php if (isset($_SESSION['error_message'])): ?>
-      <div class="alert alert-danger alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-        <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
+      <div class="notification-toast alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-exclamation-circle notification-icon"></i>
+          <div>
+            <strong>Error!</strong>
+            <div><?php echo $_SESSION['error_message']; ?></div>
+          </div>
+        </div>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -155,7 +196,7 @@ $count = $result->num_rows; // Define count variable here
                               </h5>
                               <p class="text-center text-muted small">This action cannot be undone.</p>
                             </div>
-                            <div class="modal-footer bg-light">
+                            <div class="modal-footer bg-light justify-content-between">
                               <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
                                 <i class="fas fa-times mr-2"></i>Cancel
                               </button>
@@ -226,7 +267,7 @@ $count = $result->num_rows; // Define count variable here
           'margin': '1.75rem auto'
         });
       });
-      
+
       // Ensure clean modal dismissal
       $('.modal').on('hidden.bs.modal', function () {
         $('.modal-backdrop').remove();
