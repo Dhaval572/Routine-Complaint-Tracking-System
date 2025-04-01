@@ -71,7 +71,7 @@ if (isset($_GET['complaint_id'])) {
         </div>
         <button type="submit" name="solve" class="btn btn-success">Solve Complaint</button>
       </form>
-      <a href="solve_complaint_dept_head.php" class="btn btn-secondary mt-3">Back to List</a>
+      <a href="assign_complaint.php" class="btn btn-secondary mt-3">Back to List</a>
     <?php else: ?>
       <h4>Assigned Complaints (Pending Solution)</h4>
       <?php
