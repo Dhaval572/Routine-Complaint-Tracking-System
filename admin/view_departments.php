@@ -114,8 +114,8 @@ $count = $result->num_rows; // Define count variable here
                     <td class="text-center align-middle">
                       <div class="d-flex justify-content-center">
                         <a href="department_actions.php?action=edit&id=<?php echo $row['id']; ?>"
-                          class="btn btn-sm btn-outline-success rounded-circle mx-1 shadow-sm d-flex justify-content-center align-items-center"
-                          title="Edit" style="width: 35px; height: 35px;">
+                          class="btn btn-sm btn-outline-success rounded-circle mx-1 shadow-sm d-flex justify-content-center align-items-center action-btn"
+                          title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
                         <a href="#" data-toggle="modal" data-target="#deleteModal<?php echo $row['id']; ?>"
