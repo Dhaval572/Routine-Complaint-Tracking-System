@@ -3,12 +3,16 @@ include 'config.php';
 
 $complaint = null;
 
-if (isset($_GET['complaint_id'])) {
+if (isset($_POST['complaint_id'])) {
 
-	$complaint_id = intval($_GET['complaint_id']);
-	$sql = "SELECT c.*, d.name as dept_name FROM complaints c 
+	$complaint_id = intval($_POST['complaint_id']);
+
+	$user_name = $_POST['user_name'] ?? null; // Get user name from session or request
+	$user_id = mysqli_query($conn, "SELECT id FROM users WHERE name = '$user_name'")->fetch_assoc()['id'];
+
+	$sql = "SELECT c.*, d.name as dept_name FROM complaints c
             LEFT JOIN departments d ON c.department_id = d.id 
-            WHERE c.id = '$complaint_id' AND c.citizen_id = '" . $_SESSION['user_id'] . "'";
+            WHERE c.id = '$complaint_id' AND c.citizen_id = '" . $user_id . "'";
 
 	$result = $conn->query($sql);
 
@@ -65,16 +69,30 @@ if (isset($_GET['complaint_id'])) {
 						<i class="fas fa-search me-2"></i> Track Your Complaint
 					</div>
 					<div class="card-body p-4">
-						<form method="GET" class="mb-4">
+						<form method="post" class="mb-4">
 							<div class="mb-3">
 								<label for="complaintId" class="form-label">Enter Complaint ID</label>
 								<div class="input-group">
 									<span class="input-group-text bg-light border-end-0">
-										<i
-											class="fas fa-hashtag <?php echo $complaint ? ($status == 'resolved' || $status == 'solved' ? 'text-success' : ($status == 'pending' ? 'text-warning' : ($status == 'processing' ? 'text-info' : ($status == 'rejected' ? 'text-danger' : 'text-primary')))) : 'text-primary'; ?>"></i>
+										<i class="fas fa-hashtag 
+										<?php
+										$textClass = 'text-primary';
+										if ($complaint) {
+											if ($status == 'resolved' || $status == 'solved') {
+												$textClass = 'text-success';
+											} elseif ($status == 'pending') {
+												$textClass = 'text-warning';
+											} elseif ($status == 'processing') {
+												$textClass = 'text-info';
+											} elseif ($status == 'rejected') {
+												$textClass = 'text-danger';
+											}
+										}
+										echo $textClass;
+										?>"></i>
 									</span>
-									<input type="number" name="complaint_id" id="complaintId"
-										class="form-control border-start-0" placeholder="e.g. 12345" required>
+									<input type="text" name="user_name" class="form-control border-start-0" placeholder="User Name" required>
+									<input type="number" name="complaint_id" id="complaintId" class="form-control border-start-0" placeholder="Complain ID" required>
 								</div>
 							</div>
 
@@ -92,7 +110,7 @@ if (isset($_GET['complaint_id'])) {
 								} else {
 									$btnClass = "btn-primary";
 								}
-								?>
+							?>
 								<button type="submit" class="btn <?php echo $btnClass; ?>">
 									<i class="fas fa-search me-2"></i> Search Complaint
 								</button>
@@ -139,7 +157,7 @@ if (isset($_GET['complaint_id'])) {
 							// Determine complaint details class
 							$detailsClass = "complaint-details complaint-details-{$status}";
 							$titleClass = "complaint-title complaint-title-{$status}";
-							?>
+						?>
 							<div class="<?php echo $detailsClass; ?>">
 								<h4 class="<?php echo $titleClass; ?>">
 									<i class="fas fa-file-alt me-2"></i>
@@ -156,10 +174,7 @@ if (isset($_GET['complaint_id'])) {
 										<div class="info-label">Department</div>
 										<div class="info-value">
 											<i class="fas fa-building me-1 
-											<?php echo ($status == 'resolved' || $status == 'solved') ? 'text-success' :
-												($status == 'pending' ? 'text-warning' :
-													($status == 'processing' ? 'text-info' :
-														($status == 'rejected' ? 'text-danger' : 'text-primary'))); ?>"></i>
+											<?php echo ($status == 'resolved' || $status == 'solved') ? 'text-success' : ($status == 'pending' ? 'text-warning' : ($status == 'processing' ? 'text-info' : ($status == 'rejected' ? 'text-danger' : 'text-primary'))); ?>"></i>
 											<?php echo htmlspecialchars($complaint['dept_name']); ?>
 										</div>
 									</div>
@@ -178,10 +193,7 @@ if (isset($_GET['complaint_id'])) {
 										<div class="info-label">Registered At</div>
 										<div class="info-value">
 											<i class="far fa-calendar-alt me-1 
-											<?php echo ($status == 'resolved' || $status == 'solved') ? 'text-success' :
-												($status == 'pending' ? 'text-warning' :
-													($status == 'processing' ? 'text-info' :
-														($status == 'rejected' ? 'text-danger' : 'text-primary'))); ?>"></i>
+											<?php echo ($status == 'resolved' || $status == 'solved') ? 'text-success' : ($status == 'pending' ? 'text-warning' : ($status == 'processing' ? 'text-info' : ($status == 'rejected' ? 'text-danger' : 'text-primary'))); ?>"></i>
 											<?php echo date('F d, Y h:i A', strtotime($complaint['created_at'])); ?>
 										</div>
 									</div>
@@ -210,8 +222,10 @@ if (isset($_GET['complaint_id'])) {
 									// 	$btnOutlineClass = "btn-outline-primary";
 									// }
 									?>
-									<button type="button" class="btn <?php // echo $btnOutlineClass; ?>"
-										onclick="loadActivity(<?php // echo $complaint['id']; ?>)">
+									<button type="button" class="btn <?php // echo $btnOutlineClass; 
+																		?>"
+										onclick="loadActivity(<?php // echo $complaint['id']; 
+																?>)">
 										<i class="fas fa-history me-2"></i> View Activity
 									</button>
 								</div> -->
@@ -232,8 +246,10 @@ if (isset($_GET['complaint_id'])) {
 			$.ajax({
 				url: 'fetch_activity.php',
 				type: 'GET',
-				data: { complaint_id: complaint_id },
-				success: function (data) {
+				data: {
+					complaint_id: complaint_id
+				},
+				success: function(data) {
 					$("#activityContent").html(data);
 					new bootstrap.Modal(document.getElementById('activityModal')).show();
 				}
