@@ -1,0 +1,55 @@
+body {
+    background-color: rgb(132, 247, 142) !important;
+}
+
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 250px;
+    max-width: 350px;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    animation: slide-in 0.5s ease-out forwards;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+/* Table and Badge Styles */
+.badge-circle {
+    width: 35px;
+    height: 35px;
+}
+
+.action-btn {
+    width: 35px;
+    height: 35px;
+}
+
+/* Hover Effects */
+.table-row-hover:hover {
+    background-color: white !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    transition: all 0.3s ease;
+}
+
+.badge-hover:hover, 
+.btn-hover:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}

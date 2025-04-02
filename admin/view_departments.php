@@ -1,5 +1,7 @@
 <?php
 include('../config.php');
+include('../assets/alert_functions.php'); // Updated path to include alert functions
+
 if (!isset($_SESSION['admin_id'])) {
   header("Location: admin_login.php");
   exit;
@@ -18,9 +20,10 @@ $count = $result->num_rows; // Define count variable here
   <title>View Departments</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/view_departments.css">
 </head>
 
-<body class="bg-light">
+<body class="bg-light" style="background-color:rgb(132, 247, 142) !important;">
   <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4 shadow">
     <div class="container">
       <a class="navbar-brand font-weight-bold" href="admin_dashboard.php">
@@ -47,22 +50,12 @@ $count = $result->num_rows; // Define count variable here
     </div>
 
     <?php if (isset($_SESSION['success_message'])): ?>
-      <div class="alert alert-success alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-        <i class="fas fa-check-circle mr-2"></i><?php echo $_SESSION['success_message']; ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <?php displayAlert('success', $_SESSION['success_message'], 'check-circle', true, 'Success!'); ?>
       <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
 
     <?php if (isset($_SESSION['error_message'])): ?>
-      <div class="alert alert-danger alert-dismissible fade show rounded-lg shadow-sm" role="alert">
-        <i class="fas fa-exclamation-circle mr-2"></i><?php echo $_SESSION['error_message']; ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      <?php displayAlert('error', $_SESSION['error_message'], 'exclamation-circle', true, 'Error!'); ?>
       <?php unset($_SESSION['error_message']); ?>
     <?php endif; ?>
 
@@ -95,11 +88,11 @@ $count = $result->num_rows; // Define count variable here
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                   ?>
-                  <tr class="border-left border-success shadow-sm transition-all">
+                  <tr class="border-left border-success shadow-sm transition-all table-row-hover">
                     <td class="text-center align-middle">
-                      <span
-                        class="badge badge-success rounded-circle d-flex justify-content-center align-items-center shadow-sm"
-                        style="width: 35px; height: 35px;"><?php echo $row['id']; ?></span>
+                      <span class="badge badge-success rounded-circle d-flex justify-content-center align-items-center shadow-sm badge-circle badge-hover">
+                          <?php echo $row['id']; ?>
+                      </span>
                     </td>
                     <td class="font-weight-bold text-success align-middle">
                       <?php echo htmlspecialchars($row['name']); ?>
@@ -121,8 +114,8 @@ $count = $result->num_rows; // Define count variable here
                     <td class="text-center align-middle">
                       <div class="d-flex justify-content-center">
                         <a href="department_actions.php?action=edit&id=<?php echo $row['id']; ?>"
-                          class="btn btn-sm btn-outline-success rounded-circle mx-1 shadow-sm d-flex justify-content-center align-items-center"
-                          title="Edit" style="width: 35px; height: 35px;">
+                          class="btn btn-sm btn-outline-success rounded-circle mx-1 shadow-sm d-flex justify-content-center align-items-center action-btn"
+                          title="Edit">
                           <i class="fas fa-edit"></i>
                         </a>
                         <a href="#" data-toggle="modal" data-target="#deleteModal<?php echo $row['id']; ?>"
@@ -155,7 +148,7 @@ $count = $result->num_rows; // Define count variable here
                               </h5>
                               <p class="text-center text-muted small">This action cannot be undone.</p>
                             </div>
-                            <div class="modal-footer bg-light">
+                            <div class="modal-footer bg-light justify-content-between">
                               <button type="button" class="btn btn-secondary rounded-pill px-4" data-dismiss="modal">
                                 <i class="fas fa-times mr-2"></i>Cancel
                               </button>
@@ -226,7 +219,7 @@ $count = $result->num_rows; // Define count variable here
           'margin': '1.75rem auto'
         });
       });
-      
+
       // Ensure clean modal dismissal
       $('.modal').on('hidden.bs.modal', function () {
         $('.modal-backdrop').remove();
