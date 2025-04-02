@@ -365,12 +365,149 @@ body {
     padding: 1rem 1.25rem;
 }
 
+/* Container and Card Styles */
+.main-container {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-custom {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.search-form {
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group-text {
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control {
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+/* Complaint Details Styles */
+.complaint-details {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.info-item {
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: #212529;
+    line-height: 1.5;
+}
+
+/* Status Badge Styles */
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .main-container {
-        padding: 2rem 0;
+        padding: 1rem;
+    }
+
+    .card-custom {
+        margin: 0.5rem;
     }
 
     .info-item {
-        flex: 1 1 100%;
+        padding: 0.75rem;
     }
+
+    .info-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group > * {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem !important;
+    }
+
+    .status-badge {
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Description Box Styles */
+.description-box {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.description-box .info-value {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 0.75rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Animation for Status Changes */
+.status-badge {
+    transition: all 0.3s ease;
+}
+
+.status-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
