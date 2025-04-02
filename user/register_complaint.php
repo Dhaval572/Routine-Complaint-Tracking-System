@@ -16,6 +16,7 @@ if (isset($_POST['register_complaint'])) {
 	$incident_time = $_POST['incident_time'];
 	$dept_id = $_POST['dept_id'];
 	$consent = isset($_POST['consent']) ? 1 : 0;
+	$priority = $conn->real_escape_string($_POST['priority']); // Add priority field
 
 	// Determine if complaint is against a specific target (officer or dept head)
 	$target_option = $_POST['target_option']; // 'none', 'officer', or 'dept_head'
@@ -45,11 +46,12 @@ if (isset($_POST['register_complaint'])) {
 	// Insert complaint – ensure your complaints table has an 'attachment' column if you wish to store files.
 	$citizen_id = $_SESSION['user_id'];
 	$insert_sql = "INSERT INTO complaints 
-        (citizen_id, department_id, title, description, officer_id, dept_head_id, target_id, target_role, created_at)
+        (citizen_id, department_id, title, description, officer_id, dept_head_id, target_id, target_role, priority, created_at)
         VALUES ('$citizen_id', '$dept_id', '$title', '$description', NULL, " .
 		($dept_head_id ? "'$dept_head_id'" : "NULL") . ", " .
 		($target_id ? "'$target_id'" : "NULL") . ", " .
-		($target_option != 'none' ? "'$target_option'" : "NULL") . ", NOW())";
+		($target_option != 'none' ? "'$target_option'" : "NULL") . ", " .
+		"'$priority', NOW())";
 
 	if ($conn->query($insert_sql)) {
 		// Get the inserted complaint id
@@ -266,6 +268,40 @@ if (isset($_POST['register_complaint'])) {
 									style="border-radius: 10px; border-left: 4px solid #e53935;">
 							</div>
 						</div>
+					</div>
+
+					<!-- Priority Selection -->
+					<div class="form-group">
+						<label class="font-weight-bold text-danger">
+							<i class="fas fa-flag mr-2"></i>Priority Level
+						</label>
+						<div class="d-flex flex-wrap">
+							<div class="custom-control custom-radio mr-4 mb-2">
+								<input type="radio" id="priority_top" name="priority" value="top" class="custom-control-input">
+								<label class="custom-control-label" for="priority_top">
+									<span class="badge badge-danger px-3 py-2">Top Priority</span>
+								</label>
+							</div>
+							<div class="custom-control custom-radio mr-4 mb-2">
+								<input type="radio" id="priority_medium" name="priority" value="medium" class="custom-control-input">
+								<label class="custom-control-label" for="priority_medium">
+									<span class="badge badge-warning px-3 py-2">Medium Priority</span>
+								</label>
+							</div>
+							<div class="custom-control custom-radio mr-4 mb-2">
+								<input type="radio" id="priority_normal" name="priority" value="normal" class="custom-control-input" checked>
+								<label class="custom-control-label" for="priority_normal">
+									<span class="badge badge-info px-3 py-2">Normal Priority</span>
+								</label>
+							</div>
+							<div class="custom-control custom-radio mb-2">
+								<input type="radio" id="priority_low" name="priority" value="low" class="custom-control-input">
+								<label class="custom-control-label" for="priority_low">
+									<span class="badge badge-secondary px-3 py-2">Low Priority</span>
+								</label>
+							</div>
+						</div>
+						<small class="form-text text-muted">Select the priority level for your complaint. Default is Normal.</small>
 					</div>
 
 					<div class="card mb-4 border-0 shadow-sm"

@@ -121,6 +121,15 @@ if ($user_logged_in) {
               <span class="font-weight-bold">Feedback</span>
             </a>
           </li>
+
+          <li class="nav-item mx-1 active">
+            <a class="nav-link btn btn-warning btn-lg rounded-pill px-4"
+              href="search_complaint.php">
+              <i class="fas fa-eye mr-2"></i>
+              <span class="font-weight-bold ">Search Complaint</span>
+            </a>
+          </li>
+
         </ul>
       </div>
     </div>
@@ -142,6 +151,7 @@ if ($user_logged_in) {
             <a href="learn_more.php" class="btn btn-outline-light btn-lg rounded-pill mb-3">
               <i class="fas fa-info-circle mr-2"></i>Learn More
             </a>
+            <!-- Removed the temporary View Complaints button -->
           </div>
           <div class="mt-4 d-none d-lg-block">
             <div class="row">
