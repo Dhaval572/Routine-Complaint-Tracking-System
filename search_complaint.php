@@ -57,19 +57,19 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 					</div>
 
 					<div class="search-form">
-						<form method="post">
+						<form method="post" autocomplete="off">
 							<div class="row g-4">
 								<div class="col-md-6">
 									<label class="form-label">
 										<i class="fas fa-user text-primary me-2"></i>User Name
 									</label>
-									<input type="text" name="user_name" class="form-control" required>
+									<input type="text" name="user_name" class="form-control" required autocomplete="off">
 								</div>
 								<div class="col-md-6">
 									<label class="form-label">
 										<i class="fas fa-hashtag text-primary me-2"></i>Complaint ID
 									</label>
-									<input type="number" name="complaint_id" class="form-control" required>
+									<input type="number" name="complaint_id" class="form-control" required autocomplete="off">
 								</div>
 							</div>
 							<div class="text-center mt-4">
