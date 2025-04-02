@@ -112,19 +112,29 @@ if ($user_logged_in) {
             <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-bars"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="about.php">
-                <i class="fas fa-info-circle mr-2"></i>About
+            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg border-0" aria-labelledby="navbarDropdown" style="min-width: 200px; border-radius: 12px; overflow: hidden;">
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="about.php" style="background: linear-gradient(to right, #e3f2fd, #ffffff); border-left: 4px solid #2196f3;">
+                <i class="fas fa-info-circle mr-2" style="color: #2196f3; font-size: 0.95rem;"></i>
+                <span class="small font-weight-bold">About</span>
+                <span class="badge badge-primary badge-pill ml-auto">New</span>
               </a>
-              <a class="dropdown-item" href="feedback.php">
-                <i class="fas fa-star mr-2"></i>Feedback
+              
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="feedback.php" style="background: linear-gradient(to right, #fff8e1, #ffffff); border-left: 4px solid #ffc107;">
+                <i class="fas fa-star mr-2" style="color: #ffc107; font-size: 0.95rem;"></i>
+                <span class="small font-weight-bold">Feedback</span>
               </a>
-              <a class="dropdown-item" href="learn_more.php">
-                <i class="fas fa-book mr-2"></i>Learn More
+              
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="learn_more.php" style="background: linear-gradient(to right, #e8f5e9, #ffffff); border-left: 4px solid #4caf50;">
+                <i class="fas fa-book mr-2" style="color: #4caf50; font-size: 0.95rem;"></i>
+                <span class="small font-weight-bold">Learn</span>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="search_complaint.php">
-                <i class="fas fa-search mr-2"></i>Search Complaints
+              
+              <div class="dropdown-divider my-1" style="border-color: rgba(0,0,0,0.1);"></div>
+              
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="search_complaint.php" style="background: linear-gradient(to right, #f3e5f5, #ffffff); border-left: 4px solid #9c27b0;">
+                <i class="fas fa-search mr-2" style="color: #9c27b0; font-size: 0.95rem;"></i>
+                <span class="small font-weight-bold">Search</span>
+                <span class="badge badge-danger badge-pill ml-auto">Hot</span>
               </a>
             </div>
           </li>
