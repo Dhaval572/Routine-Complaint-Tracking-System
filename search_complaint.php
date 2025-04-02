@@ -85,7 +85,8 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 										<span class="input-group-text">
 											<i class="fas fa-user"></i>
 										</span>
-										<input type="text" name="user_name" class="form-control" placeholder="Enter your username" required>
+										<input type="text" name="user_name" class="form-control"
+											placeholder="Enter your username" required>
 									</div>
 								</div>
 								<div class="col-md-6 mb-3">
@@ -94,7 +95,8 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 										<span class="input-group-text">
 											<i class="fas fa-hashtag"></i>
 										</span>
-										<input type="number" name="complaint_id" class="form-control" placeholder="Enter complaint ID" required>
+										<input type="number" name="complaint_id" class="form-control"
+											placeholder="Enter complaint ID" required>
 									</div>
 								</div>
 							</div>
@@ -104,56 +106,58 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 								</button>
 							</div>
 						</form>
-						
+
 						<!-- Add alerts here -->
 						<?php if (isset($_SESSION['success_message'])): ?>
-						<div class="mt-4">
-							<?php displayAlert('success', $_SESSION['success_message'], 'check-circle', true, 'Success!'); ?>
-							<?php unset($_SESSION['success_message']); ?>
-						</div>
+							<div class="mt-4">
+								<?php displayAlert('success', $_SESSION['success_message'], 'check-circle', true, 'Success!'); ?>
+								<?php unset($_SESSION['success_message']); ?>
+							</div>
 						<?php endif; ?>
 
 						<?php if (isset($_SESSION['error_message'])): ?>
-						<div class="mt-4">
-							<?php displayAlert('error', $_SESSION['error_message'], 'exclamation-circle', true, 'Error!'); ?>
-							<?php unset($_SESSION['error_message']); ?>
-						</div>
+							<div class="mt-4">
+								<?php displayAlert('error', $_SESSION['error_message'], 'exclamation-circle', true, 'Error!'); ?>
+								<?php unset($_SESSION['error_message']); ?>
+							</div>
 						<?php endif; ?>
-						
+
 						<?php if ($complaint) {
-						// Determine status class
-						$statusClass = '';
-					}
-                    <?php if ($complaint) {
-                        $statusClass = match(strtolower($complaint['status'])) {
-                            'pending' => 'text-warning',
-                            'in progress' => 'text-info',
-                            'resolved' => 'text-success',
-                            'rejected' => 'text-danger',
-                            default => 'text-secondary'
-                        };
-                    ?>
-                        <div class="complaint-details mt-4">
-                            <h4 class="mb-4">Complaint Details</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Complaint ID:</strong> #<?php echo $complaint['id']; ?></p>
-                                    <p><strong>Department:</strong> <?php echo $complaint['dept_name']; ?></p>
-                                    <p><strong>Subject:</strong> <?php echo $complaint['subject']; ?></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong>Date Filed:</strong> <?php echo date('F j, Y', strtotime($complaint['created_at'])); ?></p>
-                                    <p><strong>Status:</strong> <span class="<?php echo $statusClass; ?>"><?php echo $complaint['status']; ?></span></p>
-                                    <p><strong>Last Updated:</strong> <?php echo date('F j, Y', strtotime($complaint['updated_at'])); ?></p>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <p><strong>Description:</strong></p>
-                                <p class="complaint-description"><?php echo nl2br($complaint['description']); ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-                    </div>
+							$statusClass = match (strtolower($complaint['status'])) {
+								'pending' => 'text-warning',
+								'in progress' => 'text-info',
+								'resolved' => 'text-success',
+								'rejected' => 'text-danger',
+								default => 'text-secondary'
+							};
+							?>
+							<div class="complaint-details mt-4">
+								<h4 class="mb-4">Complaint Details</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<p><strong>Complaint ID:</strong> #<?php echo $complaint['id']; ?></p>
+										<p><strong>Department:</strong> <?php echo $complaint['dept_name']; ?></p>
+										<p><strong>Subject:</strong> <?php echo $complaint['title']; ?></p>
+									</div>
+									<div class="col-md-6">
+										<p><strong>Date Filed:</strong>
+											<?php echo date('F j, Y', strtotime($complaint['created_at'])); ?></p>
+										<p><strong>Status:</strong> <span
+												class="<?php echo $statusClass; ?>"><?php echo $complaint['status']; ?></span>
+										</p>
+										<p><strong>Last Updated:</strong>
+											<?php echo date('F j, Y', strtotime($complaint['updated_at'] ?? $complaint['created_at'])); ?>
+										</p>
+									</div>
+								</div>
+								<div class="mt-3">
+									<p><strong>Description:</strong></p>
+									<p class="complaint-description">
+										<?php echo nl2br(htmlspecialchars($complaint['description'])); ?></p>
+								</div>
+							</div>
+						<?php } ?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -164,6 +168,6 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<!-- Remove the problematic script that references non-existent elements -->
-	</body>
-	
-	</html>
+</body>
+
+</html>
