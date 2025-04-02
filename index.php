@@ -1,10 +1,6 @@
 <?php
 include 'config.php';
 
-// Remove the temporary redirect
-// header("Location: view_complaint.php");
-// exit;
-
 // Check if user is logged in
 $user_logged_in = isset($_SESSION['user_id']);
 $user_data = null;
