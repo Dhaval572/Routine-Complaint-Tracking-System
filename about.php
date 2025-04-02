@@ -5,8 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>About - Complaint Tracking System</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body class="bg-light">
@@ -28,24 +34,6 @@
                             <span class="font-weight-bold">Home</span>
                         </a>
                     </li>
-                    <li class="nav-item active mx-1">
-                        <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="about.php">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            <span class="font-weight-bold">About</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="feedback.php">
-                            <i class="fas fa-star mr-2"></i>
-                            <span class="font-weight-bold">Feedback</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mx-1 active">
-                        <a class="nav-link btn btn-warning btn-lg rounded-pill px-4" href="search_complaint.php">
-                            <i class="fas fa-eye mr-2"></i>
-                            <span class="font-weight-bold ">Search Complaint</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -59,16 +47,16 @@
                     <h1 class="display-3 font-weight-bold mb-3">Complaint Management System</h1>
                     <p class="lead mb-4">A comprehensive platform connecting citizens, officers, department heads, and
                         administrators</p>
+                    <!-- Update the stats section to use the hero-stats class -->
                     <div class="row justify-content-center mt-4">
                         <div class="col-md-4 mb-3">
-                            <div class="border border-white rounded p-3">
+                            <div class="border border-white rounded p-3 hero-stats">
                                 <h2 class="h1 mb-0">4</h2>
                                 <p class="mb-0">User Roles</p>
-
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="border border-white rounded p-3">
+                            <div class="border border-white rounded p-3 hero-stats">
                                 <h2 class="h1 mb-0">24/7</h2>
                                 <p class="mb-0">Access</p>
                             </div>
@@ -189,6 +177,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="assets/js/about.js"></script>
 </body>
 
 </html>

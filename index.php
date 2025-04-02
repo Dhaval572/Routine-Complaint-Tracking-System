@@ -20,11 +20,15 @@ if ($user_logged_in) {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Routine Complaint Tracking System</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Routine Complaint Tracking System</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -95,41 +99,42 @@ if ($user_logged_in) {
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <i class="fas fa-comments mr-2"></i>Complaint Tracking System
+      <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <i class="fas fa-comments mr-2"></i>
+        <span>Complaint Tracking System</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#">
-              <i class="fas fa-home mr-2"></i>
-              <span class="font-weight-bold">Home</span>
+          <li class="nav-item dropdown mx-1">
+            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bars"></i>
             </a>
+            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="about.php">
+                <i class="fas fa-info-circle mr-2"></i>About
+              </a>
+              <a class="dropdown-item" href="feedback.php">
+                <i class="fas fa-star mr-2"></i>Feedback
+              </a>
+              <a class="dropdown-item" href="learn_more.php">
+                <i class="fas fa-book mr-2"></i>Learn More
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="search_complaint.php">
+                <i class="fas fa-search mr-2"></i>Search Complaints
+              </a>
+            </div>
           </li>
+          <?php if ($user_logged_in): ?>
           <li class="nav-item mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="about.php">
-              <i class="fas fa-info-circle mr-2"></i>
-              <span class="font-weight-bold">About</span>
+            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" data-toggle="modal" data-target="#profileModal">
+              <i class="fas fa-user"></i>
             </a>
           </li>
-          <li class="nav-item mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="feedback.php">
-              <i class="fas fa-star mr-2"></i>
-              <span class="font-weight-bold">Feedback</span>
-            </a>
-          </li>
-
-          <li class="nav-item mx-1 active">
-            <a class="nav-link btn btn-warning btn-lg rounded-pill px-4"
-              href="search_complaint.php">
-              <i class="fas fa-eye mr-2"></i>
-              <span class="font-weight-bold ">Search Complaint</span>
-            </a>
-          </li>
-
+          <?php endif; ?>
         </ul>
       </div>
     </div>
@@ -423,9 +428,13 @@ if ($user_logged_in) {
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <!-- Add before closing body tag -->
+  <!-- Update the script section -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="assets/js/menu.js"></script>
+  </body>
 
   <!-- Account Deleted Success Popup -->
   <?php if (isset($_GET['msg']) && $_GET['msg'] == 'account_deleted'): ?>

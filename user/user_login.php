@@ -55,7 +55,6 @@ if (isset($_POST['login'])) {
                         <h3 class="header-title">Welcome Back!</h3>
                         <div class="spacer"></div>
                     </div>
-                    <p class="header-subtitle">Sign in to your account</p>
                 </div>
 
                 <div class="card-body">
