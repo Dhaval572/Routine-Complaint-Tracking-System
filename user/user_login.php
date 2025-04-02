@@ -30,80 +30,84 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<title>User Login</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>User Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/user_login.css">
 </head>
 
-<body style="background: linear-gradient(135deg, #0396FF 0%, #0D47A1 100%);">
-	<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
-		<div class="col-md-4">
-			<!-- Logo or Brand Image -->
-			<div class="text-center mb-3">
-				<i class="fas fa-user-circle text-white" style="font-size: 3.5rem;"></i>
-			</div>
-			
-			<div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
-				<div class="card-header border-0 bg-white text-center py-3" style="border-radius: 1.5rem 1.5rem 0 0;">
-					<div class="d-flex align-items-center justify-content-between px-3">
-						<a href="../index.php" class="text-primary" style="font-size: 1.2rem;">
-							<i class="fas fa-arrow-left"></i>
-						</a>
-						<h3 class="font-weight-bold text-primary mb-2">Welcome Back!</h3>
-						<div style="width: 20px;"></div> <!-- Spacer for alignment -->
-					</div>
-					<p class="text-muted small mb-0">Sign in to your account</p>
-				</div>
-				<div class="card-body px-4 py-4">
-					<?php if (isset($error)): ?>
-						<div class='alert alert-danger py-2 d-flex align-items-center rounded-pill small'>
-							<i class='fas fa-exclamation-circle mr-2'></i><?php echo $error; ?>
-						</div>
-					<?php endif; ?>
-					<form method="POST" action="">
-						<div class="form-group mb-3">
-							<div class="input-group shadow-sm">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-light border-right-0 rounded-pill px-3">
-										<i class="fas fa-envelope text-primary"></i>
-									</span>
-								</div>
-								<input type="email" name="email" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
-									placeholder="Email address" autocomplete="off">
-							</div>
-						</div>
-						<div class="form-group mb-3">
-							<div class="input-group shadow-sm">
-								<div class="input-group-prepend">
-									<span class="input-group-text bg-light border-right-0 rounded-pill px-3">
-										<i class="fas fa-lock text-primary"></i>
-									</span>
-								</div>
-								<input type="password" name="password" required 
-									class="form-control bg-light border-left-0 rounded-pill py-2 pl-2 small" 
-									placeholder="Password" autocomplete="off">
-							</div>
-						</div>
-						<button type="submit" name="login" 
-							class="btn btn-primary btn-block mb-3 shadow rounded-pill py-2 font-weight-bold">
-							Sign In
-						</button>
-						<div class="text-center">
-							<a href="register_user.php" class="text-primary small font-weight-bold">
-								<i class="fas fa-user-plus mr-2"></i>Don't have an account? Register
-							</a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+    <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto">
+            <div class="text-center mb-4">
+                <i class="fas fa-user-circle text-white brand-icon"></i>
+            </div>
+            
+            <div class="login-card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <a href="../index.php" class="back-link">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <h3 class="header-title">Welcome Back!</h3>
+                        <div class="spacer"></div>
+                    </div>
+                    <p class="header-subtitle">Sign in to your account</p>
+                </div>
+
+                <div class="card-body">
+                    <?php if (isset($error)): ?>
+                        <div class="alert-wrapper">
+                            <div class='custom-alert'>
+                                <i class='fas fa-exclamation-circle'></i>
+                                <span><?php echo $error; ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="" autocomplete="off">
+                        <div class="form-group">
+                            <div class="custom-input-group">
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <input type="email" name="email" required 
+                                    class="custom-input" 
+                                    placeholder="Email address">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-input-group">
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input type="password" name="password" required 
+                                    class="custom-input" 
+                                    placeholder="Password">
+                            </div>
+                        </div>
+
+                        <button type="submit" name="login" class="login-button">
+                            Sign In
+                        </button>
+
+                        <div class="register-link">
+                            <a href="register_user.php">
+                                <i class="fas fa-user-plus"></i>
+                                Don't have an account? Register
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
