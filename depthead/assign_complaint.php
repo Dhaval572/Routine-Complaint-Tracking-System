@@ -59,11 +59,13 @@ if (isset($_POST['refer_dept_head'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Assign Complaint</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <span class="navbar-brand">Assign Complaint</span>
@@ -114,20 +116,21 @@ if (isset($_POST['refer_dept_head'])) {
                     </select>
                     <button type="submit" name="assign" class="btn btn-primary btn-sm mt-2">Assign</button>
                   </form>
-                  <?php 
+                  <?php
                   // Reset officers result pointer for next row
                   $officers->data_seek(0);
                   ?>
                 <?php } else { ?>
                   <!-- Complaint against an officer: allow dept head to solve directly or refer to another dept head -->
-                  <a href="solve_complaint_dept_head.php?complaint_id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm">Solve</a>
+                  <a href="solve_complaint_dept_head.php?complaint_id=<?php echo $row['id']; ?>"
+                    class="btn btn-primary btn-sm">Solve</a>
                   <br><br>
                   <form method="POST" action="">
                     <input type="hidden" name="complaint_id" value="<?php echo $row['id']; ?>">
                     <?php
-                      // Exclude self from referral dropdown:
-                      $dept_heads_query = "SELECT id, name FROM users WHERE role = 'dept_head' AND id != '$dept_head_id'";
-                      $dept_heads = $conn->query($dept_heads_query);
+                    // Exclude self from referral dropdown:
+                    $dept_heads_query = "SELECT id, name FROM users WHERE role = 'dept_head' AND id != '$dept_head_id'";
+                    $dept_heads = $conn->query($dept_heads_query);
                     ?>
                     <select name="dept_head_id" class="form-control" required>
                       <option value="">Select Dept Head</option>
@@ -135,9 +138,10 @@ if (isset($_POST['refer_dept_head'])) {
                         <option value="<?php echo $dh['id']; ?>"><?php echo htmlspecialchars($dh['name']); ?></option>
                       <?php } ?>
                     </select>
-                    <button type="submit" name="refer_dept_head" class="btn btn-warning btn-sm mt-2">Refer to Dept Head</button>
+                    <button type="submit" name="refer_dept_head" class="btn btn-warning btn-sm mt-2">Refer to Dept
+                      Head</button>
                   </form>
-                  <?php 
+                  <?php
                   // Reset dept_heads result pointer for next row
                   $dept_heads->data_seek(0);
                   ?>
@@ -147,9 +151,10 @@ if (isset($_POST['refer_dept_head'])) {
           <?php } ?>
         </tbody>
       </table>
-    <?php } else { 
+    <?php } else {
       echo "<div class='alert alert-info'>No complaints pending assignment.</div>";
     } ?>
   </div>
 </body>
+
 </html>
