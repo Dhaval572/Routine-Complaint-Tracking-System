@@ -153,7 +153,7 @@ if ($resultDates) {
 
             <div class="col-md-4 mb-4">
                 <div class="card h-100 border-0 shadow-lg rounded-lg bg-gradient hover-lift"
-                    onclick="location.href='view_complaints.php';"
+                    onclick="location.href='view_all_complaints.php';"  // Changed here
                     style="cursor: pointer; background: linear-gradient(45deg, rgba(44, 62, 80, 0.95), rgba(52, 152, 219, 0.95)); transition: transform 0.2s;">
                     <div class="card-body text-center p-4">
                         <i class="fas fa-list-alt text-white mb-3" style="font-size: 3rem;"></i>

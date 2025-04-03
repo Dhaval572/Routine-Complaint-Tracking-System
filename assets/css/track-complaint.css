@@ -1,0 +1,138 @@
+/* Background and Layout */
+body {
+    background: linear-gradient(135deg, #1a3a8f 0%, #0d2b6b 100%);
+    min-height: 100vh;
+}
+
+/* Navbar Styles */
+.custom-navbar {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    margin: 15px;
+    padding: 15px 25px;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease;
+    padding: 8px 16px !important;
+    border-radius: 10px;
+}
+
+.nav-link:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+/* Card Styles */
+.main-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Detail Cards */
+.detail-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(41, 98, 255, 0.1);
+}
+
+.detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(41, 98, 255, 0.1);
+}
+
+/* Floating Background Elements */
+.floating-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.blob-1 {
+    width: 600px;
+    height: 600px;
+    background: rgba(41, 98, 255, 0.15);
+    top: -200px;
+    left: -200px;
+    animation: float 15s infinite;
+}
+
+.blob-2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(66, 165, 245, 0.15);
+    bottom: -150px;
+    right: -150px;
+    animation: float 18s infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(50px, 50px); }
+}
+
+
+/* Dashboard Button Styles */
+.dashboard-link {
+    background: rgba(220, 53, 69, 0.2);
+    padding: 10px 25px;
+    border-radius: 50px;
+    color: #fff !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-align: center;
+    margin: 5px 0;
+    white-space: nowrap;
+}
+
+.dashboard-link:hover {
+    background: rgba(220, 53, 69, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.2);
+}
+
+.dashboard-link i {
+    transition: transform 0.3s ease;
+}
+
+.dashboard-link:hover i {
+    transform: translateX(-4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-link {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-link {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
