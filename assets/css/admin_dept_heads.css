@@ -1,0 +1,347 @@
+/* Admin Department Heads Styles - Optimized for less scrolling */
+body {
+  background: rgb(133, 158, 231);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Compact Navbar */
+.admin-navbar {
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: white !important;
+  font-size: 1.4rem;
+}
+
+/* Compact Page Header */
+.page-header {
+  background: linear-gradient(to right, #4e73df, #224abe);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(78, 115, 223, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.page-header p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.add-hod-btn {
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+}
+
+/* Optimized Table Container */
+.table-container {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.table-responsive {
+  margin-bottom: 0;
+}
+
+/* Compact Table */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: #4e73df;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.table td {
+  vertical-align: middle;
+  padding: 10px;
+  border-color: #f0f0f0;
+  font-size: 0.9rem;
+}
+
+/* Compact User Avatar */
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4e73df;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* Compact Department Badge */
+.dept-badge {
+  background: linear-gradient(to right, #36b9cc, #2a96a5);
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+/* Optimized Signature Image */
+.signature-img {
+  max-width: 80px;
+  height: auto;
+  border: 1px solid #e3e6f0;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+/* Compact Button Styles */
+.btn-gradient-danger {
+  background: linear-gradient(to right, #e74a3b, #c0392b);
+  border: none;
+  color: white;
+  border-radius: 50px;
+  padding: 5px 12px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.btn-gradient-secondary {
+  background: linear-gradient(to right, #6c757d, #495057);
+  border: none;
+  color: white;
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* Compact Empty State */
+.empty-state {
+  text-align: center;
+  padding: 30px 15px;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  color: #4e73df;
+}
+
+.empty-state h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Optimized Mobile Card View */
+.dept-head-card {
+  display: none;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+.card-content {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Container spacing */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 10px;
+}
+
+/* Responsive Styles - Optimized for less scrolling */
+@media (max-width: 991.98px) {
+  .page-header {
+    padding: 12px 15px;
+  }
+  
+  .page-header h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .container {
+    padding: 10px 8px;
+  }
+  
+  .table-container {
+    padding: 10px;
+  }
+  
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  
+  .signature-img {
+    max-width: 70px;
+  }
+  
+  .table th, .table td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .table {
+    display: none;
+  }
+  
+  .dept-head-card {
+    display: block;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 12px;
+  }
+  
+  .page-header .btn {
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+}
+
+/* Add these hover effect styles to your existing CSS file */
+
+/* Table row hover effect */
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fc !important;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  position: relative;
+}
+
+/* User avatar hover effect */
+.user-avatar {
+  transition: all 0.3s ease;
+}
+
+tr:hover .user-avatar, 
+.dept-head-card:hover .user-avatar {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+}
+
+/* Department badge hover effect */
+.dept-badge {
+  transition: all 0.3s ease;
+}
+
+tr:hover .dept-badge, 
+.dept-head-card:hover .dept-badge {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(54, 185, 204, 0.3);
+}
+
+/* Signature image hover effect */
+.signature-img {
+  transition: all 0.3s ease;
+}
+
+tr:hover .signature-img, 
+.dept-head-card:hover .signature-img {
+  transform: scale(1.05);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Delete button hover effect */
+.btn-gradient-danger {
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 74, 59, 0.4);
+  background: linear-gradient(to right, #e74a3b, #d62c1a);
+}
+
+/* Mobile card hover effect */
+.dept-head-card {
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.dept-head-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #4e73df;
+}
+
+/* Responsive hover adjustments */
+@media (max-width: 767.98px) {
+  .table tbody tr:hover {
+    transform: translateY(-2px);
+  }
+  
+  tr:hover .user-avatar, 
+  .dept-head-card:hover .user-avatar {
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dept-head-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Touch device hover alternative */
+@media (hover: none) {
+  .table tbody tr:hover,
+  .dept-head-card:hover {
+    transform: none;
+  }
+  
+  tr:hover .user-avatar, 
+  .dept-head-card:hover .user-avatar,
+  tr:hover .dept-badge, 
+  .dept-head-card:hover .dept-badge,
+  tr:hover .signature-img, 
+  .dept-head-card:hover .signature-img {
+    transform: none;
+  }
+}
