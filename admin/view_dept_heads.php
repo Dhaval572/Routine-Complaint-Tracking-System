@@ -236,11 +236,7 @@ $result = $conn->query($sql);
       <?php endif; ?>
     </div>
     
-    <div class="text-center">
-      <a href="admin_dashboard.php" class="btn btn-gradient-secondary">
-        <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
-      </a>
-    </div>
+    <!-- Removed the "Back to Dashboard" button -->
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

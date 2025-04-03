@@ -31,23 +31,97 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000046 0%, #1CB5E0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            margin: auto;
+        }
+        .card {
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .icon-container {
+            margin-bottom: 2rem;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #000046;
+        }
+        .input-group-text {
+            transition: border-color 0.15s ease-in-out;
+        }
+        .input-group:focus-within .input-group-text {
+            border-color: #000046;
+        }
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1.25rem !important;
+            }
+            .card-header {
+                padding: 1.25rem 1rem !important;
+            }
+            .card-header h3 {
+                font-size: 1.3rem;
+            }
+            .icon-container i {
+                font-size: 3.5rem !important;
+            }
+            .btn {
+                padding: 0.6rem !important;
+            }
+            .input-group-text, .form-control {
+                padding: 0.5rem 0.75rem !important;
+            }
+            .px-5 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+        @media (max-height: 600px) {
+            body {
+                padding: 30px 15px;
+            }
+            .icon-container {
+                margin-bottom: 1rem;
+            }
+            .card-body {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                transition: none;
+            }
+        }
+    </style>
 </head>
 
-<body style="background: linear-gradient(135deg, #000046 0%, #1CB5E0 100%);">
-  <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="col-md-4">
-      <div class="text-center mb-4">
-        <i class="fas fa-user-shield text-white"
-          style="font-size: 4.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"></i>
-      </div>
+<body>
+    <div class="login-container">
+        <div class="icon-container text-center">
+            <i class="fas fa-user-shield text-white" style="font-size: 4.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"></i>
+        </div>
 
-      <div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
+        <div class="card border-0 shadow-lg" style="border-radius: 1.5rem;">
         <div class="card-header border-0 bg-white text-center py-4" style="border-radius: 1.5rem 1.5rem 0 0;">
           <div class="d-flex align-items-center justify-content-between px-3" style="margin-bottom: -10px;">
               <a href="../index.php" class="text-dark" style="font-size: 1.2rem; position: relative; top: -5px;">
@@ -113,5 +187,4 @@ if (isset($_POST['login'])) {
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
