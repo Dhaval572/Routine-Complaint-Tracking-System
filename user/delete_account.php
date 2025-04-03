@@ -63,9 +63,13 @@ if (isset($_POST['confirm_delete'])) {
         // If we got here, commit the transaction
         $conn->commit();
         
-        // Clear session and redirect to index.php with success message
-        session_destroy();
-        header("Location: ../index.php?msg=account_deleted");
+        // Clear session and set a specific session flag for deletion
+        session_start();
+        session_unset();
+        $_SESSION['show_delete_modal'] = true;
+        
+        // Redirect to index.php
+        header("Location: ../index.php");
         exit;
       } catch (Exception $e) {
         // An error occurred, rollback the transaction
