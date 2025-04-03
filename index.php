@@ -1,34 +1,61 @@
 <?php
 include 'config.php';
 
+// Process account deletion message
+$show_delete_alert = false;
+if (isset($_SESSION['show_delete_modal']) && $_SESSION['show_delete_modal'] === true) {
+    $show_delete_alert = true;
+    unset($_SESSION['show_delete_modal']); // Clear immediately after checking
+}
+
 // Check if user is logged in
 $user_logged_in = isset($_SESSION['user_id']);
 $user_data = null;
 
 // Fetch user data if logged in
 if ($user_logged_in) {
-  $user_id = $_SESSION['user_id'];
-  $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
-  $stmt->bind_param("i", $user_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $user_data = $result->fetch_assoc();
-  $stmt->close();
+    $user_id = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user_data = $result->fetch_assoc();
+    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Routine Complaint Tracking System</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Routine Complaint Tracking System</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+  .delete-alert {
+      animation: slideInDown 0.5s ease-out, fadeOut 0.5s ease-in 5s forwards;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      width: auto;
+      min-width: 300px;
+  }
+  @keyframes slideInDown {
+      from { top: -100px; opacity: 0; }
+      to { top: 20px; opacity: 1; }
+  }
+  @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+  }
+  </style>
 </head>
 
 <body>
@@ -109,29 +136,35 @@ if ($user_logged_in) {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" id="navbarDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-bars"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg border-0" aria-labelledby="navbarDropdown" style="min-width: 200px; border-radius: 12px; overflow: hidden;">
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="about.php" style="background: linear-gradient(to right, #e3f2fd, #ffffff); border-left: 4px solid #2196f3;">
+            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg border-0"
+              aria-labelledby="navbarDropdown" style="min-width: 200px; border-radius: 12px; overflow: hidden;">
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="about.php"
+                style="background: linear-gradient(to right, #e3f2fd, #ffffff); border-left: 4px solid #2196f3;">
                 <i class="fas fa-info-circle mr-2" style="color: #2196f3; font-size: 0.95rem;"></i>
                 <span class="small font-weight-bold">About</span>
                 <span class="badge badge-primary badge-pill ml-auto">New</span>
               </a>
-              
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="feedback.php" style="background: linear-gradient(to right, #fff8e1, #ffffff); border-left: 4px solid #ffc107;">
+
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="feedback.php"
+                style="background: linear-gradient(to right, #fff8e1, #ffffff); border-left: 4px solid #ffc107;">
                 <i class="fas fa-star mr-2" style="color: #ffc107; font-size: 0.95rem;"></i>
                 <span class="small font-weight-bold">Feedback</span>
               </a>
-              
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="learn_more.php" style="background: linear-gradient(to right, #e8f5e9, #ffffff); border-left: 4px solid #4caf50;">
+
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="learn_more.php"
+                style="background: linear-gradient(to right, #e8f5e9, #ffffff); border-left: 4px solid #4caf50;">
                 <i class="fas fa-book mr-2" style="color: #4caf50; font-size: 0.95rem;"></i>
                 <span class="small font-weight-bold">Learn</span>
               </a>
-              
+
               <div class="dropdown-divider my-1" style="border-color: rgba(0,0,0,0.1);"></div>
-              
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="search_complaint.php" style="background: linear-gradient(to right, #f3e5f5, #ffffff); border-left: 4px solid #9c27b0;">
+
+              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="search_complaint.php"
+                style="background: linear-gradient(to right, #f3e5f5, #ffffff); border-left: 4px solid #9c27b0;">
                 <i class="fas fa-search mr-2" style="color: #9c27b0; font-size: 0.95rem;"></i>
                 <span class="small font-weight-bold">Search</span>
                 <span class="badge badge-danger badge-pill ml-auto">Hot</span>
@@ -139,11 +172,12 @@ if ($user_logged_in) {
             </div>
           </li>
           <?php if ($user_logged_in): ?>
-          <li class="nav-item mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" data-toggle="modal" data-target="#profileModal">
-              <i class="fas fa-user"></i>
-            </a>
-          </li>
+            <li class="nav-item mx-1">
+              <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" data-toggle="modal"
+                data-target="#profileModal">
+                <i class="fas fa-user"></i>
+              </a>
+            </li>
           <?php endif; ?>
         </ul>
       </div>
@@ -292,76 +326,56 @@ if ($user_logged_in) {
 
     <div class="row mb-5">
       <div class="col-lg-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-lg h-100 hover-card">
           <div class="card-body p-4">
             <h3 class="mb-4">
               <i class="fas fa-star text-warning mr-2"></i>Key Features
             </h3>
-            <div class="d-flex align-items-start mb-3">
-              <div class="bg-primary text-white rounded-circle p-3 mr-3">
-                <i class="fas fa-mobile-alt"></i>
-              </div>
-              <div>
-                <h5>Easy Access</h5>
-                <p class="text-muted mb-0">Submit and track complaints from any device, anytime</p>
-              </div>
-            </div>
-            <div class="d-flex align-items-start mb-3">
-              <div class="bg-success text-white rounded-circle p-3 mr-3">
-                <i class="fas fa-bell"></i>
-              </div>
-              <div>
-                <h5>Instant Updates</h5>
-                <p class="text-muted mb-0">Get real-time notifications on complaint status</p>
-              </div>
-            </div>
-            <div class="d-flex align-items-start">
-              <div class="bg-info text-white rounded-circle p-3 mr-3">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div>
-                <h5>Progress Tracking</h5>
-                <p class="text-muted mb-0">Monitor complaint resolution progress step by step</p>
-              </div>
-            </div>
+            <?php
+            $features = [
+                ['icon' => 'mobile-alt', 'color' => 'primary', 'title' => 'Easy Access', 'desc' => 'Submit and track complaints from any device, anytime'],
+                ['icon' => 'bell', 'color' => 'success', 'title' => 'Instant Updates', 'desc' => 'Get real-time notifications on complaint status'],
+                ['icon' => 'chart-line', 'color' => 'info', 'title' => 'Progress Tracking', 'desc' => 'Monitor complaint resolution progress step by step']
+            ];
+
+            foreach ($features as $feature): ?>
+                <div class="d-flex align-items-start mb-3 feature-item">
+                    <div class="bg-<?= $feature['color'] ?> text-white rounded-circle p-3 mr-3 icon-box">
+                        <i class="fas fa-<?= $feature['icon'] ?>"></i>
+                    </div>
+                    <div class="content-box">
+                        <h5><?= $feature['title'] ?></h5>
+                        <p class="text-muted mb-0"><?= $feature['desc'] ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
           </div>
         </div>
       </div>
       <div class="col-lg-6 mb-4">
-        <div class="card border-0 shadow-sm h-100 bg-primary text-white">
+        <div class="card border-0 shadow-lg h-100 bg-primary text-white hover-card">
           <div class="card-body p-4">
             <h3 class="mb-4">
               <i class="fas fa-users mr-2"></i>User Benefits
             </h3>
-            <ul class="list-unstyled">
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-check-circle fa-2x mr-3"></i>
-                  <div>
-                    <h5 class="mb-1">Transparent Process</h5>
-                    <p class="mb-0">Clear visibility of complaint handling stages</p>
-                  </div>
+            <?php
+            $benefits = [
+                ['icon' => 'check-circle', 'title' => 'Transparent Process', 'desc' => 'Clear visibility of complaint handling stages'],
+                ['icon' => 'shield-alt', 'title' => 'Secure Platform', 'desc' => 'Your information is protected with advanced security'],
+                ['icon' => 'clock', 'title' => 'Quick Resolution', 'desc' => 'Efficient handling of complaints with fast response']
+            ];
+
+            foreach ($benefits as $benefit): ?>
+                <div class="benefit-item mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-<?= $benefit['icon'] ?> fa-2x mr-3 benefit-icon"></i>
+                        <div class="benefit-content">
+                            <h5 class="mb-1"><?= $benefit['title'] ?></h5>
+                            <p class="mb-0 benefit-desc"><?= $benefit['desc'] ?></p>
+                        </div>
+                    </div>
                 </div>
-              </li>
-              <li class="mb-3">
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-shield-alt fa-2x mr-3"></i>
-                  <div>
-                    <h5 class="mb-1">Secure Platform</h5>
-                    <p class="mb-0">Your information is protected with advanced security</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-clock fa-2x mr-3"></i>
-                  <div>
-                    <h5 class="mb-1">Quick Resolution</h5>
-                    <p class="mb-0">Efficient handling of complaints with fast response</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
+            <?php endforeach; ?>
           </div>
         </div>
       </div>
@@ -438,61 +452,25 @@ if ($user_logged_in) {
     </div>
   </div>
 
-  <!-- Add before closing body tag -->
-  <!-- Update the script section -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="assets/js/menu.js"></script>
-  </body>
-
-  <!-- Account Deleted Success Popup -->
-  <?php if (isset($_GET['msg']) && $_GET['msg'] == 'account_deleted'): ?>
-    <div class="modal fade" id="accountDeletedModal" tabindex="-1" role="dialog"
-      aria-labelledby="accountDeletedModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-0 shadow">
-          <div class="card-header bg-danger text-white text-center py-3">
-            <div class="d-flex align-items-center">
-              <i class="fas fa-check-circle mr-2"></i>
-              <span>Account Deleted</span>
-              <button type="button" class="close text-white ml-auto" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+  <!-- Add before the closing body tag, but after jQuery and Bootstrap scripts -->
+    <?php if ($show_delete_alert): ?>
+      <div class="delete-alert alert alert-success alert-dismissible fade show shadow-lg" role="alert">
+          <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle fa-2x mr-2"></i>
+              <div>
+                  <h5 class="mb-0">Account Successfully Deleted</h5>
+                  <p class="mb-0 small">Your account and all associated data have been permanently removed.</p>
+              </div>
           </div>
-          <div class="modal-body text-center p-4">
-            <div class="rounded-circle bg-danger text-white mx-auto d-flex align-items-center justify-content-center mb-3"
-              style="width: 80px; height: 80px;">
-              <i class="fas fa-user-times fa-3x"></i>
-            </div>
-            <h4 class="font-weight-bold mb-3">Account Successfully Deleted</h4>
-            <p class="text-muted">Your account and all associated data have been permanently removed from our system.</p>
-            <button type="button" class="btn btn-danger px-4 mt-3" data-dismiss="modal">
-              OK
-            </button>
-          </div>
-        </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
       </div>
-    </div>
+    <?php endif; ?>
 
-    <script>
-      $(document).ready(function () {
-        $('#accountDeletedModal').modal('show');
-      });
-    </script>
-  <?php endif; ?>
-
-  <script>
-    // Show account deleted modal if needed
-    <?php if (isset($_GET['show_delete_popup'])): ?>
-      $(document).ready(function () {
-        $('#accountDeletedModal').modal('show');
-        // Remove the query parameter from URL without refreshing
-        history.replaceState({}, document.title, window.location.pathname);
-      });
-    <?php endif; ?> 
-  </script>
-</body>
-
-</html>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="assets/js/menu.js"></script>
+  </body>

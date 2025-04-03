@@ -1,3 +1,52 @@
+<?php
+require_once '../config.php';
+
+if (isset($_POST['register'])) {
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password'];
+
+    // Validation
+    $errors = [];
+    
+    // Name validation
+    if (strlen($name) < 3) {
+        $errors[] = ['type' => 'error', 'message' => 'Name must be at least 3 characters long'];
+    }
+    
+    // Email validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = ['type' => 'error', 'message' => 'Please enter a valid email address'];
+    }
+    
+    // Check if email already exists
+    $check_email = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
+    if (mysqli_num_rows($check_email) > 0) {
+        $errors[] = ['type' => 'error', 'message' => 'Email already registered'];
+    }
+    
+    // Password validation
+    if (strlen($password) < 6) {
+        $errors[] = ['type' => 'error', 'message' => 'Password must be at least 6 characters long'];
+    }
+
+    if (empty($errors)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $query = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+        
+        if (mysqli_query($conn, $query)) {
+            $_SESSION['alert'] = [
+                'type' => 'success',
+                'message' => 'Registration successful! Please login.'
+            ];
+            header('Location: user_login.php');
+            exit();
+        } else {
+            $errors[] = ['type' => 'error', 'message' => 'Registration failed. Please try again.'];
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,15 +78,21 @@
                 </div>
 
                 <div class="card-body">
-                    <?php if (isset($error)): ?>
-                        <div class="alert-wrapper">
-                            <div class='custom-alert'>
-                                <i class='fas fa-exclamation-circle'></i>
-                                <span><?php echo $error; ?></span>
+                    <?php if (!empty($errors)): ?>
+                        <?php foreach ($errors as $error): ?>
+                            <div class="alert alert-danger alert-dismissible fade show animated fadeInDown" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>
+                                    <strong><?php echo $error['message']; ?></strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
                     <?php endif; ?>
 
+                    <!-- Rest of the form remains the same -->
                     <form method="POST" action="" autocomplete="off">
                         <div class="form-row">
                             <div class="form-group flex-grow-1">

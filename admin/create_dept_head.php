@@ -99,148 +99,9 @@ if (isset($_POST['create_dept_head'])) {
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <style>
-    body {
-      background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .card {
-      border-radius: 15px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      border: none;
-      max-width: 550px;
-      width: 100%;
-    }
-
-    .card-header {
-      background: linear-gradient(to right, #4e73df, #224abe);
-      color: white;
-      text-align: center;
-      padding: 25px;
-      border-bottom: none;
-    }
-
-    .card-header h3 {
-      margin-bottom: 0;
-      font-weight: 600;
-    }
-
-    .card-body {
-      padding: 30px;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      color: #4e73df;
-      margin-bottom: 8px;
-    }
-
-    .form-control {
-      border-radius: 10px;
-      padding: 12px 15px;
-      height: auto;
-      border: 1px solid #e1e5eb;
-      box-shadow: none;
-      transition: all 0.3s;
-    }
-
-    .form-control:focus {
-      border-color: #4e73df;
-      box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-    }
-
-    .btn-primary {
-      background: linear-gradient(to right, #4e73df, #224abe);
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      box-shadow: 0 5px 15px rgba(78, 115, 223, 0.4);
-      transition: all 0.3s;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(78, 115, 223, 0.6);
-    }
-
-    .btn-secondary {
-      background: #6c757d;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: all 0.3s;
-    }
-
-    .btn-secondary:hover {
-      background: #5a6268;
-    }
-
-    .header-icon {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: white;
-    }
-
-    .toast {
-      opacity: 1 !important;
-      border: none;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
-
-    .card-footer {
-      background-color: #f8f9fc;
-      border-top: 1px solid #e3e6f0;
-      padding: 20px 30px;
-      text-align: center;
-    }
-
-    /* Add these alert styles */
-    .notification-toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      min-width: 350px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .notification-icon {
-      font-size: 1.25rem;
-      margin-right: 1rem;
-    }
-
-    .alert {
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: none;
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/create_dept_head.css">
 </head>
 
 <body>
@@ -317,13 +178,29 @@ if (isset($_POST['create_dept_head'])) {
 
           <div class="form-group">
             <label class="text-primary"><i class="fas fa-signature mr-2"></i>Department Head Signature</label>
-            <div class="custom-file">
-              <input type="file" name="signature" required class="custom-file-input" id="signatureFile"
-                accept="image/*">
+            <div class="custom-file mb-2">
+              <input type="file" name="signature" required class="custom-file-input" id="signatureFile" accept="image/*"
+                onchange="previewSignature(this)">
               <label class="custom-file-label" for="signatureFile">Choose file</label>
             </div>
-            <small class="form-text text-muted"><i class="fas fa-info-circle mr-1"></i>Upload a clear image of the
-              signature.</small>
+            <div id="signaturePreviewContainer" class="text-center mt-3 p-3 rounded border"
+              style="display: none; background-color: #f8f9fc;">
+              <img id="signaturePreview" src="#" alt="Signature Preview" class="img-fluid mb-2"
+                style="max-height: 100px; border: 1px dashed #4e73df; padding: 5px; border-radius: 5px;">
+              <div class="text-success mt-2">
+                <i class="fas fa-check-circle mr-1"></i> <span id="signatureFileName">Signature uploaded
+                  successfully</span>
+              </div>
+            </div>
+            <div class="alert alert-info mt-2 d-flex align-items-center" role="alert" id="signatureHelp">
+              <div class="mr-3 text-primary">
+                <i class="fas fa-info-circle fa-2x"></i>
+              </div>
+              <div>
+                <h6 class="font-weight-bold mb-1">Signature Requirements</h6>
+                <p class="mb-0">Upload a clear image of the signature. Recommended formats: <span class="badge badge-primary">JPG</span> <span class="badge badge-primary">PNG</span> <span class="badge badge-primary">GIF</span></p>
+              </div>
+            </div>
           </div>
 
           <div class="text-center mt-4">
@@ -345,29 +222,20 @@ if (isset($_POST['create_dept_head'])) {
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script src="../assets/js/create_dept_head.js"></script>
 
   <script>
-    $(document).ready(function () {
-      // Auto-hide alerts after 5 seconds
-      setTimeout(function () {
-        $('.alert').fadeOut('slow');
-      }, 5000);
-
-      // Only show modal if HOD was just created
-      <?php if (isset($_SESSION['hod_created']) && $_SESSION['hod_created']): ?>
+    // Only show modal if HOD was just created - this needs to stay in PHP file due to PHP variables
+    <?php if (isset($_SESSION['hod_created']) && $_SESSION['hod_created']): ?>
+      $(document).ready(function () {
         $('#successModal').modal({
           backdrop: 'static',
           keyboard: false
         });
-        <?php unset($_SESSION['hod_created']); ?>
-      <?php endif; ?>
-
-      // Add animation to modal
-      $('#successModal').on('show.bs.modal', function () {
-        $(this).find('.modal-content')
-          .addClass('animate__animated animate__zoomIn');
       });
-    });
+      <?php unset($_SESSION['hod_created']); ?>
+    <?php endif; ?>
   </script>
 
   <!-- Success Modal -->

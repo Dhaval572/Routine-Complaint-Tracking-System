@@ -46,9 +46,15 @@ $total_records = $result->num_rows;
 <body class="min-vh-100" style="background: linear-gradient(135deg, #1a3a8f 0%, #0d2b6b 100%);">
   <!-- Animated floating blobs using Bootstrap utilities -->
   <div class="position-fixed w-100 h-100" style="z-index: -1;">
-    <div class="position-absolute rounded-circle" style="width: 400px; height: 400px; background: rgba(100, 181, 246, 0.15); filter: blur(60px); top: 20%; left: 10%; animation: float 12s infinite;"></div>
-    <div class="position-absolute rounded-circle" style="width: 300px; height: 300px; background: rgba(66, 165, 245, 0.12); filter: blur(60px); top: 50%; right: 15%; animation: float 12s infinite 4s;"></div>
-    <div class="position-absolute rounded-circle" style="width: 250px; height: 250px; background: rgba(144, 202, 249, 0.15); filter: blur(60px); bottom: 10%; left: 30%; animation: float 12s infinite 8s;"></div>
+    <div class="position-absolute rounded-circle"
+      style="width: 400px; height: 400px; background: rgba(100, 181, 246, 0.15); filter: blur(60px); top: 20%; left: 10%; animation: float 12s infinite;">
+    </div>
+    <div class="position-absolute rounded-circle"
+      style="width: 300px; height: 300px; background: rgba(66, 165, 245, 0.12); filter: blur(60px); top: 50%; right: 15%; animation: float 12s infinite 4s;">
+    </div>
+    <div class="position-absolute rounded-circle"
+      style="width: 250px; height: 250px; background: rgba(144, 202, 249, 0.15); filter: blur(60px); bottom: 10%; left: 30%; animation: float 12s infinite 8s;">
+    </div>
   </div>
 
   <nav class="navbar navbar-expand-lg navbar-dark shadow-lg mx-md-4 mx-2" style="
@@ -59,35 +65,30 @@ $total_records = $result->num_rows;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05);
     ">
-      <div class="container">
-        <span class="navbar-brand d-flex align-items-center">
-          <div class="d-flex align-items-center justify-content-center rounded-circle bg-white text-primary mr-2" style="width: 38px; height: 38px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <span class="font-weight-bold ml-1" style="letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">All Complaints</span>
-        </span>
-        <div class="ml-auto d-flex">
-          <a href="view_complaints.php" class="btn rounded-pill px-4 shadow-sm mr-2" style="
-            background: rgba(255, 255, 255, 0.15); 
-            color: white; 
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-          " onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'">
-            <i class="fas fa-th-list mr-2"></i>Paginated View
-          </a>
-          <a href="user_dashboard.php" class="btn rounded-pill px-4 shadow-sm" style="
-            background: rgba(255, 255, 255, 0.15); 
-            color: white; 
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-          " onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'">
-            <i class="fas fa-home mr-2"></i>Dashboard
-          </a>
+    <div class="container">
+      <span class="navbar-brand d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-center rounded-circle bg-white text-primary mr-2"
+          style="width: 38px; height: 38px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <i class="fas fa-clipboard-list"></i>
         </div>
+        <span class="font-weight-bold ml-1"
+          style="letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">All Complaints</span>
+      </span>
+      <div class="ml-auto d-flex">
+        <!-- Removed Paginated View Button -->
+        <a href="user_dashboard.php" class="btn rounded-pill px-4 shadow-sm" style="
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+          " onmouseover="this.style.background='rgba(255, 255, 255, 0.25)'"
+          onmouseout="this.style.background='rgba(255, 255, 255, 0.15)'">
+          <i class="fas fa-home mr-2"></i>Dashboard
+        </a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
   <div class="container py-5">
     <div class="card border-0 shadow-lg rounded-lg overflow-hidden" style="
@@ -112,7 +113,8 @@ $total_records = $result->num_rows;
               ">
               <i class="fas fa-list-alt"></i>
             </div>
-            <h4 class="mb-0 text-white font-weight-bold" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">All Your Complaints</h4>
+            <h4 class="mb-0 text-white font-weight-bold" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">All Your
+              Complaints</h4>
           </div>
           <div class="text-white">
             <span class="badge badge-pill px-3 py-2" style="background: rgba(255, 255, 255, 0.2); font-size: 0.9rem;">
@@ -127,14 +129,18 @@ $total_records = $result->num_rows;
           <div class="table-responsive">
             <table class="table mb-0">
               <thead>
-                <tr style="background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%); border-radius: 15px; color: white;">
-                  <th class="py-3 pl-4 border-0" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;">ID</th>
+                <tr
+                  style="background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%); border-radius: 15px; color: white;">
+                  <th class="py-3 pl-4 border-0" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;">ID
+                  </th>
                   <th class="py-3 border-0">Title</th>
                   <th class="py-3 border-0 d-none d-md-table-cell">Department</th>
                   <th class="py-3 border-0">Status</th>
                   <th class="py-3 border-0 d-none d-lg-table-cell">Referred To</th>
                   <th class="py-3 border-0 d-none d-md-table-cell">Created</th>
-                  <th class="py-3 pr-4 border-0" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">Actions</th>
+                  <th class="py-3 border-0">Priority</th> <!-- Added Priority Column -->
+                  <th class="py-3 pr-4 border-0" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;">
+                    Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,16 +148,28 @@ $total_records = $result->num_rows;
                   $referred_to = ($row['target_id'] && $row['target_role'] != 'none') ? ucfirst($row['target_role']) : 'Dept Head';
                   $status_class = $row['status'] == 'solved' ? 'badge-success' : ($row['status'] == 'pending' ? 'badge-warning' : 'badge-info');
                   $created_date = date('M d, Y', strtotime($row['created_at']));
-                ?>
+                  $priority = isset($row['priority']) ? ucfirst($row['priority']) : 'Medium';
+                  $priority_class = strtolower($priority) == 'high' ? 'badge-danger' : (strtolower($priority) == 'low' ? 'badge-success' : 'badge-warning');
+                  ?>
                   <tr class="border-0 shadow-sm mb-3 transition-all" style="
                       border-radius: 15px; 
                       background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 247, 255, 0.95) 100%);
                       margin-bottom: 15px;
                       box-shadow: 0 4px 12px rgba(41, 98, 255, 0.08);
                       border: 1px solid rgba(41, 98, 255, 0.05);
-                    " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 20px rgba(41, 98, 255, 0.15)'" 
+                    "
+                    onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 20px rgba(41, 98, 255, 0.15)'"
                     onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 12px rgba(41, 98, 255, 0.08)'">
-                    <td class="py-3 pl-4 font-weight-bold" style="color: #2962ff;">#<?php echo $row['id']; ?></td>
+                    <td class="py-3 pl-4 font-weight-bold">
+                      <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white" style="
+                          width: 40px; 
+                          height: 40px; 
+                          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                          font-size: 0.9rem;
+                        ">
+                        #<?php echo $row['id']; ?>
+                      </div>
+                    </td>
                     <td class="py-3 font-weight-medium"><?php echo htmlspecialchars($row['title']); ?></td>
                     <td class="py-3 d-none d-md-table-cell">
                       <span class="badge badge-pill px-3 py-2" style="
@@ -164,7 +182,8 @@ $total_records = $result->num_rows;
                       </span>
                     </td>
                     <td class="py-3">
-                      <span class="badge badge-pill <?php echo $status_class; ?> px-3 py-2" style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+                      <span class="badge badge-pill <?php echo $status_class; ?> px-3 py-2"
+                        style="box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
                         <?php echo ucfirst($row['status']); ?>
                       </span>
                     </td>
@@ -182,21 +201,29 @@ $total_records = $result->num_rows;
                       <i class="far fa-calendar-alt mr-1 text-primary"></i>
                       <?php echo $created_date; ?>
                     </td>
+                    <td class="py-3">
+                      <span class="badge badge-pill <?php echo $priority_class; ?> px-3 py-2">
+                        <?php echo $priority; ?>
+                      </span>
+                    </td>
                     <td class="py-3 pr-4">
                       <button class="btn btn-sm rounded-pill shadow-sm" style="
                           background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%); 
                           color: white;
                           border: none;
                           transition: all 0.3s ease;
-                        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(41, 98, 255, 0.3)'" 
-                        onmouseout="this.style.transform=''; this.style.boxShadow=''" 
+                        "
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(41, 98, 255, 0.3)'"
+                        onmouseout="this.style.transform=''; this.style.boxShadow=''"
                         onclick="loadActivity(<?php echo $row['id']; ?>)">
                         <i class="fas fa-history mr-1"></i> <span class="d-none d-md-inline">Activity</span>
                       </button>
                       <?php if ($row['status'] == 'solved') { ?>
-                        <a href="feedback.php?complaint_id=<?php echo $row['id']; ?>" class="btn btn-success btn-sm rounded-pill shadow-sm ml-1" style="
+                        <a href="feedback.php?complaint_id=<?php echo $row['id']; ?>"
+                          class="btn btn-success btn-sm rounded-pill shadow-sm ml-1" style="
                             transition: all 0.3s ease;
-                          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(40, 167, 69, 0.3)'" 
+                          "
+                          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(40, 167, 69, 0.3)'"
                           onmouseout="this.style.transform=''; this.style.boxShadow=''">
                           <i class="fas fa-star mr-1"></i> <span class="d-none d-md-inline">Feedback</span>
                         </a>
@@ -207,27 +234,18 @@ $total_records = $result->num_rows;
               </tbody>
             </table>
           </div>
-          
-          <!-- Back to paginated view button -->
-          <div class="text-center mt-4">
-            <a href="view_complaints.php" class="btn btn-sm rounded-pill shadow-sm px-4" style="
-                background: linear-gradient(135deg, rgba(41, 98, 255, 0.15) 0%, rgba(21, 101, 192, 0.15) 100%);
-                color: #1565c0;
-                border: 1px solid rgba(41, 98, 255, 0.1);
-                transition: all 0.3s ease;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(41, 98, 255, 0.2)'" 
-              onmouseout="this.style.transform=''; this.style.boxShadow=''">
-              <i class="fas fa-th-list mr-2"></i>Back to Paginated View
-            </a>
-          </div>
+
+        <!-- Removed Back to Paginated View Button -->
         <?php } else { ?>
           <div class="text-center py-5">
-            <div class="mb-4 text-primary mx-auto rounded-circle d-flex align-items-center justify-content-center" style="width: 130px; height: 130px; background: rgba(41, 98, 255, 0.15); font-size: 4rem;">
+            <div class="mb-4 text-primary mx-auto rounded-circle d-flex align-items-center justify-content-center"
+              style="width: 130px; height: 130px; background: rgba(41, 98, 255, 0.15); font-size: 4rem;">
               <i class="fas fa-folder-open"></i>
             </div>
             <h4 class="text-primary mb-3">No complaints found</h4>
             <p class="text-muted mb-4">You haven't registered any complaints yet.</p>
-            <a href="register_complaint.php" class="btn btn-lg rounded-pill px-5 shadow" style="background: #2962ff; color: white;">
+            <a href="register_complaint.php" class="btn btn-lg rounded-pill px-5 shadow"
+              style="background: #2962ff; color: white;">
               <i class="fas fa-plus mr-2"></i>Register New Complaint
             </a>
           </div>
@@ -236,20 +254,61 @@ $total_records = $result->num_rows;
     </div>
   </div>
 
-  <!-- Modal with Bootstrap classes -->
-  <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel" aria-hidden="true">
+  <!-- Activity Modal -->
+  <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content border-0 shadow rounded-lg" style="border-radius: 20px !important; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.98);">
-        <div class="modal-header text-white border-0 rounded-top" style="background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%);">
-          <h5 class="modal-title">
-            <i class="fas fa-history mr-2"></i>Complaint Activity Timeline
+      <div class="modal-content border-0 shadow modal-content-custom">
+        <div class="modal-header border-0 modal-header-custom">
+          <h5 class="modal-title text-white font-weight-bold modal-title-text">
+            <i class="fas fa-history mr-2"></i>Complaint Activity Log
           </h5>
           <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body p-4" id="activityContent" style="background: linear-gradient(135deg, #f5f9ff 0%, #e6f0ff 100%);">
-          <!-- AJAX content loaded here -->
+        <div class="modal-body p-4 card-body-bg" id="activityContent">
+          <div class="activity-log-container">
+            <?php
+            // This should be replaced with actual activity data from database
+            $sample_activities = [
+              ['type' => 'status', 'message' => 'Status changed to In Progress', 'hours_ago' => 2],
+              ['type' => 'priority', 'message' => 'Priority escalated to High', 'hours_ago' => 4],
+              ['type' => 'comment', 'message' => 'New comment added', 'hours_ago' => 5]
+            ];
+
+            foreach ($sample_activities as $activity):
+              ?>
+              <div class="activity-item activity-<?=
+                str_replace(
+                  ['status', 'priority', 'comment'],
+                  ['status-update', 'priority-change', 'comment'],
+                  $activity['type']
+                )
+                ?>">
+                <div class="activity-icon">
+                  <i class="fas fa-<?=
+                    match ($activity['type']) {
+                      'status' => 'check-circle',
+                      'priority' => 'exclamation-triangle',
+                      'comment' => 'comment'
+                    }
+                    ?>"></i>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-time">
+                    <i class="fas fa-clock mr-2"></i>
+                    <?=
+                      date('M j, Y g:i A', strtotime('-' . $activity['hours_ago'] . ' hours'))
+                      ?>
+                  </div>
+                  <p class="activity-description mb-0">
+                    <?= htmlspecialchars($activity['message']) ?>
+                  </p>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
         </div>
       </div>
     </div>
@@ -257,19 +316,26 @@ $total_records = $result->num_rows;
 
   <style>
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
     }
-    
+
     .transition-all {
       transition: all 0.3s ease;
     }
-    
+
     tr.transition-all:hover {
       transform: translateY(-3px);
       box-shadow: 0 10px 20px rgba(13, 110, 253, 0.1) !important;
     }
-    
+
     @media (max-width: 768px) {
       .card-header h4 {
         font-size: 1.25rem;
