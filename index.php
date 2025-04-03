@@ -12,7 +12,7 @@ if (isset($_SESSION['show_delete_modal']) && $_SESSION['show_delete_modal'] === 
 $user_logged_in = isset($_SESSION['user_id']);
 $user_data = null;
 
-// Fetch user data if logged in
+// Fetch user data if logged in 
 if ($user_logged_in) {
     $user_id = $_SESSION['user_id'];
     $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");

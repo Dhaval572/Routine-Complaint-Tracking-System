@@ -121,7 +121,14 @@ if (isset($_POST['create_dept_head'])) {
   <div class="container">
     <div class="card mx-auto">
       <div class="card-header">
-        <i class="fas fa-user-tie header-icon"></i>
+        <div class="d-flex align-items-center position-relative mb-3">
+          <a href="admin_dashboard.php" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+          <div class="text-center w-100">
+            <i class="fas fa-user-tie header-icon"></i>
+          </div>
+        </div>
         <h3>Create Department Head</h3>
         <p class="text-white-50 mb-0">Add a new department head to the system</p>
       </div>
@@ -198,7 +205,9 @@ if (isset($_POST['create_dept_head'])) {
               </div>
               <div>
                 <h6 class="font-weight-bold mb-1">Signature Requirements</h6>
-                <p class="mb-0">Upload a clear image of the signature. Recommended formats: <span class="badge badge-primary">JPG</span> <span class="badge badge-primary">PNG</span> <span class="badge badge-primary">GIF</span></p>
+                <p class="mb-0">Upload a clear image of the signature. Recommended formats: <span
+                    class="badge badge-primary">JPG</span> <span class="badge badge-primary">PNG</span> <span
+                    class="badge badge-primary">GIF</span></p>
               </div>
             </div>
           </div>
@@ -211,12 +220,14 @@ if (isset($_POST['create_dept_head'])) {
         </form>
       </div>
 
-      <div class="card-footer">
+    </div> <!-- card-body end -->
+    <!-- Remove the following card-footer section -->
+    <!-- <div class="card-footer">
         <a href="admin_dashboard.php" class="btn btn-secondary">
           <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
         </a>
-      </div>
-    </div>
+      </div> -->
+  </div> <!-- card end -->
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -224,6 +235,52 @@ if (isset($_POST['create_dept_head'])) {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- Custom JS -->
   <script src="../assets/js/create_dept_head.js"></script>
+
+  <style>
+    .back-link {
+      font-size: 1.4rem;
+      transition: all 0.3s ease;
+      position: absolute;
+      left: 1.5rem;
+      top: 1.2rem;
+      z-index: 2;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .back-link:hover {
+      transform: translateX(-3px);
+      color: #fff !important;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .back-link:active {
+      transform: translateX(-1px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .header-icon {
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-header {
+      position: relative;
+      padding-top: 2rem;
+    }
+  </style>
 
   <script>
     // Only show modal if HOD was just created - this needs to stay in PHP file due to PHP variables
