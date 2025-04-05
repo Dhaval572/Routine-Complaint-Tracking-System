@@ -11,7 +11,7 @@ $inprogress_count = 0;
 $solved_count = 0;
 
 // Once the database structure is updated, you can uncomment these queries
-/*
+
 $officer_id = $_SESSION['officer_id'];
 $pending_query = $conn->prepare("SELECT COUNT(*) as count FROM complaints WHERE officer_id = ? AND status = 'pending'");
 $pending_query->bind_param("i", $officer_id);
@@ -30,7 +30,7 @@ $solved_query->bind_param("i", $officer_id);
 $solved_query->execute();
 $solved_result = $solved_query->get_result();
 $solved_count = $solved_result->fetch_assoc()['count'];
-*/
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,57 +67,90 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       overflow: hidden;
       animation: fadeIn 0.8s ease-in-out;
     }
-    
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
+
     /* Custom background for cards */
-    .pending-card, .progress-card, .solved-card, .assigned-card, .referred-card, .pending-action-card {
+    .pending-card,
+    .progress-card,
+    .solved-card,
+    .assigned-card,
+    .referred-card,
+    .pending-action-card {
       transition: all 0.3s ease;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
       animation: slideIn 0.5s ease-in-out;
     }
-    
+
     @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
-    
-    .stat-card:hover, .card:hover {
+
+    .stat-card:hover,
+    .card:hover {
       transform: translateY(-8px);
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
     }
-    
+
     .container {
       animation: containerFade 1s ease-in-out;
     }
-    
+
     @keyframes containerFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
-    
+
     .quick-actions-title {
       position: relative;
       z-index: 1;
       margin-bottom: 2rem;
       animation: titleSlide 0.7s ease-in-out;
     }
-    
+
     @keyframes titleSlide {
-      from { opacity: 0; transform: translateX(-30px); }
-      to { opacity: 1; transform: translateX(0); }
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
-    
+
     .card-icon {
       transition: all 0.3s ease;
     }
-    
+
     .card:hover .card-icon {
       transform: scale(1.1);
     }
+
     .navbar-brand {
       font-weight: 600;
       font-size: 1.4rem;
@@ -134,7 +167,7 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       position: relative;
       overflow: hidden;
     }
-    
+
     .welcome-section::before {
       content: '';
       position: absolute;
@@ -146,6 +179,7 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       border-radius: 50%;
       transform: translate(30%, -30%);
     }
+
     .welcome-title {
       color: #4e73df;
       font-weight: 600;
@@ -180,22 +214,25 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       transition: all 0.3s ease;
       height: 100%;
     }
-    
+
     /* Custom background for pending complaints card */
     .pending-card {
-      background: linear-gradient(135deg, #fff9c4 0%, #fffde7 100%); /* Enhanced yellow gradient */
+      background: linear-gradient(135deg, #fff9c4 0%, #fffde7 100%);
+      /* Enhanced yellow gradient */
       border-left: 4px solid #f6c23e;
     }
-    
+
     /* Custom background for in-progress complaints card */
     .progress-card {
-      background: linear-gradient(135deg, #bbdefb 0%, #e3f2fd 100%); /* Enhanced blue gradient */
+      background: linear-gradient(135deg, #bbdefb 0%, #e3f2fd 100%);
+      /* Enhanced blue gradient */
       border-left: 4px solid #4e73df;
     }
-    
+
     /* Custom background for solved complaints card */
     .solved-card {
-      background: linear-gradient(135deg, #c8e6c9 0%, #e8f5e9 100%); /* Enhanced green gradient */
+      background: linear-gradient(135deg, #c8e6c9 0%, #e8f5e9 100%);
+      /* Enhanced green gradient */
       border-left: 4px solid #1cc88a;
     }
 
@@ -246,18 +283,18 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       height: 100%;
       cursor: pointer;
     }
-    
+
     /* Custom backgrounds for action cards */
     .assigned-card {
       background: linear-gradient(135deg, #e8eaf6 0%, #f3e5f5 100%);
       border-left: 4px solid #4e73df;
     }
-    
+
     .referred-card {
       background: linear-gradient(135deg, #e0f7fa 0%, #e0f2f1 100%);
       border-left: 4px solid #36b9cc;
     }
-    
+
     .pending-action-card {
       background: linear-gradient(135deg, #fff3e0 0%, #fffde7 100%);
       border-left: 4px solid #f6c23e;
@@ -309,7 +346,7 @@ $solved_count = $solved_result->fetch_assoc()['count'];
     .btn-logout i {
       margin-right: 5px;
     }
-    
+
     /* Footer styles removed */
 
     @media (max-width: 768px) {
@@ -382,7 +419,7 @@ $solved_count = $solved_result->fetch_assoc()['count'];
 
     <div class="row">
       <!-- Card: All Assigned Complaints -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-6 mb-4">
         <div class="card assigned-card" onclick="location.href='all_assigned_complaints.php';">
           <div class="card-body text-center">
             <div class="card-icon">
@@ -395,7 +432,7 @@ $solved_count = $solved_result->fetch_assoc()['count'];
       </div>
 
       <!-- Card: All Referred Complaints -->
-      <div class="col-md-4 mb-4">
+      <div class="col-md-6 mb-4">
         <div class="card referred-card" onclick="location.href='all_referred_complaints.php';">
           <div class="card-body text-center">
             <div class="card-icon">
@@ -406,23 +443,8 @@ $solved_count = $solved_result->fetch_assoc()['count'];
           </div>
         </div>
       </div>
-
-      <!-- Card: Pending Complaints -->
-      <div class="col-md-4 mb-4">
-        <div class="card pending-action-card" onclick="location.href='pending_complaints.php';">
-          <div class="card-body text-center">
-            <div class="card-icon">
-              <i class="fas fa-hourglass-half"></i>
-            </div>
-            <h5 class="card-title">Pending Complaints</h5>
-            <p class="card-text">View and process complaints waiting for your action.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
-
-  <!-- Footer removed -->
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
