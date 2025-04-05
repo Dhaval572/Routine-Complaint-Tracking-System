@@ -46,7 +46,6 @@ if (isset($_POST['create_officer'])) {
                             if ($stmtSig->execute()) {
                                 $_SESSION['officer_created'] = true;
                                 $success = "Officer account created successfully!";
-                                echo "<script>$(document).ready(function() { $('#successModal').modal('show'); });</script>";
                             } else {
                                 $error = "Error saving signature information. Please try again.";
                             }
@@ -60,7 +59,6 @@ if (isset($_POST['create_officer'])) {
                 } else {
                     $_SESSION['officer_created'] = true;
                     $success = "Officer account created successfully!";
-                    echo "<script>$(document).ready(function() { $('#successModal').modal('show'); });</script>";
                 }
             } else {
                 $error = "Error creating officer account. Please try again.";
@@ -197,6 +195,21 @@ document.querySelector('input[type="email"]').addEventListener('blur', function(
       margin-bottom: 1rem;
     }
     /* Main Styles */
+        /* Back Arrow Hover Effect */
+        .back-arrow:hover {
+          transform: translateX(-5px);
+          background: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Responsive adjustments for back arrow */
+        @media (max-width: 576px) {
+          .back-arrow {
+            padding: 8px !important;
+            left: 10px !important;
+          }
+        }
+        
         /* Form Styles */
         .form-group label {
           font-weight: 500;
@@ -395,7 +408,8 @@ document.querySelector('input[type="email"]').addEventListener('blur', function(
         <div class="card shadow-lg">
           <div class="card-header">
             <div class="d-flex align-items-center justify-content-center position-relative mb-3">
-              <a href="admin_dashboard.php" class="back-link">
+              <!-- Adding back arrow link with hover effects -->
+              <a href="admin_dashboard.php" class="position-absolute back-arrow" style="left: 15px; top: 0; color: white; transition: all 0.3s ease; padding: 5px; border-radius: 50%;">
                 <i class="fas fa-arrow-left"></i>
               </a>
               <div class="text-center header-icon-container">
@@ -546,7 +560,7 @@ document.querySelector('input[type="email"]').addEventListener('blur', function(
         <?php unset($_SESSION['officer_created']); ?>
       <?php endif; ?>
     });
-
+  
     // Add signature preview functionality
     function previewSignature(input) {
       if (input.files && input.files[0]) {
@@ -574,71 +588,16 @@ document.querySelector('input[type="email"]').addEventListener('blur', function(
       $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
   </script>
-
+  
   <!-- Success Modal -->
-    <style>
-      /* Update existing styles */
-      .back-link {
-        font-size: 1.3rem;
-        transition: all 0.3s ease;
-        position: absolute;
-        left: 1.2rem;
-        top: 2.2rem;
-        z-index: 10;
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-      
-      .back-link:hover {
-        transform: translateX(-3px);
-        color: #fff !important;
-        text-decoration: none;
-        background: rgba(255, 255, 255, 0.25);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-      
-      .back-link:active {
-        transform: translateX(-1px);
-        background: rgba(255, 255, 255, 0.2);
-      }
-
-      .header-icon-container {
-        width: 100%;
-        padding: 1rem 0;
-        position: relative;
-        z-index: 1;
-      }
-      
-      .header-icon {
-        font-size: 2.5rem;
-        color: #fff;
-        margin: 0;
-      }
-      
-      .card-header {
-        position: relative;
-        padding: 2.5rem 1.5rem 1.5rem;
-      }
-    </style>
-
-    <!-- Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
-          <div class="modal-header border-0 py-3">
-            <a href="admin_dashboard.php" class="back-link">
+          <div class="modal-header bg-success border-0 py-3 position-relative">
+            <a href="create_officer.php" class="position-absolute" style="left: 15px; top: 15px; color: white;">
               <i class="fas fa-arrow-left"></i>
             </a>
-            <h6 class="modal-title font-weight-bold mb-0 w-100 text-center" id="successModalLabel">
+            <h6 class="modal-title font-weight-bold mb-0 w-100 text-center text-white" id="successModalLabel">
               Success!
             </h6>
             <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
@@ -647,7 +606,9 @@ document.querySelector('input[type="email"]').addEventListener('blur', function(
           </div>
           <div class="modal-body text-center py-4">
             <div class="animate__animated animate__bounceIn">
-              <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+              <div class="mb-3">
+                <i class="fas fa-user-plus text-success" style="font-size: 3rem;"></i>
+              </div>
               <h5 class="font-weight-bold mb-3">Officer Created!</h5>
             </div>
             <div class="d-flex justify-content-center">
