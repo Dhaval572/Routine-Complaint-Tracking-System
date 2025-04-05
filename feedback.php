@@ -39,31 +39,210 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<style>
+		:root {
+			--primary-color: #4361ee;
+			--primary-dark: #3a56d4;
+			--primary-light: #eef2ff;
+			--secondary-color: #f8f9fc;
+			--accent-color: #ff9e00;
+			--accent-light: #fff4e0;
+			--success-color: #38b000;
+			--danger-color: #e63946;
+			--dark-color: #1d3557;
+			--light-color: #ffffff;
+			--border-radius: 15px;
+			--box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+			--card-bg: #ffffff;
+		}
+
+		body {
+			background-color: var(--primary-light);
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		.bg-primary {
+			background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
+		}
+
+		.btn-primary {
+			background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+			border: none;
+			box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+			transition: all 0.3s ease;
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+			background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+		}
+
+		.card {
+			border: none;
+			border-radius: var(--border-radius);
+			box-shadow: var(--box-shadow);
+			overflow: hidden;
+			transition: all 0.3s ease;
+			background: var(--light-color);
+		}
+
+		.card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+		}
+
+		.card-body {
+			background: var(--card-bg);
+			border-top: 4px solid var(--primary-color);
+			position: relative;
+			overflow: hidden;
+		}
+		
+		.card-body::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 100%;
+			height: 100%;
+			background: radial-gradient(circle at top right, rgba(67, 97, 238, 0.05), transparent 60%);
+			z-index: 0;
+		}
+		
+		.card-body > * {
+			position: relative;
+			z-index: 1;
+		}
+
+		.form-control {
+			border: 2px solid #e8eaef;
+			transition: all 0.3s ease;
+			background-color: var(--light-color);
+		}
+
+		.form-control:focus {
+			border-color: var(--primary-color);
+			box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+			background-color: var(--light-color);
+		}
+
 		.rating-stars i {
 			cursor: pointer;
-			color: #ddd;
-			font-size: 30px;
-			transition: color 0.2s;
+			color: #e0e0e0;
+			font-size: 40px;
+			margin: 0 8px;
+			transition: all 0.3s ease;
+			filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+		}
+
+		.rating-stars i:hover {
+			transform: scale(1.2) rotate(5deg);
 		}
 
 		.rating-stars i.active {
-			color: #ffc107;
+			color: var(--accent-color);
+			text-shadow: 0 0 10px rgba(255, 158, 0, 0.5);
 		}
 
-		.category-card {
-			transition: transform 0.3s, box-shadow 0.3s;
+		.hero-section {
+			position: relative;
+			overflow: hidden;
+			background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
 		}
 
-		.category-card:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+		.hero-section::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.343 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+			opacity: 0.5;
 		}
+
+		.display-4 {
+			font-weight: 700;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+			color: var(--light-color);
+		}
+
+		.alert-success {
+			background: linear-gradient(to right, var(--success-color), #2d9300);
+			color: white;
+			border: none;
+			border-radius: var(--border-radius);
+			box-shadow: 0 5px 15px rgba(56, 176, 0, 0.3);
+		}
+
+		.alert-danger {
+			background: linear-gradient(to right, var(--danger-color), #d90429);
+			color: white;
+			border: none;
+			border-radius: var(--border-radius);
+			box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+		}
+
+		footer {
+			background: linear-gradient(to right, var(--dark-color), #0a2342);
+		}
+
+		footer a {
+			transition: all 0.3s ease;
+			color: var(--light-color) !important;
+		}
+
+		footer a:hover {
+			color: var(--accent-color) !important;
+			text-decoration: none;
+		}
+
+		.text-primary {
+			color: var(--primary-color) !important;
+		}
+
+		h3.text-primary {
+			background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			display: inline-block;
+		}
+
+		.rounded-pill {
+			border-radius: 50px !important;
+		}
+
+		.shadow {
+			box-shadow: var(--box-shadow) !important;
+		}
+
+		/* Animation for form elements */
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.form-group {
+			animation: fadeInUp 0.5s ease forwards;
+			opacity: 0;
+		}
+
+		.form-group:nth-child(1) { animation-delay: 0.1s; }
+		.form-group:nth-child(2) { animation-delay: 0.2s; }
+		.form-group:nth-child(3) { animation-delay: 0.3s; }
+		.form-group:nth-child(4) { animation-delay: 0.4s; }
+		.form-group:nth-child(5) { animation-delay: 0.5s; }
 	</style>
 </head>
 
-<body class="bg-light">
+<body>
 	<!-- Navigation Bar -->
-	<!-- Update the navbar class -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
 		<div class="container">
 			<a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -76,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item mx-1">
-						<a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="index.php">
+						<a class="nav-link btn btn-light text-primary rounded-pill px-4" href="index.php">
 							<i class="fas fa-home mr-2"></i>
 							<span class="font-weight-bold">Home</span>
 						</a>
@@ -87,12 +266,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	</nav>
 
 	<!-- Hero Section -->
-	<div class="bg-primary text-white py-5">
-		<div class="container">
+	<div class="bg-primary text-white py-5 hero-section">
+		<div class="container position-relative">
 			<div class="row align-items-center">
 				<div class="col-lg-8 mx-auto text-center">
 					<h1 class="display-4 font-weight-bold mb-4">Your Opinion Matters!</h1>
 					<p class="lead">Help us improve our services by sharing your valuable feedback.</p>
+					<div class="d-inline-block bg-white text-primary px-4 py-2 rounded-pill mt-3 shadow">
+						<i class="fas fa-heart text-danger mr-2"></i> We value your thoughts
+					</div>
 				</div>
 			</div>
 		</div>
@@ -126,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				<div class="col-lg-8 mx-auto">
 					<div class="card border-0 shadow-lg">
 						<div class="card-body p-5">
-							<h3 class="text-center mb-4">Share Your Experience</h3>
+							<h3 class="text-center mb-4 text-primary">Share Your Experience</h3>
 							<form method="POST" action="" autocomplete="off">
 								<div class="form-group text-center">
 									<label class="h5 mb-3">How would you rate our system?</label>
