@@ -214,7 +214,12 @@ if (isset($_POST['refer_dept_head'])) {
       padding: 0.75rem 1rem;
       border: 1px solid #d1d3e2;
       font-size: 0.9rem;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      background-color: #fff;
+      height: auto;
+      line-height: 1.5;
+      color: #6e707e;
+      background-clip: padding-box;
     }
 
     .form-control:focus {
