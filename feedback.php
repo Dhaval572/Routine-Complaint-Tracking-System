@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			position: relative;
 			overflow: hidden;
 		}
-		
+
 		.card-body::before {
 			content: '';
 			position: absolute;
@@ -108,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			background: radial-gradient(circle at top right, rgba(67, 97, 238, 0.05), transparent 60%);
 			z-index: 0;
 		}
-		
-		.card-body > * {
+
+		.card-body>* {
 			position: relative;
 			z-index: 1;
 		}
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			font-size: 40px;
 			margin: 0 8px;
 			transition: all 0.3s ease;
-			filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+			filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
 		}
 
 		.rating-stars i:hover {
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.343 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+			background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18a7 7 0 100-14 7 7 0 000 14zm48 25a7 7 0 100-14 7 7 0 000 14zM16 36a3 3 0 100-6 3 3 0 000 6zm63 31a3 3 0 100-6 3 3 0 000 6zM34 90a3 3 0 100-6 3 3 0 000 6zm56-76a3 3 0 100-6 3 3 0 000 6zM12 86a4 4 0 100-8 4 4 0 000 8zm28-65a4 4 0 100-8 4 4 0 000 8zm23-11a5 5 0 100-10 5 5 0 000 10zm-6 60a4 4 0 100-8 4 4 0 000 8zm29 22a5 5 0 100-10 5 5 0 000 10zM32 63a5 5 0 100-10 5 5 0 000 10zm57-13a5 5 0 100-10 5 5 0 000 10zm-9-21a2 2 0 100-4 2 2 0 000 4zM60 91a2 2 0 100-4 2 2 0 000 4zM35 41a2 2 0 100-4 2 2 0 000 4zM12 60a2 2 0 100-4 2 2 0 000 4z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
 			opacity: 0.5;
 		}
 
@@ -203,6 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		h3.text-primary {
 			background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+			background-clip: text;
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			display: inline-block;
@@ -222,6 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				opacity: 0;
 				transform: translateY(20px);
 			}
+
 			to {
 				opacity: 1;
 				transform: translateY(0);
@@ -233,11 +235,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			opacity: 0;
 		}
 
-		.form-group:nth-child(1) { animation-delay: 0.1s; }
-		.form-group:nth-child(2) { animation-delay: 0.2s; }
-		.form-group:nth-child(3) { animation-delay: 0.3s; }
-		.form-group:nth-child(4) { animation-delay: 0.4s; }
-		.form-group:nth-child(5) { animation-delay: 0.5s; }
+		.form-group:nth-child(1) {
+			animation-delay: 0.1s;
+		}
+
+		.form-group:nth-child(2) {
+			animation-delay: 0.2s;
+		}
+
+		.form-group:nth-child(3) {
+			animation-delay: 0.3s;
+		}
+
+		.form-group:nth-child(4) {
+			animation-delay: 0.4s;
+		}
+
+		.form-group:nth-child(5) {
+			animation-delay: 0.5s;
+		}
 	</style>
 </head>
 
@@ -264,6 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			</div>
 		</div>
 	</nav>
+	<div class="border-bottom border-primary" style="height: 2px; background: linear-gradient(to right, var(--primary-dark), var(--primary-color));"></div>
 
 	<!-- Hero Section -->
 	<div class="bg-primary text-white py-5 hero-section">
@@ -272,9 +289,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				<div class="col-lg-8 mx-auto text-center">
 					<h1 class="display-4 font-weight-bold mb-4">Your Opinion Matters!</h1>
 					<p class="lead">Help us improve our services by sharing your valuable feedback.</p>
-					<div class="d-inline-block bg-white text-primary px-4 py-2 rounded-pill mt-3 shadow">
-						<i class="fas fa-heart text-danger mr-2"></i> We value your thoughts
-					</div>
 				</div>
 			</div>
 		</div>
