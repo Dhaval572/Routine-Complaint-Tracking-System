@@ -33,9 +33,9 @@
                         </a>
                     </li>
                     <li class="nav-item mx-1">
-                        <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#contact">
-                            <i class="fas fa-phone mr-2"></i>
-                            <span class="font-weight-bold">Contact</span>
+                        <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="feedback.php">
+                            <i class="fas fa-comment mr-2"></i>
+                            <span class="font-weight-bold">Feedback</span>
                         </a>
                     </li>
                 </ul>
