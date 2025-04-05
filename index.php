@@ -125,65 +125,118 @@ if ($user_logged_in) {
     </div>
   <?php endif; ?>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="index.php">
         <i class="fas fa-comments mr-2"></i>
-        <span>Complaint Tracking System</span>
+        <span style="font-size: 1.1rem;">Complaint Tracking System</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown mx-1">
-            <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" id="navbarDropdown" role="button"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-bars"></i>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item mb-2 mb-lg-0">
+            <a class="nav-link px-4 py-2 font-weight-bold btn btn-outline-light rounded-pill" href="search_complaint.php" style="font-size: 1rem; transition: all 0.3s ease;">
+              <i class="fas fa-search mr-1"></i> Search Complaint
             </a>
-            <div class="dropdown-menu dropdown-menu-right animate slideIn shadow-lg border-0"
-              aria-labelledby="navbarDropdown" style="min-width: 200px; border-radius: 12px; overflow: hidden;">
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="about.php"
-                style="background: linear-gradient(to right, #e3f2fd, #ffffff); border-left: 4px solid #2196f3;">
-                <i class="fas fa-info-circle mr-2" style="color: #2196f3; font-size: 0.95rem;"></i>
-                <span class="small font-weight-bold">About</span>
-                <span class="badge badge-primary badge-pill ml-auto">New</span>
-              </a>
-
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="feedback.php"
-                style="background: linear-gradient(to right, #fff8e1, #ffffff); border-left: 4px solid #ffc107;">
-                <i class="fas fa-star mr-2" style="color: #ffc107; font-size: 0.95rem;"></i>
-                <span class="small font-weight-bold">Feedback</span>
-              </a>
-
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="learn_more.php"
-                style="background: linear-gradient(to right, #e8f5e9, #ffffff); border-left: 4px solid #4caf50;">
-                <i class="fas fa-book mr-2" style="color: #4caf50; font-size: 0.95rem;"></i>
-                <span class="small font-weight-bold">Learn</span>
-              </a>
-
-              <div class="dropdown-divider my-1" style="border-color: rgba(0,0,0,0.1);"></div>
-
-              <a class="dropdown-item d-flex align-items-center py-2 px-3" href="search_complaint.php"
-                style="background: linear-gradient(to right, #f3e5f5, #ffffff); border-left: 4px solid #9c27b0;">
-                <i class="fas fa-search mr-2" style="color: #9c27b0; font-size: 0.95rem;"></i>
-                <span class="small font-weight-bold">Search</span>
-                <span class="badge badge-danger badge-pill ml-auto">Hot</span>
-              </a>
-            </div>
           </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
           <?php if ($user_logged_in): ?>
-            <li class="nav-item mx-1">
-              <a class="nav-link btn btn-primary btn-lg rounded-pill px-4" href="#" data-toggle="modal"
+            <li class="nav-item mb-2 mb-lg-0">
+              <a class="nav-link btn btn-light text-primary rounded-pill px-3 py-2" href="#" data-toggle="modal"
                 data-target="#profileModal">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user mr-1"></i> My Profile
               </a>
             </li>
           <?php endif; ?>
+          <li class="nav-item">
+            <a class="nav-link px-3 py-2 d-inline-block" href="about.php" title="About">
+              <i class="fas fa-info-circle fa-2x" style="color: white; text-shadow: 0 0 5px rgba(255,255,255,0.5);"></i> <span class="d-inline d-lg-none ml-2">About</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+
+  <style>
+    /* Mobile navbar improvements */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background-color: rgba(0, 123, 255, 0.95);
+        padding: 15px;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-top: 10px;
+      }
+      
+      .navbar-nav .nav-item {
+        margin-bottom: 10px;
+      }
+      
+      .navbar-nav .nav-item:last-child {
+        margin-bottom: 0;
+      }
+      
+      .navbar-nav .nav-link {
+        text-align: left;
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+      
+      .navbar-nav .nav-link:hover {
+        background-color: rgba(255,255,255,0.1) !important;
+      }
+      
+      .navbar-toggler {
+        border: none;
+        padding: 0.25rem 0.5rem;
+        font-size: 1.1rem;
+      }
+      
+      .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+
+  <!-- Enhanced Feedback button - more attractive and responsive -->
+  <div class="position-fixed" style="bottom: 30px; right: 30px; z-index: 1000;">
+    <a href="feedback.php" class="btn btn-warning rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center feedback-btn" style="width: 60px; height: 60px; transition: all 0.3s ease;" title="Provide Feedback" onmouseover="this.classList.add('pulse')" onmouseout="this.classList.remove('pulse')">
+      <i class="fas fa-comment fa-lg"></i>
+    </a>
+    <span class="badge badge-danger position-absolute" style="top: -5px; right: -5px; animation: pulse 1.5s infinite;">New</span>
+    <div class="feedback-label bg-dark text-white px-3 py-1 rounded position-absolute" style="right: 70px; top: 15px; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap;">Send Feedback</div>
+  </div>
+
+  <style>
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+    .feedback-btn:hover + .feedback-label, 
+    .feedback-btn:hover {
+      opacity: 1 !important;
+      transform: scale(1.1);
+    }
+    @media (max-width: 768px) {
+      .position-fixed[style*="bottom: 30px"] {
+        bottom: 20px !important;
+        right: 20px !important;
+      }
+      .feedback-btn {
+        width: 50px !important;
+        height: 50px !important;
+      }
+    }
+  </style>
 
   <div class="bg-primary text-white py-5">
     <div class="container">
