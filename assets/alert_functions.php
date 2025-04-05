@@ -1,6 +1,8 @@
 <?php
 
-function displayAlert($type = 'info', $message = '', $icon = null, $dismissible = true, $strongText = null, $autoHide = true, $autoHideDelay = 5000) {
+// This fucntion is made to display alert messages in the website
+function displayAlert($type = 'info', $message = '', $icon = null, $dismissible = true, $strongText = null, $autoHide = true, $autoHideDelay = 5000)
+{
     $icon = $icon ?? ($type === 'success' ? 'check-circle' : ($type === 'error' ? 'exclamation-circle' : 'info-circle'));
     $alertClass = 'alert-' . ($type === 'error' ? 'danger' : $type);
     $dismissButton = $dismissible ? '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' : '';
@@ -18,6 +20,6 @@ function displayAlert($type = 'info', $message = '', $icon = null, $dismissible 
         <?php echo $dismissButton; ?>
     </div>
     <?php echo $autoHideScript; ?>
-    <?php
+<?php
 }
 ?>
