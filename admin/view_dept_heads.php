@@ -84,10 +84,32 @@ $result = $conn->query($sql);
   </nav>
   
   <?php
+  // Remove the function declaration from here
+  // Function to display alerts
+  // function displayAlert($type, $message, $title = 'Notification') {
+  //     $icon = $type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  //     $bgColor = $type === 'success' ? 'bg-success' : 'bg-danger';
+  //     $textColor = $type === 'success' ? 'text-success' : 'text-danger';
+  //     echo "
+  //     <div class='alert alert-dismissible fade show $bgColor text-white' role='alert' style='position: fixed; top: 1rem; right: 1rem; z-index: 1050; min-width: 250px;'>
+  //         <div class='d-flex align-items-center'>
+  //             <i class='$icon mr-2'></i>
+  //             <strong class='mr-auto'>$title</strong>
+  //             <button type='button' class='close text-white' data-dismiss='alert' aria-label='Close'>
+  //                 <span aria-hidden='true'>&times;</span>
+  //             </button>
+  //         </div>
+  //         <div class='mt-2'>
+  //             $message
+  //         </div>
+  //     </div>
+  //     ";
+  // }
+  
   // Display alert if session variables are set
   if (isset($_SESSION['alert_type']) && isset($_SESSION['alert_message'])) {
     $title = isset($_SESSION['alert_title']) ? $_SESSION['alert_title'] : ($_SESSION['alert_type'] == 'success' ? 'Success!' : 'Error!');
-    displayAlert($_SESSION['alert_type'], $_SESSION['alert_message'], null, true, $title);
+    displayAlert($_SESSION['alert_type'], $_SESSION['alert_message'], $title);
   
     // Clear the session variables
     unset($_SESSION['alert_type']);
@@ -239,9 +261,43 @@ $result = $conn->query($sql);
     <!-- Removed the "Back to Dashboard" button -->
   </div>
 
+  <style>
+    .alert {
+      position: fixed;
+      top: 1rem;
+      right: -100%; /* Start off-screen to the right */
+      z-index: 1050;
+      min-width: 250px;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      opacity: 1;
+    }
+    .alert.show {
+      right: 1rem; /* Move into view */
+    }
+    .alert.hide {
+      right: -100%; /* Move back off-screen */
+    }
+    /* Keep existing color styles */
+    .alert-success { background-color: #d4edda; color: #155724; }
+    .alert-error { background-color: #f8d7da; color: #721c24; }
+  </style>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Show alert with animation
+      $('.alert').addClass('show');
+
+      // Automatically hide alerts after 5 seconds
+      setTimeout(function() {
+        $('.alert').addClass('hide');
+      }, 5000);
+    });
+  </script>
   <!-- Custom JS -->
   <script src="../assets/js/admin_dept_heads.js"></script>
 </body>
