@@ -218,16 +218,6 @@ $total_records = $result->num_rows;
                         onclick="loadActivity(<?php echo $row['id']; ?>)">
                         <i class="fas fa-history mr-1"></i> <span class="d-none d-md-inline">Activity</span>
                       </button>
-                      <?php if ($row['status'] == 'solved') { ?>
-                        <a href="feedback.php?complaint_id=<?php echo $row['id']; ?>"
-                          class="btn btn-success btn-sm rounded-pill shadow-sm ml-1" style="
-                            transition: all 0.3s ease;
-                          "
-                          onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(40, 167, 69, 0.3)'"
-                          onmouseout="this.style.transform=''; this.style.boxShadow=''">
-                          <i class="fas fa-star mr-1"></i> <span class="d-none d-md-inline">Feedback</span>
-                        </a>
-                      <?php } ?>
                     </td>
                   </tr>
                 <?php } ?>
