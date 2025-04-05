@@ -303,133 +303,193 @@ if ($user_logged_in) {
   </div>
 
   <div class="container py-5">
-    <div class="row mb-5">
-      <div class="col-md-3 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="fas fa-ticket-alt fa-3x text-primary mb-3"></i>
-            <h5 class="card-title">Total Complaints</h5>
-            <h2 class="mb-0">1,234</h2>
+      <div class="row mb-5">
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card border-0 shadow-sm h-100 bg-primary text-white">
+            <div class="card-body text-center p-4">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-ticket-alt fa-3x mb-3"></i>
+              </div>
+              <h5 class="card-title">Total Complaints</h5>
+              <h2 class="mb-0 font-weight-bold">1,234</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card border-0 shadow-sm h-100 bg-success text-white">
+            <div class="card-body text-center p-4">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-check-circle fa-3x mb-3"></i>
+              </div>
+              <h5 class="card-title">Resolved</h5>
+              <h2 class="mb-0 font-weight-bold">789</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card border-0 shadow-sm h-100 bg-warning text-white">
+            <div class="card-body text-center p-4">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-clock fa-3x mb-3"></i>
+              </div>
+              <h5 class="card-title">Pending</h5>
+              <h2 class="mb-0 font-weight-bold">445</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card border-0 shadow-sm h-100 bg-info text-white">
+            <div class="card-body text-center p-4">
+              <div class="icon-wrapper mb-3">
+                <i class="fas fa-users fa-3x mb-3"></i>
+              </div>
+              <h5 class="card-title">Users</h5>
+              <h2 class="mb-0 font-weight-bold">5,678</h2>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-3 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
-            <h5 class="card-title">Resolved</h5>
-            <h2 class="mb-0">789</h2>
+  
+      <style>
+        /* Stats boxes enhancements */
+        .card {
+          transition: all 0.3s ease;
+          overflow: hidden;
+          border-radius: 12px;
+        }
+        
+        .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+        }
+        
+        .icon-wrapper {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .icon-wrapper:after {
+          content: '';
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          background: rgba(255,255,255,0.1);
+          border-radius: 50%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 0;
+        }
+        
+        .card i {
+          position: relative;
+          z-index: 1;
+        }
+        
+        @media (max-width: 767px) {
+          .card-body {
+            padding: 1.5rem !important;
+          }
+          
+          .card i {
+            font-size: 2.5rem !important;
+          }
+          
+          .card h2 {
+            font-size: 1.8rem;
+          }
+        }
+      </style>
+  
+      <div class="card border-0 shadow-lg rounded-lg mb-5">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">Login Access</h3>
+          <div class="row">
+            <div class="col-sm-6 mb-3">
+              <a href="user/user_login.php"
+                class="btn btn-success btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+                <i class="fas fa-user-circle fa-lg mr-2"></i>
+                <span>User Login</span>
+              </a>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <a href="officer/officer_login.php"
+                class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+                <i class="fas fa-briefcase fa-lg mr-2"></i>
+                <span>Officer Login</span>
+              </a>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <a href="depthead/dept_head_login.php"
+                class="btn btn-warning btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+                <i class="fas fa-building fa-lg mr-2"></i>
+                <span>Department Head</span>
+              </a>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <a href="admin/admin_login.php"
+                class="btn btn-danger btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
+                <i class="fas fa-shield-alt fa-lg mr-2"></i>
+                <span>Admin Login</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-md-3 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="fas fa-clock fa-3x text-warning mb-3"></i>
-            <h5 class="card-title">Pending</h5>
-            <h2 class="mb-0">445</h2>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 mb-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="fas fa-users fa-3x text-info mb-3"></i>
-            <h5 class="card-title">Users</h5>
-            <h2 class="mb-0">5,678</h2>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="card border-0 shadow-lg rounded-lg mb-5">
-      <div class="card-body p-4">
-        <h3 class="text-center mb-4">Login Access</h3>
-        <div class="row">
-          <div class="col-sm-6 mb-3">
-            <a href="user/user_login.php"
-              class="btn btn-success btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
-              <i class="fas fa-user-circle fa-lg mr-2"></i>
-              <span>User Login</span>
-            </a>
-          </div>
-          <div class="col-sm-6 mb-3">
-            <a href="officer/officer_login.php"
-              class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
-              <i class="fas fa-briefcase fa-lg mr-2"></i>
-              <span>Officer Login</span>
-            </a>
-          </div>
-          <div class="col-sm-6 mb-3">
-            <a href="depthead/dept_head_login.php"
-              class="btn btn-warning btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
-              <i class="fas fa-building fa-lg mr-2"></i>
-              <span>Department Head</span>
-            </a>
-          </div>
-          <div class="col-sm-6 mb-3">
-            <a href="admin/admin_login.php"
-              class="btn btn-danger btn-lg btn-block d-flex align-items-center justify-content-center py-3 rounded-pill shadow-sm">
-              <i class="fas fa-shield-alt fa-lg mr-2"></i>
-              <span>Admin Login</span>
-            </a>
+      <div class="row mb-5">
+        <div class="col-lg-6 mb-4">
+          <div class="card border-0 shadow-lg h-100 hover-card">
+            <div class="card-body p-4">
+              <h3 class="mb-4">
+                <i class="fas fa-star text-warning mr-2"></i>Key Features
+              </h3>
+              <?php
+              $features = [
+                  ['icon' => 'mobile-alt', 'color' => 'primary', 'title' => 'Easy Access', 'desc' => 'Submit and track complaints from any device, anytime'],
+                  ['icon' => 'bell', 'color' => 'success', 'title' => 'Instant Updates', 'desc' => 'Get real-time notifications on complaint status'],
+                  ['icon' => 'chart-line', 'color' => 'info', 'title' => 'Progress Tracking', 'desc' => 'Monitor complaint resolution progress step by step']
+              ];
+  
+              foreach ($features as $feature): ?>
+                  <div class="d-flex align-items-start mb-3 feature-item">
+                      <div class="bg-<?= $feature['color'] ?> text-white rounded-circle p-3 mr-3 icon-box">
+                          <i class="fas fa-<?= $feature['icon'] ?>"></i>
+                      </div>
+                      <div class="content-box">
+                          <h5><?= $feature['title'] ?></h5>
+                          <p class="text-muted mb-0"><?= $feature['desc'] ?></p>
+                      </div>
+                  </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row mb-5">
-      <div class="col-lg-6 mb-4">
-        <div class="card border-0 shadow-lg h-100 hover-card">
-          <div class="card-body p-4">
-            <h3 class="mb-4">
-              <i class="fas fa-star text-warning mr-2"></i>Key Features
-            </h3>
-            <?php
-            $features = [
-                ['icon' => 'mobile-alt', 'color' => 'primary', 'title' => 'Easy Access', 'desc' => 'Submit and track complaints from any device, anytime'],
-                ['icon' => 'bell', 'color' => 'success', 'title' => 'Instant Updates', 'desc' => 'Get real-time notifications on complaint status'],
-                ['icon' => 'chart-line', 'color' => 'info', 'title' => 'Progress Tracking', 'desc' => 'Monitor complaint resolution progress step by step']
-            ];
-
-            foreach ($features as $feature): ?>
-                <div class="d-flex align-items-start mb-3 feature-item">
-                    <div class="bg-<?= $feature['color'] ?> text-white rounded-circle p-3 mr-3 icon-box">
-                        <i class="fas fa-<?= $feature['icon'] ?>"></i>
-                    </div>
-                    <div class="content-box">
-                        <h5><?= $feature['title'] ?></h5>
-                        <p class="text-muted mb-0"><?= $feature['desc'] ?></p>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-4">
-        <div class="card border-0 shadow-lg h-100 bg-primary text-white hover-card">
-          <div class="card-body p-4">
-            <h3 class="mb-4">
-              <i class="fas fa-users mr-2"></i>User Benefits
-            </h3>
-            <?php
-            $benefits = [
-                ['icon' => 'check-circle', 'title' => 'Transparent Process', 'desc' => 'Clear visibility of complaint handling stages'],
-                ['icon' => 'shield-alt', 'title' => 'Secure Platform', 'desc' => 'Your information is protected with advanced security'],
-                ['icon' => 'clock', 'title' => 'Quick Resolution', 'desc' => 'Efficient handling of complaints with fast response']
-            ];
-
-            foreach ($benefits as $benefit): ?>
-                <div class="benefit-item mb-3">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-<?= $benefit['icon'] ?> fa-2x mr-3 benefit-icon"></i>
-                        <div class="benefit-content">
-                            <h5 class="mb-1"><?= $benefit['title'] ?></h5>
-                            <p class="mb-0 benefit-desc"><?= $benefit['desc'] ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+        <div class="col-lg-6 mb-4">
+          <div class="card border-0 shadow-lg h-100 bg-primary text-white hover-card">
+            <div class="card-body p-4">
+              <h3 class="mb-4">
+                <i class="fas fa-users mr-2"></i>User Benefits
+              </h3>
+              <?php
+              $benefits = [
+                  ['icon' => 'check-circle', 'title' => 'Transparent Process', 'desc' => 'Clear visibility of complaint handling stages'],
+                  ['icon' => 'shield-alt', 'title' => 'Secure Platform', 'desc' => 'Your information is protected with advanced security'],
+                  ['icon' => 'clock', 'title' => 'Quick Resolution', 'desc' => 'Efficient handling of complaints with fast response']
+              ];
+  
+              foreach ($benefits as $benefit): ?>
+                  <div class="benefit-item mb-3">
+                      <div class="d-flex align-items-center">
+                          <i class="fas fa-<?= $benefit['icon'] ?> fa-2x mr-3 benefit-icon"></i>
+                          <div class="benefit-content">
+                              <h5 class="mb-1"><?= $benefit['title'] ?></h5>
+                              <p class="mb-0 benefit-desc"><?= $benefit['desc'] ?></p>
+                          </div>
+                      </div>
+                  </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
       </div>
