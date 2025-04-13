@@ -219,18 +219,18 @@ if ($user_logged_in) {
     }
   </style>
 
-  <!-- Enhanced Feedback button - more attractive and responsive -->
+  <!-- Enhanced Feedback button - smaller size -->
   <div class="position-fixed" style="bottom: 30px; right: 30px; z-index: 1000;">
     <a href="feedback.php"
-      class="btn btn-warning rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center feedback-btn"
-      style="width: 60px; height: 60px; transition: all 0.3s ease;" title="Provide Feedback"
+      class="btn btn-warning rounded-circle shadow-lg p-2 d-flex align-items-center justify-content-center feedback-btn"
+      style="width: 45px; height: 45px; transition: all 0.3s ease;" title="Provide Feedback"
       onmouseover="this.classList.add('pulse')" onmouseout="this.classList.remove('pulse')">
-      <i class="fas fa-comment fa-lg"></i>
+      <i class="fas fa-comment"></i>
     </a>
     <span class="badge badge-danger position-absolute"
-      style="top: -5px; right: -5px; animation: pulse 1.5s infinite;">New</span>
-    <div class="feedback-label bg-dark text-white px-3 py-1 rounded position-absolute"
-      style="right: 70px; top: 15px; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap;">Send Feedback
+      style="top: -5px; right: -5px; animation: pulse 1.5s infinite; font-size: 0.7rem;">New</span>
+    <div class="feedback-label bg-dark text-white px-2 py-1 rounded position-absolute"
+      style="right: 55px; top: 12px; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap; font-size: 0.8rem;">Send Feedback
     </div>
   </div>
 

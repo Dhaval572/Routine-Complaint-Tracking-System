@@ -1,6 +1,30 @@
 <?php
 include '../config.php';
 
+// Function to display attractive Bootstrap alerts
+function displayAlert($message, $type = 'danger') {
+    $icon = 'exclamation-circle';
+    
+    if ($type == 'success') {
+        $icon = 'check-circle';
+    } elseif ($type == 'warning') { 
+        $icon = 'exclamation-triangle';
+    } elseif ($type == 'info') {
+        $icon = 'info-circle';
+    }
+    
+    return '<div class="alert alert-' . $type . ' alert-dismissible fade show animate__animated animate__slideInDown" role="alert"
+                style="animation-duration: 0.4s;">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-' . $icon . ' mr-2"></i>
+                    <strong>' . $message . '</strong>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+}
+
 if (isset($_POST['login'])) {
 
 	$email = $conn->real_escape_string($_POST['email']);
@@ -19,11 +43,11 @@ if (isset($_POST['login'])) {
 			header("Location: user_dashboard.php");
 			exit;
 		} else {
-			$error = "Invalid credentials.";
+			$error = "Invalid credentials. Please check your email and password.";
 		}
 
 	} else {
-		$error = "Invalid credentials.";
+		$error = "Invalid credentials. Please check your email and password.";
 	}
 }
 ?>
@@ -36,6 +60,7 @@ if (isset($_POST['login'])) {
     <title>User Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="../assets/css/user_login.css">
 </head>
 
@@ -59,12 +84,7 @@ if (isset($_POST['login'])) {
 
                 <div class="card-body">
                     <?php if (isset($error)): ?>
-                        <div class="alert-wrapper">
-                            <div class='custom-alert'>
-                                <i class='fas fa-exclamation-circle'></i>
-                                <span><?php echo $error; ?></span>
-                            </div>
-                        </div>
+                        <?php echo displayAlert($error); ?>
                     <?php endif; ?>
 
                     <form method="POST" action="" autocomplete="off">
