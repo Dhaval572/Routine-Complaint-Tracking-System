@@ -1,4 +1,5 @@
 
+
 <?php
 include 'config.php';
 include 'assets/alert_functions.php'; // Include alert functions
@@ -84,25 +85,31 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 					<!-- Update alert sections -->
 					<div class="alerts-container">
 						<?php if (isset($_SESSION['success_message'])): ?>
-								<div class="custom-alert alert alert-success alert-dismissible fade show" role="alert">
-									<div class="alert-content">
-										<h4>Success!</h4>
-										<p><?php echo $_SESSION['success_message']; ?></p>
-									</div>
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							<div class="custom-alert alert alert-success alert-dismissible fade show" role="alert">
+								<div class="alert-icon">
+									<i class="fas fa-check-circle"></i>
 								</div>
-								<?php unset($_SESSION['success_message']); ?>
+								<div class="alert-content">
+									<h4 class="alert-heading">Success!</h4>
+									<p class="mb-0"><?php echo $_SESSION['success_message']; ?></p>
+								</div>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							<?php unset($_SESSION['success_message']); ?>
 						<?php endif; ?>
 
 						<?php if (isset($_SESSION['error_message'])): ?>
-								<div class="custom-alert alert alert-danger alert-dismissible fade show" role="alert">
-									<div class="alert-content">
-										<h4>Error!</h4>
-										<p><?php echo $_SESSION['error_message']; ?></p>
-									</div>
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							<div class="custom-alert alert alert-danger alert-dismissible fade show" role="alert">
+								<div class="alert-icon">
+									<i class="fas fa-exclamation-triangle"></i>
 								</div>
-								<?php unset($_SESSION['error_message']); ?>
+								<div class="alert-content">
+									<h4 class="alert-heading">Error Occurred!</h4>
+									<p class="mb-0"><?php echo $_SESSION['error_message']; ?></p>
+								</div>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							<?php unset($_SESSION['error_message']); ?>
 						<?php endif; ?>
 					</div>
 
