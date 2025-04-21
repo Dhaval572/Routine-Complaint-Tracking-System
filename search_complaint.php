@@ -1,3 +1,4 @@
+
 <?php
 include 'config.php';
 include 'assets/alert_functions.php'; // Include alert functions
@@ -82,113 +83,113 @@ if (isset($_POST['complaint_id']) && isset($_POST['user_name'])) {
 
 					<!-- Update alert sections -->
 					<div class="alerts-container">
-					    <?php if (isset($_SESSION['success_message'])): ?>
-					        <div class="custom-alert alert alert-success alert-dismissible fade show" role="alert">
-					            <div class="alert-content">
-					                <h4>Success!</h4>
-					                <p><?php echo $_SESSION['success_message']; ?></p>
-					            </div>
-					            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					        </div>
-					        <?php unset($_SESSION['success_message']); ?>
-					    <?php endif; ?>
+						<?php if (isset($_SESSION['success_message'])): ?>
+								<div class="custom-alert alert alert-success alert-dismissible fade show" role="alert">
+									<div class="alert-content">
+										<h4>Success!</h4>
+										<p><?php echo $_SESSION['success_message']; ?></p>
+									</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								<?php unset($_SESSION['success_message']); ?>
+						<?php endif; ?>
 
-					    <?php if (isset($_SESSION['error_message'])): ?>
-					        <div class="custom-alert alert alert-danger alert-dismissible fade show" role="alert">
-					            <div class="alert-content">
-					                <h4>Error!</h4>
-					                <p><?php echo $_SESSION['error_message']; ?></p>
-					            </div>
-					            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					        </div>
-					        <?php unset($_SESSION['error_message']); ?>
-					    <?php endif; ?>
+						<?php if (isset($_SESSION['error_message'])): ?>
+								<div class="custom-alert alert alert-danger alert-dismissible fade show" role="alert">
+									<div class="alert-content">
+										<h4>Error!</h4>
+										<p><?php echo $_SESSION['error_message']; ?></p>
+									</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								<?php unset($_SESSION['error_message']); ?>
+						<?php endif; ?>
 					</div>
 
 					<?php if ($complaint): ?>
-						<div class="complaint-details animate-fade-in">
-							<div class="d-flex justify-content-between align-items-center mb-4">
-								<div>
-									<h3 class="fw-bold mb-2">Complaint Details</h3>
-									<p class="text-muted mb-0">Reference ID: #<?php echo $complaint['id']; ?></p>
+							<div class="complaint-details animate-fade-in">
+								<div class="d-flex justify-content-between align-items-center mb-4">
+									<div>
+										<h3 class="fw-bold mb-2">Complaint Details</h3>
+										<p class="text-muted mb-0">Reference ID: #<?php echo $complaint['id']; ?></p>
+									</div>
+									<?php
+									$statusInfo = match (strtolower($complaint['status'])) {
+										'registered' => ['class' => 'primary', 'icon' => 'file-check', 'text' => 'Registered'],
+										'pending' => ['class' => 'warning', 'icon' => 'clock', 'text' => 'Pending Review'],
+										'in progress' => ['class' => 'info', 'icon' => 'spinner fa-spin', 'text' => 'In Progress'],
+										'resolved' => ['class' => 'success', 'icon' => 'check-circle', 'text' => 'Resolved'],
+										'rejected' => ['class' => 'danger', 'icon' => 'times-circle', 'text' => 'Rejected'],
+										default => ['class' => 'secondary', 'icon' => 'info-circle', 'text' => 'Processing']
+									};
+									?>
+									<div
+										class="status-badge bg-<?php echo $statusInfo['class']; ?> bg-opacity-10 text-<?php echo $statusInfo['class']; ?>">
+										<i class="fas fa-<?php echo $statusInfo['icon']; ?>"></i>
+										<?php echo $statusInfo['text']; ?>
+									</div>
 								</div>
-								<?php
-								$statusInfo = match (strtolower($complaint['status'])) {
-									'registered' => ['class' => 'primary', 'icon' => 'file-check', 'text' => 'Registered'],
-									'pending' => ['class' => 'warning', 'icon' => 'clock', 'text' => 'Pending Review'],
-									'in progress' => ['class' => 'info', 'icon' => 'spinner fa-spin', 'text' => 'In Progress'],
-									'resolved' => ['class' => 'success', 'icon' => 'check-circle', 'text' => 'Resolved'],
-									'rejected' => ['class' => 'danger', 'icon' => 'times-circle', 'text' => 'Rejected'],
-									default => ['class' => 'secondary', 'icon' => 'info-circle', 'text' => 'Processing']
-								};
-								?>
-								<div
-									class="status-badge bg-<?php echo $statusInfo['class']; ?> bg-opacity-10 text-<?php echo $statusInfo['class']; ?>">
-									<i class="fas fa-<?php echo $statusInfo['icon']; ?>"></i>
-									<?php echo $statusInfo['text']; ?>
-								</div>
-							</div>
 
-							<div class="row g-4">
-								<div class="col-md-6 col-lg-3">
-									<div class="info-card">
-										<div class="info-icon bg-primary bg-opacity-10 text-primary">
-											<i class="fas fa-hashtag"></i>
-										</div>
-										<div class="info-label">Complaint ID</div>
-										<div class="info-value">#<?php echo $complaint['id']; ?></div>
-									</div>
-								</div>
-								<div class="col-md-6 col-lg-3">
-									<div class="info-card">
-										<div class="info-icon bg-info bg-opacity-10 text-info">
-											<i class="fas fa-building"></i>
-										</div>
-										<div class="info-label">Department</div>
-										<div class="info-value"><?php echo $complaint['dept_name']; ?></div>
-									</div>
-								</div>
-								<div class="col-md-6 col-lg-3">
-									<div class="info-card">
-										<div class="info-icon bg-success bg-opacity-10 text-success">
-											<i class="fas fa-calendar-alt"></i>
-										</div>
-										<div class="info-label">Filed Date</div>
-										<div class="info-value">
-											<?php echo date('M j, Y', strtotime($complaint['created_at'])); ?>
+								<div class="row g-4">
+									<div class="col-md-6 col-lg-3">
+										<div class="info-card">
+											<div class="info-icon bg-primary bg-opacity-10 text-primary">
+												<i class="fas fa-hashtag"></i>
+											</div>
+											<div class="info-label">Complaint ID</div>
+											<div class="info-value">#<?php echo $complaint['id']; ?></div>
 										</div>
 									</div>
-								</div>
-								<div class="col-md-6 col-lg-3">
-									<div class="info-card">
-										<div class="info-icon bg-warning bg-opacity-10 text-warning">
-											<i class="fas fa-clock"></i>
+									<div class="col-md-6 col-lg-3">
+										<div class="info-card">
+											<div class="info-icon bg-info bg-opacity-10 text-info">
+												<i class="fas fa-building"></i>
+											</div>
+											<div class="info-label">Department</div>
+											<div class="info-value"><?php echo $complaint['dept_name']; ?></div>
 										</div>
-										<div class="info-label">Last Updated</div>
-										<div class="info-value">
-											<?php echo date('M j, Y', strtotime($complaint['updated_at'] ?? $complaint['created_at'])); ?>
+									</div>
+									<div class="col-md-6 col-lg-3">
+										<div class="info-card">
+											<div class="info-icon bg-success bg-opacity-10 text-success">
+												<i class="fas fa-calendar-alt"></i>
+											</div>
+											<div class="info-label">Filed Date</div>
+											<div class="info-value">
+												<?php echo date('M j, Y', strtotime($complaint['created_at'])); ?>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6 col-lg-3">
+										<div class="info-card">
+											<div class="info-icon bg-warning bg-opacity-10 text-warning">
+												<i class="fas fa-clock"></i>
+											</div>
+											<div class="info-label">Last Updated</div>
+											<div class="info-value">
+												<?php echo date('M j, Y', strtotime($complaint['updated_at'] ?? $complaint['created_at'])); ?>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
-							<div class="description-section">
-								<h5 class="fw-bold mb-4">
-									<i class="fas fa-file-alt text-primary me-2"></i>
-									Complaint Summary
-								</h5>
-								<div class="mb-4">
-									<div class="info-label">Subject</div>
-									<h4 class="mb-3"><?php echo htmlspecialchars($complaint['title']); ?></h4>
-								</div>
-								<div>
-									<div class="info-label">Description</div>
-									<div class="description-content">
-										<?php echo nl2br(htmlspecialchars($complaint['description'])); ?>
+								<div class="description-section">
+									<h5 class="fw-bold mb-4">
+										<i class="fas fa-file-alt text-primary me-2"></i>
+										Complaint Summary
+									</h5>
+									<div class="mb-4">
+										<div class="info-label">Subject</div>
+										<h4 class="mb-3"><?php echo htmlspecialchars($complaint['title']); ?></h4>
+									</div>
+									<div>
+										<div class="info-label">Description</div>
+										<div class="description-content">
+											<?php echo nl2br(htmlspecialchars($complaint['description'])); ?>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 					<?php endif; ?>
 				</div>
 			</div>
