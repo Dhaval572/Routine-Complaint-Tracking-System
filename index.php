@@ -10,18 +10,6 @@ if (isset($_SESSION['show_delete_modal']) && $_SESSION['show_delete_modal'] === 
 
 // Check if user is logged in
 $user_logged_in = isset($_SESSION['user_id']);
-$user_data = null;
-
-// Fetch user data if logged in 
-if ($user_logged_in) {
-  $user_id = $_SESSION['user_id'];
-  $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
-  $stmt->bind_param("i", $user_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $user_data = $result->fetch_assoc();
-  $stmt->close();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,58 +74,7 @@ if ($user_logged_in) {
     </div>
   <?php endif; ?>
 
-  <!-- Profile Modal with Bootstrap-only styling -->
-  <?php if ($user_logged_in): ?>
-    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-0 shadow">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="profileModalLabel">
-              <i class="fas fa-user-circle mr-2"></i>My Profile
-            </h5>
-            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body bg-light">
-            <div class="text-center mb-4">
-              <div class="bg-primary text-white rounded-circle p-3 d-inline-block mb-3">
-                <i class="fas fa-user-circle" style="font-size: 3rem;"></i>
-              </div>
-              <h5 class="font-weight-bold"><?= htmlspecialchars($user_data['name']) ?></h5>
-              <p class="text-muted"><i class="fas fa-envelope mr-2"></i><?= htmlspecialchars($user_data['email']) ?></p>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-6 mb-3">
-                <a href="user/profile.php" class="btn btn-primary btn-block rounded-pill">
-                  <i class="fas fa-user-edit mr-2"></i>Edit Profile
-                </a>
-              </div>
-              <div class="col-sm-6 mb-3">
-                <a href="user/change_password.php" class="btn btn-outline-primary btn-block rounded-pill">
-                  <i class="fas fa-key mr-2"></i>Change Password
-                </a>
-              </div>
-            </div>
-
-            <div class="mt-2">
-              <a href="user/delete_account.php" class="btn btn-outline-danger btn-block rounded-pill">
-                <i class="fas fa-user-times mr-2"></i>Delete Account
-              </a>
-            </div>
-          </div>
-          <div class="modal-footer bg-light">
-            <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Close</button>
-            <a href="logout.php" class="btn btn-danger rounded-pill">
-              <i class="fas fa-sign-out-alt mr-2"></i>Logout
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  <?php endif; ?>
+  <!-- Profile Modal removed -->
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2">
     <div class="container">
@@ -158,14 +95,6 @@ if ($user_logged_in) {
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <?php if ($user_logged_in): ?>
-            <li class="nav-item mb-2 mb-lg-0">
-              <a class="nav-link btn btn-light text-primary rounded-pill px-3 py-2" href="#" data-toggle="modal"
-                data-target="#profileModal">
-                <i class="fas fa-user mr-1"></i> My Profile
-              </a>
-            </li>
-          <?php endif; ?>
           <li class="nav-item">
             <a class="nav-link px-3 py-2 d-inline-block" href="about.php" title="About">
               <i class="fas fa-info-circle fa-2x" style="color: white; text-shadow: 0 0 5px rgba(255,255,255,0.5);"></i>
@@ -219,18 +148,18 @@ if ($user_logged_in) {
     }
   </style>
 
-  <!-- Enhanced Feedback button - more attractive and responsive -->
+  <!-- Enhanced Feedback button - smaller size -->
   <div class="position-fixed" style="bottom: 30px; right: 30px; z-index: 1000;">
     <a href="feedback.php"
-      class="btn btn-warning rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center feedback-btn"
-      style="width: 60px; height: 60px; transition: all 0.3s ease;" title="Provide Feedback"
+      class="btn btn-warning rounded-circle shadow-lg p-2 d-flex align-items-center justify-content-center feedback-btn"
+      style="width: 45px; height: 45px; transition: all 0.3s ease;" title="Provide Feedback"
       onmouseover="this.classList.add('pulse')" onmouseout="this.classList.remove('pulse')">
-      <i class="fas fa-comment fa-lg"></i>
+      <i class="fas fa-comment"></i>
     </a>
     <span class="badge badge-danger position-absolute"
-      style="top: -5px; right: -5px; animation: pulse 1.5s infinite;">New</span>
-    <div class="feedback-label bg-dark text-white px-3 py-1 rounded position-absolute"
-      style="right: 70px; top: 15px; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap;">Send Feedback
+      style="top: -5px; right: -5px; animation: pulse 1.5s infinite; font-size: 0.7rem;">New</span>
+    <div class="feedback-label bg-dark text-white px-2 py-1 rounded position-absolute"
+      style="right: 55px; top: 12px; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap; font-size: 0.8rem;">Send Feedback
     </div>
   </div>
 

@@ -1,0 +1,381 @@
+/* Main Styles */
+body {
+  background: rgb(75, 184, 199);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Responsive Base */
+html {
+  font-size: 16px;
+}
+
+/* Navbar Styles */
+.navbar-custom {
+  background: rgba(0, 57, 117, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.4rem 0.8rem;
+  height: auto;
+  min-height: 50px;
+}
+
+.navbar-brand {
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.25rem 0;
+}
+
+.navbar-brand i {
+  font-size: 1.1rem;
+  margin-right: 0.3rem !important;
+}
+
+/* User Dropdown Button */
+.user-dropdown-btn {
+  background: linear-gradient(45deg, #3498db, #2980b9);
+  color: white;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+/* Logout Button */
+.logout-btn {
+  color: white;
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+  transition: all 0.3s ease;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+/* Fix for button text color on hover */
+.register-btn:hover, .view-btn:hover, .track-btn:hover, .logout-btn:hover, .user-dropdown-btn:hover {
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Container adjustments */
+.container {
+  max-width: 1200px;
+  padding: 15px;
+  width: 100%;
+}
+
+/* Card adjustments to prevent overflow */
+.card {
+  overflow: hidden;
+  word-wrap: break-word;
+  height: 100%;
+}
+
+/* Dropdown Menu */
+.custom-dropdown-menu {
+  min-width: 16rem;
+  transform: translateY(10px);
+  background: linear-gradient(to bottom, #003975, #0a4d8c);
+  max-width: 90vw;
+}
+
+.dropdown-header {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(23, 162, 184, 0.4);
+}
+
+.user-avatar i {
+  font-size: 2.2rem;
+  line-height: 1.4;
+}
+
+/* Dropdown Items */
+.dropdown-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-icon {
+  background: linear-gradient(45deg, #00b09b, #96c93d);
+  box-shadow: 0 0 8px rgba(0, 176, 155, 0.3);
+}
+
+.password-icon {
+  background-color: #ffc107;
+}
+
+.delete-icon {
+  background-color: #dc3545;
+}
+
+.dropdown-item-icon i {
+  font-size: 1.1rem;
+}
+
+.hover-bg {
+  transition: all 0.2s ease;
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: linear-gradient(120deg, rgba(16, 40, 90, 0.98), rgba(26, 55, 126, 0.98));
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.welcome-title {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 1.75rem;
+  word-break: break-word;
+}
+
+.time-pill {
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+
+/* Action Cards */
+.action-card {
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5rem;
+  transition: transform 0.2s;
+  height: 100%;
+}
+
+.register-card {
+  background: linear-gradient(45deg, rgba(12, 52, 61, 0.98), rgba(34, 111, 57, 0.98));
+}
+
+.view-card {
+  background: linear-gradient(45deg, rgba(44, 62, 80, 0.95), rgba(52, 152, 219, 0.95));
+}
+
+.track-card {
+  background: linear-gradient(45deg, rgba(74, 20, 140, 0.95), rgba(124, 77, 255, 0.95));
+}
+
+.card-icon {
+  font-size: 3rem;
+}
+
+/* Action Buttons */
+.register-btn, .view-btn, .track-btn {
+  background: linear-gradient(45deg, #00b09b, #96c93d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+}
+
+.view-btn {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+}
+
+.track-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Hover Effects */
+.hover-lift:hover {
+  transform: translateY(-10px);
+}
+
+.hover-bg:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Statistics Cards */
+.stat-card {
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Enhanced Responsive Styles */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  html {
+    font-size: 15px;
+  }
+  
+  .card-title {
+    font-size: 1.4rem;
+  }
+  
+  .welcome-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .time-pill {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+  }
+  
+  .welcome-card .row {
+    flex-direction: column;
+  }
+  
+  .welcome-card .col-md-4 {
+    text-align: left !important;
+    margin-top: 1rem;
+  }
+  
+  .user-dropdown-btn, .logout-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .navbar .container {
+    padding: 0.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .user-avatar i {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  html {
+    font-size: 13px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .navbar .container {
+    flex-wrap: nowrap;
+  }
+  
+  .ml-auto {
+    margin-left: auto !important;
+  }
+  
+  .user-dropdown-btn {
+    max-width: 120px;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .logout-btn {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .logout-btn i, .user-dropdown-btn i {
+    margin-right: 0.25rem !important;
+  }
+  
+  .card-body {
+    padding: 0.75rem;
+  }
+  
+  .dropdown-item-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .custom-dropdown-menu {
+    min-width: auto;
+    width: 90vw;
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
+  
+  .navbar-brand i {
+    display: none;
+  }
+  
+  .user-dropdown-btn {
+    max-width: 100px;
+  }
+  
+  .user-dropdown-btn span {
+    display: none;
+  }
+  
+  .logout-btn span {
+    display: none;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+}
