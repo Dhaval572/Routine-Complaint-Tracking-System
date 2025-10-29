@@ -280,7 +280,7 @@ if (isset($_SESSION['success'])) {
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input type="text" name="name" class="form-control" required placeholder="Enter full name">
+                  <input type="text" name="name" class="form-control" required placeholder="Enter full name" autocomplete="off">
                 </div>
               </div>
 
@@ -290,7 +290,7 @@ if (isset($_SESSION['success'])) {
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-at"></i></span>
                   </div>
-                  <input type="email" name="email" class="form-control" required placeholder="Enter official email">
+                  <input type="email" name="email" class="form-control" required placeholder="Enter official email" autocomplete="off">
                 </div>
               </div>
 
@@ -300,7 +300,7 @@ if (isset($_SESSION['success'])) {
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                   </div>
-                  <input type="password" name="password" class="form-control" required placeholder="Create a strong password">
+                  <input type="password" name="password" class="form-control" required placeholder="Create a strong password" autocomplete="off">
                 </div>
                 <small class="form-text text-muted mt-2">
                   <i class="fas fa-shield-alt mr-2"></i>Password should be 6-10 characters with letters and numbers

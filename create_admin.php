@@ -63,7 +63,7 @@ if (isset($_POST['register'])) {
               <i class='fas fa-check-circle mr-2'></i><?php echo $success; ?>
             </div>
           <?php endif; ?>
-          <form method="POST" action="">
+          <form method="POST" action="" autocomplete="off">
             <div class="form-group mb-3">
               <div class="input-group shadow-sm">
                 <div class="input-group-prepend">
@@ -73,7 +73,7 @@ if (isset($_POST['register'])) {
                 </div>
                 <input type="text" name="name" required
                   class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Full name"
-                  autocomplete="name">
+                  autocomplete="off">
               </div>
             </div>
             <div class="form-group mb-4">
@@ -85,7 +85,7 @@ if (isset($_POST['register'])) {
                 </div>
                 <input type="email" name="email" required
                   class="form-control bg-white border-left-0 rounded-pill py-2 pl-2" placeholder="Email address"
-                  autocomplete="email">
+                  autocomplete="off">
               </div>
             </div>
             <div class="form-group mb-4">

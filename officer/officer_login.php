@@ -121,7 +121,7 @@ if (isset($_POST['login'])) {
                 </div>
               <?php endif; ?>
 
-              <form method="POST" action="">
+              <form method="POST" action="" autocomplete="off">
                 <div class="form-group mb-4">
                   <div class="input-group shadow-sm">
                     <div class="input-group-prepend">

@@ -121,7 +121,7 @@ if (isset($_POST['confirm_delete'])) {
               </div>
             <?php endif; ?>
 
-            <form method="POST" action="" onsubmit="return confirm('Are you absolutely sure you want to delete your account? This action CANNOT be undone.');">
+            <form method="POST" action="" autocomplete="off" onsubmit="return confirm('Are you absolutely sure you want to delete your account? This action CANNOT be undone.');">
               <div class="form-group">
                 <label for="password"><strong>Enter Your Password to Confirm</strong></label>
                 <div class="input-group">
@@ -130,7 +130,7 @@ if (isset($_POST['confirm_delete'])) {
                       <i class="fas fa-lock text-danger"></i>
                     </span>
                   </div>
-                  <input type="password" id="password" name="password" required 
+                  <input type="password" id="password" name="password" required autocomplete="off"
                     class="form-control" 
                     placeholder="Enter your password">
                 </div>

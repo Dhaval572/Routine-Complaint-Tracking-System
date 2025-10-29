@@ -93,7 +93,7 @@ if (isset($_POST['login'])) {
                                 <div class="input-icon">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <input type="email" name="email" required 
+                                <input type="email" name="email" required autocomplete="off"
                                     class="custom-input" 
                                     placeholder="Email address">
                             </div>
@@ -104,7 +104,7 @@ if (isset($_POST['login'])) {
                                 <div class="input-icon">
                                     <i class="fas fa-lock"></i>
                                 </div>
-                                <input type="password" name="password" required 
+                                <input type="password" name="password" required autocomplete="off"
                                     class="custom-input" 
                                     placeholder="Password">
                             </div>

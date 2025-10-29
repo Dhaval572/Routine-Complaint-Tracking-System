@@ -149,7 +149,7 @@ if (isset($_POST['change_password'])) {
               </div>
             <?php endif; ?>
 
-            <form method="POST" action="">
+            <form method="POST" action="" autocomplete="off">
               <div class="form-group">
                 <label for="current_password" class="font-weight-bold text-primary">Current Password</label>
                 <div class="input-group shadow-sm">
@@ -158,7 +158,7 @@ if (isset($_POST['change_password'])) {
                       <i class="fas fa-lock text-primary"></i>
                     </span>
                   </div>
-                  <input type="password" id="current_password" name="current_password" required 
+                  <input type="password" id="current_password" name="current_password" required autocomplete="off"
                     class="form-control bg-light border-left-0 rounded-pill-right" 
                     placeholder="Enter your current password">
                 </div>
@@ -172,7 +172,7 @@ if (isset($_POST['change_password'])) {
                       <i class="fas fa-key text-primary"></i>
                     </span>
                   </div>
-                  <input type="password" id="new_password" name="new_password" required 
+                  <input type="password" id="new_password" name="new_password" required autocomplete="off"
                     class="form-control bg-light border-left-0 rounded-pill-right" 
                     placeholder="Enter new password (6-12 characters)" 
                     minlength="6" maxlength="12">
@@ -188,7 +188,7 @@ if (isset($_POST['change_password'])) {
                       <i class="fas fa-check-circle text-primary"></i>
                     </span>
                   </div>
-                  <input type="password" id="confirm_password" name="confirm_password" required 
+                  <input type="password" id="confirm_password" name="confirm_password" required autocomplete="off"
                     class="form-control bg-light border-left-0 rounded-pill-right" 
                     placeholder="Confirm your new password" 
                     minlength="6" maxlength="12">

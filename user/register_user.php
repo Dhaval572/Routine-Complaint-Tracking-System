@@ -100,7 +100,7 @@ if (isset($_POST['register'])) {
                                     <div class="input-icon">
                                         <i class="fas fa-user"></i>
                                     </div>
-                                    <input type="text" name="name" required 
+                                    <input type="text" name="name" required autocomplete="off"
                                         class="custom-input" 
                                         placeholder="Full Name">
                                 </div>
@@ -110,7 +110,7 @@ if (isset($_POST['register'])) {
                                     <div class="input-icon">
                                         <i class="fas fa-envelope"></i>
                                     </div>
-                                    <input type="email" name="email" required 
+                                    <input type="email" name="email" required autocomplete="off"
                                         class="custom-input" 
                                         placeholder="Email Address">
                                 </div>
@@ -122,7 +122,7 @@ if (isset($_POST['register'])) {
                                 <div class="input-icon">
                                     <i class="fas fa-lock"></i>
                                 </div>
-                                <input type="password" name="password" required 
+                                <input type="password" name="password" required autocomplete="off"
                                     class="custom-input" 
                                     placeholder="Password">
                             </div>
